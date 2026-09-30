@@ -1,7 +1,7 @@
 # Kelpbot 🎰
 
 A Discord casino bot with **fake money**. Players earn coins through daily rewards,
-work, crime and begging, then gamble them on slots, blackjack, roulette and coinflips.
+work, robbing each other and begging, then gamble them on slots, blackjack, roulette and coinflips.
 Balances are per-server and stored in a local SQLite file.
 
 ## Commands
@@ -11,7 +11,7 @@ Balances are per-server and stored in a local SQLite file.
 | --- | --- |
 | `/daily` | 500 coins, +100 per consecutive day (streak caps at 7 days). Claimable every 20h; the streak resets if you skip more than 48h. |
 | `/work` | Earn 100–300 coins. Once per hour. |
-| `/crime` | 55% chance to steal 300–800, otherwise a 150–400 fine. Once every 2 hours. |
+| `/rob @user` | 50% chance to steal 10–30% of another player's wallet. If you get caught, you pay *them* a 150–400 fine. Once every 2 hours. You need at least 200 to try, the target needs at least 200, and someone who was just robbed is safe for an hour. |
 | `/beg` | 20–80 coins, only if you have 100 or less. Every 5 minutes. |
 | `/give @user amount` | Send coins to another player. |
 

@@ -10,6 +10,7 @@ from discord.ext import commands
 
 from kelpbot import config
 from kelpbot.config import money
+from kelpbot.robbery import RobResult, attempt_rob
 
 JOBS = [
     ("fished for kelp", "🌿"),
@@ -22,17 +23,17 @@ JOBS = [
     ("washed cars", "🚗"),
     ("cleaned up the beach", "🏖️"),
 ]
-CRIMES_SUCCESS = [
-    "You pickpocketed a tourist",
-    "You ran a very convincing card trick",
-    "You 'borrowed' a crate of fancy sea urchins",
-    "You hustled someone at pool",
+ROB_SUCCESS = [
+    "You picked {victim}'s pocket",
+    "You distracted {victim} with a very convincing card trick",
+    "You snuck into {victim}'s house through the doggy door",
+    "You hustled {victim} at pool",
 ]
-CRIMES_FAIL = [
-    "A mall cop tackled you",
-    "You tripped the alarm",
-    "Your getaway car was a unicycle",
-    "The tourist was an undercover cop",
+ROB_FAIL = [
+    "{victim} caught you red-handed",
+    "{victim}'s guard dog chased you off",
+    "Your getaway car was a unicycle and {victim} caught up",
+    "{victim} was an undercover cop",
 ]
 
 
@@ -106,21 +107,38 @@ class Economy(commands.Cog):
             f"{emoji} You {job} and earned **{money(pay)}**.\nBalance: {money(new_balance)}"
         )
 
-    @app_commands.command(description="Risky money. You might get rich, you might get fined.")
-    async def crime(self, interaction: discord.Interaction) -> None:
+    @app_commands.command(description="Try to steal from another player. Get caught and you pay them a fine.")
+    async def rob(self, interaction: discord.Interaction, user: discord.Member) -> None:
         gid, uid = interaction.guild_id, interaction.user.id
-        if not await self._check_cooldown(interaction, "crime", config.CRIME_COOLDOWN):
+        if user.bot or user.id == uid:
+            await interaction.response.send_message("You can't rob that user.", ephemeral=True)
             return
-        self.db.mark_used(gid, uid, "crime")
-        if random.random() < config.CRIME_SUCCESS_CHANCE:
-            amount = random.randint(*config.CRIME_REWARD)
-            new_balance = self.db.credit(gid, uid, amount)
-            text = f"🦹 {random.choice(CRIMES_SUCCESS)} and got away with **{money(amount)}**!"
+        if not await self._check_cooldown(interaction, "rob", config.ROB_COOLDOWN):
+            return
+
+        outcome = attempt_rob(self.db, gid, uid, user.id)
+        refusals = {
+            RobResult.ROBBER_TOO_POOR: f"You need at least {money(config.ROB_MIN_BALANCE)} to rob someone (in case you get caught).",
+            RobResult.TARGET_TOO_POOR: f"{user.display_name} has less than {money(config.ROB_MIN_TARGET_BALANCE)}. Not worth it.",
+            RobResult.TARGET_PROTECTED: f"{user.display_name} was robbed recently and is on high alert. "
+            f"Try again in **{fmt_duration(outcome.protected_for)}**.",
+        }
+        if outcome.result in refusals:
+            await interaction.response.send_message(f"🚫 {refusals[outcome.result]}", ephemeral=True)
+            return
+
+        self.db.mark_used(gid, uid, "rob")
+        if outcome.result is RobResult.SUCCESS:
+            line = random.choice(ROB_SUCCESS).format(victim=user.mention)
+            text = f"🦹 {line} and got away with **{money(outcome.amount)}**!"
         else:
-            amount = random.randint(*config.CRIME_FINE)
-            new_balance = self.db.credit(gid, uid, -amount)
-            text = f"🚓 {random.choice(CRIMES_FAIL)}. You were fined **{money(amount)}**."
-        await interaction.response.send_message(f"{text}\nBalance: {money(new_balance)}")
+            line = random.choice(ROB_FAIL).format(victim=user.mention)
+            text = f"🚓 {line}! You paid them **{money(outcome.amount)}** in damages."
+        balance = self.db.balance(gid, uid)
+        await interaction.response.send_message(
+            f"{text}\nBalance: {money(balance)}",
+            allowed_mentions=discord.AllowedMentions(users=[user]),
+        )
 
     @app_commands.command(description="Down on your luck? Beg for spare change.")
     async def beg(self, interaction: discord.Interaction) -> None:
