@@ -72,7 +72,7 @@ Items are defined in [`kelpbot/shop.py`](kelpbot/shop.py). Add a new `Item(...)`
 | `/settings view` | Show this server's economy settings |
 | `/settings set setting value` | Change currency name/emoji, starting balance, daily and work pay, min/max bet, robbing on/off, bank interest, lottery ticket price or auto-delete delay |
 | `/settings reset setting` | Put a setting back to its default |
-| `/settings channel log\|announce [#channel]` | **Log channel:** a private feed of big wins, robberies, large transfers and admin actions. **Announce channel:** where lottery draws, weekly winners and season results go. If no announce channel is set, they go wherever the bot was last used. |
+| `/settings channel log\|announce\|tracker [#channel]` | **Log channel:** a private feed of big wins, robberies, large transfers and admin actions. **Announce channel:** where lottery draws, weekly winners and season results go. If no announce channel is set, they go wherever the bot was last used. **Tracker channel:** a live tracker message (see below). |
 | `/shoprole add role price` / `/shoprole remove role` | Sell roles in the shop. Roles with moderator permissions are refused, and the bot's own role must be above the role it sells. |
 | `/addmoney @user amount` | Add money, or remove it with a negative amount |
 | `/reseteconomy [@user]` | Wipe everyone's (or one player's) money, items and progress. Settings, shop roles and achievements are kept. Asks for confirmation. |
@@ -81,6 +81,21 @@ Items are defined in [`kelpbot/shop.py`](kelpbot/shop.py). Add a new `Item(...)`
 | `/cleanup [scan]` | Delete the bot's messages from the last `scan` messages in this channel (default 100). Handy after a restart, since pending auto-deletes don't survive one. |
 
 `/settings`, `/addmoney`, `/reseteconomy`, `/endseason` and `/autoclean` need **Manage Server**. `/shoprole` needs **Manage Roles** and `/cleanup` needs **Manage Messages**. You can change who sees them under Server Settings → Integrations → Kelpbot.
+
+## Live tracker
+
+`/settings channel tracker #casino-stats` posts one message that the bot keeps up to date and never auto-deletes:
+
+- **Overview:** players, money in circulation, the lottery jackpot and draw time, the season, and when weekly prizes pay out
+- **Leaderboards:** top 5 richest and top 5 this week
+- **Today's highlights** (UTC day): games played, total wagered, whether the house is up or down, biggest win, luckiest multiplier, biggest loss, top earner, most active player, robberies, and yesterday's top earner
+- **Recent history:** the last 8 big wins (2,500+ profit, or 10x+ with 500+ profit), robberies, duels, lottery wins, achievements, weekly winners, seasons and role purchases; a 7-day activity chart; and last season's champion
+
+It's edited in place at most once a minute, and only when something changed. If it gets buried under
+10+ messages, it moves back to the bottom once the channel has been quiet for 2 minutes. If someone
+deletes it, it comes back within a minute. `/cleanup` never touches it. Run the command again to
+re-post it, or leave the channel empty to remove it. A dedicated channel works best. History older than 30 days is
+trimmed automatically.
 
 ## Keeping channels tidy
 
@@ -144,6 +159,7 @@ kelpbot/bank.py            deposits, withdrawals and interest
 kelpbot/achievements.py    achievement list and unlock rules
 kelpbot/lottery.py         ticket sales and draws
 kelpbot/weekly.py          weekly prizes and seasons
+kelpbot/tracker.py         builds the tracker's leaderboards, highlights and history
 kelpbot/robbery.py         /rob rules
 kelpbot/shop.py            shop items
 kelpbot/games/             game rules with no Discord code
@@ -153,7 +169,8 @@ kelpbot/cogs/              the slash commands:
   arcade.py                crash, mines, higher or lower
   duels.py                 player-vs-player duels
   lottery.py               lottery commands
-  scheduler.py             lottery draws and weekly payouts (runs every minute)
+  scheduler.py             lottery draws, weekly payouts, history trimming (runs every minute)
+  tracker.py               the live tracker message
   shop.py                  items and roles
   admin.py                 settings, resets, seasons, shop roles
   cleanup.py               auto-delete and /cleanup

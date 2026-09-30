@@ -78,6 +78,27 @@ CREATE TABLE IF NOT EXISTS shop_roles (
     price    INTEGER NOT NULL,
     PRIMARY KEY (guild_id, role_id)
 );
+CREATE TABLE IF NOT EXISTS game_log (
+    guild_id INTEGER NOT NULL,
+    user_id  INTEGER NOT NULL,
+    ts       REAL NOT NULL,
+    game     TEXT NOT NULL,
+    bet      INTEGER NOT NULL,
+    returned INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS game_log_guild_ts ON game_log (guild_id, ts);
+CREATE TABLE IF NOT EXISTS events (
+    id       INTEGER PRIMARY KEY AUTOINCREMENT,
+    guild_id INTEGER NOT NULL,
+    ts       REAL NOT NULL,
+    kind     TEXT NOT NULL,
+    user_id  INTEGER NOT NULL DEFAULT 0,
+    other_id INTEGER NOT NULL DEFAULT 0,
+    amount   INTEGER NOT NULL DEFAULT 0,
+    amount2  INTEGER NOT NULL DEFAULT 0,
+    detail   TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX IF NOT EXISTS events_guild_ts ON events (guild_id, ts);
 CREATE TABLE IF NOT EXISTS hall_of_fame (
     guild_id  INTEGER NOT NULL,
     season    INTEGER NOT NULL,
@@ -122,6 +143,35 @@ class Account:
     @property
     def net_worth(self) -> int:
         return self.balance + self.bank
+
+
+@dataclass
+class Event:
+    id: int
+    guild_id: int
+    ts: float
+    kind: str
+    user_id: int
+    other_id: int
+    amount: int
+    amount2: int
+    detail: str
+
+
+@dataclass
+class GameRow:
+    user_id: int
+    game: str
+    bet: int
+    returned: int
+
+    @property
+    def profit(self) -> int:
+        return self.returned - self.bet
+
+    @property
+    def multiplier(self) -> float:
+        return self.returned / self.bet if self.bet else 0.0
 
 
 @dataclass
@@ -469,3 +519,82 @@ class Database:
         for r in rows:
             seasons.setdefault(r["season"], []).append((r["user_id"], r["net_worth"]))
         return seasons
+
+    def config_values(self, key: str) -> list[tuple[int, str]]:
+        """(guild_id, value) for every server that has set this key."""
+        rows = self.conn.execute("SELECT guild_id, value FROM guild_config WHERE key = ?", (key,))
+        return [(r["guild_id"], r["value"]) for r in rows]
+
+    # ---- history (for the tracker) ---------------------------------------------------
+
+    def log_game(self, guild_id: int, user_id: int, game: str, bet: int, returned: int,
+                 ts: float | None = None) -> None:
+        self.conn.execute(
+            "INSERT INTO game_log (guild_id, user_id, ts, game, bet, returned) VALUES (?, ?, ?, ?, ?, ?)",
+            (guild_id, user_id, time.time() if ts is None else ts, game, bet, returned),
+        )
+
+    def add_event(self, guild_id: int, kind: str, user_id: int = 0, amount: int = 0, *, other_id: int = 0,
+                  amount2: int = 0, detail: str = "", ts: float | None = None) -> None:
+        self.conn.execute(
+            "INSERT INTO events (guild_id, ts, kind, user_id, other_id, amount, amount2, detail) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (guild_id, time.time() if ts is None else ts, kind, user_id, other_id, amount, amount2, detail),
+        )
+
+    def recent_events(self, guild_id: int, limit: int = 10) -> list[Event]:
+        rows = self.conn.execute(
+            "SELECT * FROM events WHERE guild_id = ? ORDER BY ts DESC, id DESC LIMIT ?", (guild_id, limit)
+        ).fetchall()
+        return [Event(**dict(r)) for r in rows]
+
+    def events_between(self, guild_id: int, kind: str, start: float, end: float) -> list[Event]:
+        rows = self.conn.execute(
+            "SELECT * FROM events WHERE guild_id = ? AND kind = ? AND ts >= ? AND ts < ?",
+            (guild_id, kind, start, end),
+        ).fetchall()
+        return [Event(**dict(r)) for r in rows]
+
+    def game_totals(self, guild_id: int, start: float, end: float) -> tuple[int, int, int]:
+        """(games played, total wagered, total paid back) in a time range."""
+        row = self.conn.execute(
+            "SELECT COUNT(*), COALESCE(SUM(bet), 0), COALESCE(SUM(returned), 0) FROM game_log "
+            "WHERE guild_id = ? AND ts >= ? AND ts < ?",
+            (guild_id, start, end),
+        ).fetchone()
+        return row[0], row[1], row[2]
+
+    def top_game(self, guild_id: int, start: float, end: float, by: str) -> GameRow | None:
+        """The single most notable game in a range: by 'profit', 'multiplier' or 'loss'."""
+        order, where = {
+            "profit": ("returned - bet DESC", "returned > bet"),
+            "multiplier": ("CAST(returned AS REAL) / bet DESC", "returned > bet"),
+            "loss": ("bet DESC", "returned = 0"),
+        }[by]
+        row = self.conn.execute(
+            f"SELECT user_id, game, bet, returned FROM game_log WHERE guild_id = ? AND ts >= ? AND ts < ? "
+            f"AND {where} ORDER BY {order}, ts LIMIT 1",
+            (guild_id, start, end),
+        ).fetchone()
+        return GameRow(**dict(row)) if row else None
+
+    def top_player(self, guild_id: int, start: float, end: float, by: str) -> tuple[int, int] | None:
+        """(user_id, value) of the player with the most 'profit' or 'games' in a range."""
+        expr = {"profit": "SUM(returned - bet)", "games": "COUNT(*)"}[by]
+        row = self.conn.execute(
+            f"SELECT user_id, {expr} AS value FROM game_log WHERE guild_id = ? AND ts >= ? AND ts < ? "
+            f"GROUP BY user_id ORDER BY value DESC LIMIT 1",
+            (guild_id, start, end),
+        ).fetchone()
+        return (row["user_id"], row["value"]) if row else None
+
+    def money_supply(self, guild_id: int) -> tuple[int, int]:
+        """(number of players, total money in wallets and banks)."""
+        row = self.conn.execute(
+            "SELECT COUNT(*), COALESCE(SUM(balance + bank), 0) FROM accounts WHERE guild_id = ?", (guild_id,)
+        ).fetchone()
+        return row[0], row[1]
+
+    def prune_history(self, before: float) -> None:
+        self.conn.execute("DELETE FROM game_log WHERE ts < ?", (before,))
+        self.conn.execute("DELETE FROM events WHERE ts < ?", (before,))

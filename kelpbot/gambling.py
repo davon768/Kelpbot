@@ -31,12 +31,24 @@ def settle(bot, guild_id: int, user_id: int, bet: int, returned: int, game: str)
     if returned:
         db.credit(guild_id, user_id, returned)
     db.record_game(guild_id, user_id, bet, returned)
+    db.log_game(guild_id, user_id, game, bet, returned)
     unlocked = achievements.after_game(db, guild_id, user_id, bet, returned)
     profit = returned - bet
+    if is_highlight(bet, returned):
+        db.add_event(guild_id, "big_win", user_id, profit, amount2=bet, detail=game)
     if profit >= config.BIG_WIN_LOG_THRESHOLD:
         cfg = bot.cfg(guild_id)
         bot.log_event(guild_id, f"🎉 <@{user_id}> won **{cfg.money(profit)}** on {game} (bet {cfg.money(bet)}).")
     return db.balance(guild_id, user_id), unlocked
+
+
+def is_highlight(bet: int, returned: int) -> bool:
+    """Wins worth putting in the tracker's history."""
+    profit = returned - bet
+    if profit >= config.HISTORY_BIG_WIN_PROFIT:
+        return True
+    return (bet > 0 and returned / bet >= config.HISTORY_BIG_MULTIPLIER
+            and profit >= config.HISTORY_BIG_MULTIPLIER_MIN_PROFIT)
 
 
 def result_line(cfg, bet: int, returned: int) -> tuple[str, discord.Color]:

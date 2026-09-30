@@ -68,8 +68,9 @@ class DuelView(discord.ui.View):
         await interaction.response.edit_message(embed=self.embed("🪙 Flipping..."), view=self)
         await asyncio.sleep(1.5)
 
-        _, unlocked = settle(self.bot, self.guild_id, winner.id, self.bet, self.bet * 2, "a duel")
-        settle(self.bot, self.guild_id, loser.id, self.bet, 0, "a duel")
+        _, unlocked = settle(self.bot, self.guild_id, winner.id, self.bet, self.bet * 2, "duel")
+        settle(self.bot, self.guild_id, loser.id, self.bet, 0, "duel")
+        self.bot.db.add_event(self.guild_id, "duel", winner.id, self.bet, other_id=loser.id)
         unlocked += achievements.unlock(self.bot.db, self.guild_id, winner.id, "duelist")
         await interaction.edit_original_response(
             embed=self.embed(

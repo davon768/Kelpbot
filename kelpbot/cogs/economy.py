@@ -164,6 +164,7 @@ class Economy(commands.Cog):
             line = random.choice(ROB_SUCCESS).format(victim=user.mention)
             text = f"🦹 {line} and got away with **{cfg.money(outcome.amount)}**!"
             unlocked = achievements.bump(self.db, gid, uid, "rob_success")
+            self.db.add_event(gid, "rob", uid, outcome.amount, other_id=user.id)
             self.bot.log_event(gid, f"🦹 <@{uid}> robbed <@{user.id}> of {cfg.money(outcome.amount)}.")
         else:
             line = random.choice(ROB_FAIL).format(victim=user.mention)

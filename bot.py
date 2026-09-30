@@ -20,6 +20,7 @@ EXTENSIONS = (
     "kelpbot.cogs.duels",
     "kelpbot.cogs.lottery",
     "kelpbot.cogs.scheduler",
+    "kelpbot.cogs.tracker",
     "kelpbot.cogs.shop",
     "kelpbot.cogs.admin",
     "kelpbot.cogs.cleanup",

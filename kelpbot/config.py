@@ -40,7 +40,13 @@ LOTTERY_HOUSE_CUT_PERCENT = 10  # removed from the pot so the lottery drains a l
 WEEKLY_PRIZES = (5_000, 2_500, 1_000)  # top 3 gambling profit each week (resets Monday 00:00 UTC)
 
 BIG_WIN_LOG_THRESHOLD = 10_000  # profits this big get posted to the log channel
-GIVE_LOG_THRESHOLD = 1_000  # /give transfers this big get logged (spots alt-account farming)
+GIVE_LOG_THRESHOLD = 1_000
+
+# Tracker history: which wins count as highlights, and how long history is kept.
+HISTORY_BIG_WIN_PROFIT = 2_500
+HISTORY_BIG_MULTIPLIER = 10.0
+HISTORY_BIG_MULTIPLIER_MIN_PROFIT = 500
+HISTORY_DAYS = 30  # /give transfers this big get logged (spots alt-account farming)
 
 ROB_COOLDOWN = 2 * 60 * 60
 ROB_SUCCESS_CHANCE = 0.5

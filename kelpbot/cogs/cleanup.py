@@ -6,7 +6,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from kelpbot import config
+from kelpbot import config, tracker
 
 
 def fmt_delay(seconds: int) -> str:
@@ -51,7 +51,10 @@ class Cleanup(commands.Cog):
         # Bulk delete is much faster but needs Manage Messages; without it we delete one at a time.
         bulk = channel.permissions_for(interaction.guild.me).manage_messages
         try:
-            deleted = await channel.purge(limit=scan, check=lambda m: m.author.id == self.bot.user.id, bulk=bulk)
+            tracker_id = int(self.bot.db.config(interaction.guild_id).get(tracker.MESSAGE_KEY, 0))
+            deleted = await channel.purge(
+                limit=scan, check=lambda m: m.author.id == self.bot.user.id and m.id != tracker_id, bulk=bulk
+            )
         except discord.Forbidden:
             await interaction.followup.send(
                 "I need the **Read Message History** permission in this channel to clean it up.", ephemeral=True

@@ -50,6 +50,7 @@ def unlock(db: Database, guild_id: int, user_id: int, key: str) -> list[Achievem
     if not db.add_achievement(guild_id, user_id, key):
         return []
     achievement = ACHIEVEMENTS[key]
+    db.add_event(guild_id, "achievement", user_id, achievement.reward, detail=key)
     if achievement.reward:
         db.credit(guild_id, user_id, achievement.reward)
     return [achievement]

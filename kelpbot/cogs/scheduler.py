@@ -8,7 +8,7 @@ import time
 import discord
 from discord.ext import commands, tasks
 
-from kelpbot import achievements, lottery, weekly
+from kelpbot import achievements, config, lottery, weekly
 
 log = logging.getLogger("kelpbot.scheduler")
 MEDALS = ["🥇", "🥈", "🥉"]
@@ -29,6 +29,7 @@ class Scheduler(commands.Cog):
                 await self.draw_lottery(rnd.guild_id)
             except Exception:
                 log.exception("Lottery draw failed for guild %s", rnd.guild_id)
+        self.bot.db.prune_history(time.time() - config.HISTORY_DAYS * 24 * 60 * 60)
         key = weekly.week_key()
         for guild_id in self.bot.db.guild_ids():
             try:
@@ -47,6 +48,7 @@ class Scheduler(commands.Cog):
         if result is None:
             return
         cfg = self.bot.cfg(guild_id)
+        self.bot.db.add_event(guild_id, "lottery", result.winner_id, result.prize, amount2=result.total_tickets)
         unlocked = achievements.unlock(self.bot.db, guild_id, result.winner_id, "lottery_winner")
         text = (
             f"🎉 <@{result.winner_id}> won **{cfg.money(result.prize)}** with {result.winner_tickets} of "
@@ -60,6 +62,7 @@ class Scheduler(commands.Cog):
 
     async def announce_week(self, guild_id: int, winners: list[tuple[int, int, int]]) -> None:
         cfg = self.bot.cfg(guild_id)
+        self.bot.db.add_event(guild_id, "weekly", winners[0][0], winners[0][1], amount2=winners[0][2])
         lines = [
             f"{MEDALS[i]} <@{uid}>: +{cfg.money(profit)} profit → prize **{cfg.money(prize)}**"
             for i, (uid, profit, prize) in enumerate(winners)

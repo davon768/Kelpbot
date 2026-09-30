@@ -100,19 +100,33 @@ class SettingsGroup(app_commands.Group, name="settings", description="[Admin] Co
             f"✅ **{s.label}** is back to the default (**{settings.display(s, s.default)}**).", ephemeral=True
         )
 
-    @app_commands.command(description="Set (or clear) the log or announcement channel.")
-    @app_commands.describe(kind="log = private mod log, announce = lottery/weekly/season announcements",
+    @app_commands.command(description="Set (or clear) the log, announcement or tracker channel.")
+    @app_commands.describe(kind="log = private mod log, announce = lottery/weekly/season posts, "
+                                "tracker = live leaderboard message",
                            channel="Leave empty to clear it")
-    async def channel(self, interaction: discord.Interaction, kind: Literal["log", "announce"],
+    async def channel(self, interaction: discord.Interaction, kind: Literal["log", "announce", "tracker"],
                       channel: discord.TextChannel | None = None) -> None:
         key = f"{kind}_channel_id"
-        if channel and not channel.permissions_for(interaction.guild.me).send_messages:
-            await interaction.response.send_message(f"❌ I can't send messages in {channel.mention}.", ephemeral=True)
-            return
-        self.bot.db.set_config(interaction.guild_id, key, channel.id if channel else None)
+        if channel:
+            perms = channel.permissions_for(interaction.guild.me)
+            if not (perms.view_channel and perms.send_messages and perms.embed_links):
+                await interaction.response.send_message(
+                    f"❌ I need **View Channel**, **Send Messages** and **Embed Links** in {channel.mention}.",
+                    ephemeral=True,
+                )
+                return
         label = CHANNEL_SETTINGS[key].split(" (")[0]
-        text = f"✅ {label} set to {channel.mention}." if channel else f"✅ {label} cleared."
-        await interaction.response.send_message(text, ephemeral=True)
+        if kind == "tracker":
+            await interaction.response.defer(ephemeral=True, thinking=True)
+            old = self.bot.cfg(interaction.guild_id).tracker_channel_id
+            await self.bot.get_cog("Tracker").move(interaction.guild_id, old, channel.id if channel else None)
+            text = (f"✅ The tracker is live in {channel.mention}. It updates every minute and is never "
+                    "auto-deleted. Run this again any time to re-post it." if channel else "✅ Tracker removed.")
+            await interaction.followup.send(text, ephemeral=True)
+        else:
+            self.bot.db.set_config(interaction.guild_id, key, channel.id if channel else None)
+            text = f"✅ {label} set to {channel.mention}." if channel else f"✅ {label} cleared."
+            await interaction.response.send_message(text, ephemeral=True)
         self.bot.log_event(interaction.guild_id, f"⚙️ <@{interaction.user.id}> changed the {label.lower()}.")
 
 
@@ -199,6 +213,8 @@ class Admin(commands.Cog):
         season, top = weekly.end_season(self.bot.db, gid)
         if top:
             achievements.unlock(self.bot.db, gid, top[0][0], "champion")
+        champion, worth = top[0] if top else (0, 0)
+        self.bot.db.add_event(gid, "season", champion, worth, amount2=season)
         cfg = self.bot.cfg(gid)
         medals = ["🥇", "🥈", "🥉"]
         podium = "\n".join(f"{medals[i]} <@{uid}>: {cfg.money(worth)}" for i, (uid, worth) in enumerate(top))

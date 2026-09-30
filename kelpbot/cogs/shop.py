@@ -139,6 +139,7 @@ class Shop(commands.Cog):
                                                     ephemeral=True)
             return
         self.bot.log_event(gid, f"🎭 <@{uid}> bought <@&{role.id}> for {cfg.money(price)}.")
+        self.db.add_event(gid, "role", uid, price, other_id=role.id)
         await interaction.response.send_message(
             f"🎭 You bought {role.mention} for **{cfg.money(price)}**!",
             allowed_mentions=discord.AllowedMentions.none(),

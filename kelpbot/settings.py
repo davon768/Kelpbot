@@ -42,6 +42,7 @@ SETTINGS: dict[str, Setting] = {s.key: s for s in (
 CHANNEL_SETTINGS = {
     "log_channel_id": "Log channel (big wins, robberies, admin actions)",
     "announce_channel_id": "Announcement channel (lottery draws, weekly winners, seasons)",
+    "tracker_channel_id": "Tracker channel (live leaderboards, highlights and history)",
 }
 
 TRUE_WORDS = {"on", "true", "yes", "y", "1", "enable", "enabled"}
@@ -65,6 +66,7 @@ class GuildConfig:
     auto_delete_seconds: int
     log_channel_id: int
     announce_channel_id: int
+    tracker_channel_id: int
 
     def money(self, amount: int) -> str:
         return f"{self.currency_emoji} {amount:,}"
