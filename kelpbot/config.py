@@ -34,6 +34,11 @@ BEG_COOLDOWN = 5 * 60
 BEG_MAX_BALANCE = 100  # only broke players can beg
 BEG_PAY = (20, 80)
 
+# Public bot replies delete themselves after this many seconds (0 = keep forever).
+# Servers can override this with /autoclean.
+AUTO_DELETE_DEFAULT_SECONDS = 120
+AUTO_DELETE_MAX_SECONDS = 24 * 60 * 60
+
 
 def money(amount: int) -> str:
     return f"{CURRENCY} {amount:,}"

@@ -29,6 +29,10 @@ CREATE TABLE IF NOT EXISTS cooldowns (
     last_used REAL NOT NULL,
     PRIMARY KEY (guild_id, user_id, action)
 );
+CREATE TABLE IF NOT EXISTS guild_settings (
+    guild_id            INTEGER PRIMARY KEY,
+    auto_delete_seconds INTEGER
+);
 CREATE TABLE IF NOT EXISTS inventory (
     guild_id INTEGER NOT NULL,
     user_id  INTEGER NOT NULL,
@@ -56,11 +60,12 @@ class Account:
 
 
 class Database:
-    def __init__(self, path: str, starting_balance: int) -> None:
+    def __init__(self, path: str, starting_balance: int, auto_delete_default: int = 0) -> None:
         self.conn = sqlite3.connect(path, isolation_level=None)
         self.conn.row_factory = sqlite3.Row
         self.conn.executescript(SCHEMA)
         self.starting_balance = starting_balance
+        self.auto_delete_default = auto_delete_default
 
     def close(self) -> None:
         self.conn.close()
@@ -184,3 +189,18 @@ class Database:
             "SELECT item, quantity FROM inventory WHERE guild_id = ? AND user_id = ?", (guild_id, user_id)
         ).fetchall()
         return {r["item"]: r["quantity"] for r in rows}
+
+    def auto_delete_seconds(self, guild_id: int) -> int:
+        row = self.conn.execute(
+            "SELECT auto_delete_seconds FROM guild_settings WHERE guild_id = ?", (guild_id,)
+        ).fetchone()
+        if row is None or row["auto_delete_seconds"] is None:
+            return self.auto_delete_default
+        return row["auto_delete_seconds"]
+
+    def set_auto_delete_seconds(self, guild_id: int, seconds: int) -> None:
+        self.conn.execute(
+            "INSERT INTO guild_settings (guild_id, auto_delete_seconds) VALUES (?, ?) "
+            "ON CONFLICT (guild_id) DO UPDATE SET auto_delete_seconds = excluded.auto_delete_seconds",
+            (guild_id, seconds),
+        )

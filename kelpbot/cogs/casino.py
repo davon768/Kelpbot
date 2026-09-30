@@ -70,6 +70,8 @@ class BlackjackView(discord.ui.View):
             self.cog.settle(self.guild_id, self.player.id, self.game.bet, self.game.payout())
             self.cog.active_blackjack.discard((self.guild_id, self.player.id))
             self.stop()
+            if self.message:
+                self.cog.bot.schedule_cleanup(self.guild_id, self.message.channel.id, self.message.id)
         self._sync_buttons()
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
@@ -162,7 +164,8 @@ class Casino(commands.Cog):
         embed.set_footer(text=f"Bet: {bet:,} • Balance: {balance:,}")
         await interaction.edit_original_response(embed=embed)
 
-    @app_commands.command(description="Play a hand of blackjack against the dealer.")
+    # Cleaned up by BlackjackView when the hand ends, not when the command returns.
+    @app_commands.command(description="Play a hand of blackjack against the dealer.", extras={"manual_cleanup": True})
     async def blackjack(self, interaction: discord.Interaction, bet: Bet) -> None:
         key = (interaction.guild_id, interaction.user.id)
         if key in self.active_blackjack:
@@ -175,6 +178,8 @@ class Casino(commands.Cog):
         view.finish_if_done()  # natural blackjacks settle immediately
         await interaction.response.send_message(embed=view.embed(), view=view)
         view.message = await interaction.original_response()
+        if view.game.finished:  # natural blackjack finished before the message existed
+            self.bot.schedule_cleanup(interaction.guild_id, view.message.channel.id, view.message.id)
 
     @app_commands.command(description="Flip a coin. Double or nothing.")
     async def coinflip(

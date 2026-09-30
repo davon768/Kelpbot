@@ -46,7 +46,18 @@ Items are defined in [`kelpbot/shop.py`](kelpbot/shop.py). Add a new `Item(...)`
 `/balance [@user]`, `/stats [@user]`, `/leaderboard`
 
 ### Admin
-`/addmoney @user amount`: add money, or remove it with a negative amount. Only people with the **Manage Server** permission can see it.
+- `/addmoney @user amount`: add money, or remove it with a negative amount.
+- `/autoclean [seconds]`: how long the bot's replies stay before deleting themselves. The default is 120 seconds, and `0` turns it off. Leave `seconds` empty to see the current setting.
+- `/cleanup [scan]`: delete the bot's messages from the last `scan` messages in this channel (default 100). Handy after a restart, since pending auto-deletes don't survive one.
+
+`/addmoney` and `/autoclean` need **Manage Server**, and `/cleanup` needs **Manage Messages**. You can change who sees them under Server Settings → Integrations → Kelpbot.
+
+## Keeping channels tidy
+
+- Public replies delete themselves after 2 minutes. A blackjack table stays until the hand is over, then starts its own timer.
+- Errors, "you're on cooldown" notices and `/paytable` are only visible to the person who used the command, so they never clutter the channel.
+- To keep the casino in one place, go to Server Settings → Integrations → Kelpbot and allow its commands only in a `#casino` channel.
+- If the bot has **Manage Messages**, `/cleanup` deletes in bulk. Without it, `/cleanup` still works, just slower.
 
 ## Setup
 
