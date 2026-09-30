@@ -1,7 +1,7 @@
 # Kelpbot 🎰
 
 A Discord casino bot with **fake money**. Players earn coins through daily rewards,
-work, robbing each other and begging, then gamble them on slots, blackjack, roulette and coinflips.
+work, robbing each other and begging, then gamble them on slots, blackjack, roulette and coinflips, or spend them in the shop.
 Balances are per-server and stored in a local SQLite file.
 
 ## Commands
@@ -23,6 +23,24 @@ Balances are per-server and stored in a local SQLite file.
 | `/coinflip bet heads\|tails` | 2x |
 | `/roulette bet choice` | red/black/odd/even/low/high 2x, dozens 3x, single number 36x |
 | `/paytable` | Shows all payouts |
+
+### Shop
+| Command | What it does |
+| --- | --- |
+| `/shop` | List items and prices |
+| `/buy item [quantity]` / `/sell item [quantity]` | Buy an item, or sell it back for half price |
+| `/use item` | Use an item such as the Energy Drink |
+| `/inventory [@user]` | See what someone owns |
+
+| Item | Price | Effect |
+| --- | --- | --- |
+| 🔒 Padlock | 800 | Blocks the next `/rob` against you, then breaks (hold up to 3) |
+| 🪓 Crowbar | 600 | +25% success chance on your next `/rob` (hold up to 5) |
+| 🥤 Energy Drink | 250 | `/use` it to reset your `/work` cooldown |
+| 💻 Laptop | 7,500 | Permanently +50% `/work` pay |
+| 🏆 Golden Trophy, 🏎️ Sports Car, 🛥️ Kelp Yacht | 25k / 100k / 500k | Collectibles for showing off |
+
+Items are defined in [`kelpbot/shop.py`](kelpbot/shop.py). Add a new `Item(...)` there to put it in the shop.
 
 ### Info
 `/balance [@user]`, `/stats [@user]`, `/leaderboard`

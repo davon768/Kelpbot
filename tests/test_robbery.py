@@ -77,3 +77,21 @@ def test_victim_protected_after_being_robbed():
     attempt_rob(db, G, ROBBER, VICTIM, FixedRng(0.0))
     out = attempt_rob(db, G, 30, VICTIM, FixedRng(0.0))
     assert out.result is RobResult.TARGET_PROTECTED and out.protected_for > 0
+
+
+def test_padlock_blocks_and_breaks():
+    db = make()
+    db.add_item(G, VICTIM, "padlock")
+    out = attempt_rob(db, G, ROBBER, VICTIM, FixedRng(0.0))
+    assert out.result is RobResult.BLOCKED
+    assert db.balance(G, ROBBER) == 1000 and db.balance(G, VICTIM) == 1000
+    assert db.item_count(G, VICTIM, "padlock") == 0
+
+
+def test_crowbar_raises_success_chance_and_is_used_up():
+    db = make()
+    db.add_item(G, ROBBER, "crowbar")
+    roll = config.ROB_SUCCESS_CHANCE + 0.1  # would fail without the crowbar
+    out = attempt_rob(db, G, ROBBER, VICTIM, FixedRng(roll))
+    assert out.result is RobResult.SUCCESS and out.used_crowbar
+    assert db.item_count(G, ROBBER, "crowbar") == 0

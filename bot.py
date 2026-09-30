@@ -8,7 +8,7 @@ from kelpbot.db import Database
 
 log = logging.getLogger("kelpbot")
 
-EXTENSIONS = ("kelpbot.cogs.economy", "kelpbot.cogs.casino")
+EXTENSIONS = ("kelpbot.cogs.economy", "kelpbot.cogs.casino", "kelpbot.cogs.shop")
 
 
 class KelpBot(commands.Bot):

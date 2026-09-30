@@ -11,6 +11,7 @@ from discord.ext import commands
 from kelpbot import config
 from kelpbot.config import money
 from kelpbot.robbery import RobResult, attempt_rob
+from kelpbot.shop import LAPTOP, LAPTOP_WORK_MULTIPLIER
 
 JOBS = [
     ("fished for kelp", "🌿"),
@@ -100,11 +101,15 @@ class Economy(commands.Cog):
         if not await self._check_cooldown(interaction, "work", config.WORK_COOLDOWN):
             return
         pay = random.randint(*config.WORK_PAY)
+        has_laptop = self.db.item_count(gid, uid, LAPTOP.key) > 0
+        if has_laptop:
+            pay = int(pay * LAPTOP_WORK_MULTIPLIER)
         job, emoji = random.choice(JOBS)
         self.db.mark_used(gid, uid, "work")
         new_balance = self.db.credit(gid, uid, pay)
+        bonus = f" ({LAPTOP.emoji} laptop bonus)" if has_laptop else ""
         await interaction.response.send_message(
-            f"{emoji} You {job} and earned **{money(pay)}**.\nBalance: {money(new_balance)}"
+            f"{emoji} You {job} and earned **{money(pay)}**{bonus}.\nBalance: {money(new_balance)}"
         )
 
     @app_commands.command(description="Try to steal from another player. Get caught and you pay them a fine.")
@@ -128,12 +133,16 @@ class Economy(commands.Cog):
             return
 
         self.db.mark_used(gid, uid, "rob")
-        if outcome.result is RobResult.SUCCESS:
+        if outcome.result is RobResult.BLOCKED:
+            text = f"🔒 {user.mention}'s padlock stopped you cold. It broke, but your wallet's safe."
+        elif outcome.result is RobResult.SUCCESS:
             line = random.choice(ROB_SUCCESS).format(victim=user.mention)
             text = f"🦹 {line} and got away with **{money(outcome.amount)}**!"
         else:
             line = random.choice(ROB_FAIL).format(victim=user.mention)
             text = f"🚓 {line}! You paid them **{money(outcome.amount)}** in damages."
+        if outcome.used_crowbar:
+            text += " (🪓 crowbar used)"
         balance = self.db.balance(gid, uid)
         await interaction.response.send_message(
             f"{text}\nBalance: {money(balance)}",

@@ -29,6 +29,13 @@ CREATE TABLE IF NOT EXISTS cooldowns (
     last_used REAL NOT NULL,
     PRIMARY KEY (guild_id, user_id, action)
 );
+CREATE TABLE IF NOT EXISTS inventory (
+    guild_id INTEGER NOT NULL,
+    user_id  INTEGER NOT NULL,
+    item     TEXT NOT NULL,
+    quantity INTEGER NOT NULL,
+    PRIMARY KEY (guild_id, user_id, item)
+);
 """
 
 
@@ -136,9 +143,44 @@ class Database:
             (guild_id, user_id, action, time.time()),
         )
 
+    def clear_cooldown(self, guild_id: int, user_id: int, action: str) -> None:
+        self.conn.execute(
+            "DELETE FROM cooldowns WHERE guild_id = ? AND user_id = ? AND action = ?", (guild_id, user_id, action)
+        )
+
     def leaderboard(self, guild_id: int, limit: int = 10) -> list[Account]:
         rows = self.conn.execute(
             "SELECT * FROM accounts WHERE guild_id = ? ORDER BY balance DESC LIMIT ?",
             (guild_id, limit),
         ).fetchall()
         return [Account(**dict(r)) for r in rows]
+
+    def item_count(self, guild_id: int, user_id: int, item: str) -> int:
+        row = self.conn.execute(
+            "SELECT quantity FROM inventory WHERE guild_id = ? AND user_id = ? AND item = ?",
+            (guild_id, user_id, item),
+        ).fetchone()
+        return row["quantity"] if row else 0
+
+    def add_item(self, guild_id: int, user_id: int, item: str, quantity: int = 1) -> None:
+        self.conn.execute(
+            "INSERT INTO inventory (guild_id, user_id, item, quantity) VALUES (?, ?, ?, ?) "
+            "ON CONFLICT (guild_id, user_id, item) DO UPDATE SET quantity = quantity + excluded.quantity",
+            (guild_id, user_id, item, quantity),
+        )
+
+    def remove_item(self, guild_id: int, user_id: int, item: str, quantity: int = 1) -> bool:
+        """Take items away only if the user has enough."""
+        cur = self.conn.execute(
+            "UPDATE inventory SET quantity = quantity - ? "
+            "WHERE guild_id = ? AND user_id = ? AND item = ? AND quantity >= ?",
+            (quantity, guild_id, user_id, item, quantity),
+        )
+        self.conn.execute("DELETE FROM inventory WHERE quantity <= 0")
+        return cur.rowcount == 1
+
+    def inventory(self, guild_id: int, user_id: int) -> dict[str, int]:
+        rows = self.conn.execute(
+            "SELECT item, quantity FROM inventory WHERE guild_id = ? AND user_id = ?", (guild_id, user_id)
+        ).fetchall()
+        return {r["item"]: r["quantity"] for r in rows}
