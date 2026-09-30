@@ -64,8 +64,8 @@ Items are defined in [`kelpbot/shop.py`](kelpbot/shop.py). Add a new `Item(...)`
 1. **Create the bot.** Go to <https://discord.com/developers/applications>, click
    **New Application**, open the **Bot** tab and click **Reset Token**. Copy the token.
 2. **Invite it.** Under **OAuth2 → URL Generator**, tick the `bot` and
-   `applications.commands` scopes and the **Send Messages** and **Embed Links**
-   permissions, then open the generated URL and pick your server.
+   `applications.commands` scopes and the **Send Messages**, **Embed Links**,
+   **Read Message History** and **Manage Messages** permissions, then open the generated URL and pick your server.
 3. **Install and run** (Python 3.10+):
    ```bash
    python -m venv .venv
