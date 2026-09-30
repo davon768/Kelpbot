@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 
 import discord
 from discord.ext import commands
@@ -20,6 +21,12 @@ class KelpBot(commands.Bot):
         self._cleanup_tasks: set[asyncio.Task] = set()
 
     async def setup_hook(self) -> None:
+        log.info("Using database at %s", config.DATABASE_PATH)
+        if config.ON_RAILWAY and not os.getenv("RAILWAY_VOLUME_MOUNT_PATH") and not os.getenv("DATABASE_PATH"):
+            log.warning(
+                "No Railway volume attached! Balances will be WIPED on every redeploy. "
+                "Attach a volume to this service (any mount path, e.g. /data)."
+            )
         for ext in EXTENSIONS:
             await self.load_extension(ext)
         if config.DEV_GUILD_ID:

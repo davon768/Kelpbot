@@ -79,6 +79,19 @@ Items are defined in [`kelpbot/shop.py`](kelpbot/shop.py). Add a new `Item(...)`
    show up right away instead of taking up to an hour. To get the ID, turn on
    Developer Mode in Discord's settings, then right-click the server and choose **Copy Server ID**.
 
+## Hosting on Railway
+
+The repo includes `railway.json` (start command and auto-restart) and `.python-version`, so Railway builds it without extra setup.
+
+1. On <https://railway.com>, create a project with **Deploy from GitHub repo** and pick this repo.
+2. In the service's **Variables**, add `DISCORD_TOKEN` (and optionally `DEV_GUILD_ID`).
+3. **Attach a volume** to the service (mount path `/data`). The bot stores its database
+   there automatically. Without a volume, every redeploy wipes all balances, and the logs
+   will warn you.
+4. Keep the service at **1 replica**. Two copies would answer every command twice.
+
+Pushing to the deployed branch redeploys automatically. Balances survive because they live on the volume.
+
 ## Tweaking the economy
 
 All the numbers (starting balance, cooldowns, pay ranges, minimum bet, streak bonus)

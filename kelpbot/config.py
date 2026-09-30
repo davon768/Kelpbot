@@ -5,7 +5,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN", "")
-DATABASE_PATH = os.getenv("DATABASE_PATH", "kelpbot.db")
+# Railway sets RAILWAY_VOLUME_MOUNT_PATH when a volume is attached; keep the database there
+# so balances survive redeploys.
+_VOLUME = os.getenv("RAILWAY_VOLUME_MOUNT_PATH")
+DATABASE_PATH = os.getenv("DATABASE_PATH") or (os.path.join(_VOLUME, "kelpbot.db") if _VOLUME else "kelpbot.db")
+ON_RAILWAY = any(key.startswith("RAILWAY_") for key in os.environ)
 # If set, slash commands sync instantly to this server (handy while developing).
 DEV_GUILD_ID = int(os.getenv("DEV_GUILD_ID", "0")) or None
 
