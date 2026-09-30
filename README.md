@@ -1,36 +1,51 @@
 # Kelpbot 🎰
 
-A Discord casino bot with **fake money**. Players earn coins through daily rewards,
-work, robbing each other and begging, then gamble them on slots, blackjack, roulette and coinflips, or spend them in the shop.
-Balances are per-server and stored in a local SQLite file.
+A Discord casino bot with **fake money**. Players earn coins through daily rewards, work,
+robbing each other and begging, save them in the bank, gamble them on a dozen games, and
+spend them in the shop. Every server has its own separate economy, and admins can tune it
+with `/settings`. Everything is stored in a local SQLite file.
+
+The numbers below are the defaults. Server admins can change the ones marked ⚙️ with `/settings`.
 
 ## Commands
 
-### Earning money
+### Earning and saving
 | Command | What it does |
 | --- | --- |
-| `/daily` | 500 coins, +100 per consecutive day (streak caps at 7 days). Claimable every 20h; the streak resets if you skip more than 48h. |
-| `/work` | Earn 100–300 coins. Once per hour. |
-| `/rob @user` | 50% chance to steal 10–30% of another player's wallet. If you get caught, you pay *them* a 150–400 fine. Once every 2 hours. You need at least 200 to try, the target needs at least 200, and someone who was just robbed is safe for an hour. |
-| `/beg` | 20–80 coins, only if you have 100 or less. Every 5 minutes. |
+| `/daily` | ⚙️ 500 coins, +100 per consecutive day (streak caps at 7 days). Claimable every 20h; the streak resets if you skip more than 48h. |
+| `/work` | ⚙️ Earn 100–300 coins. Once per hour. |
+| `/rob @user` | ⚙️ 50% chance to steal 10–30% of another player's **wallet**. If you get caught, you pay *them* a 150–400 fine. Once every 2 hours. You need at least 200 to try, the target needs at least 200, and someone who was just robbed is safe for an hour. Admins can turn robbing off. |
+| `/beg` | 20–80 coins, only if your wallet + bank is 100 or less. Every 5 minutes. |
 | `/give @user amount` | Send coins to another player. |
+| `/deposit amount` / `/withdraw amount` | Move money between wallet and bank. Accepts a number, `half` or `all`. Banked money **can't be robbed** and earns ⚙️ 1% interest per day (at most 2,500/day). You gamble from your wallet. |
 
-### Games (minimum bet 10)
-| Command | Payout |
+### Games
+Bets must be between the server's ⚙️ minimum (10) and maximum (50,000) bet.
+
+| Command | How it works |
 | --- | --- |
 | `/slots bet` | 3 reels, up to 500x for 7️⃣7️⃣7️⃣ (about 88% return to player) |
-| `/blackjack bet` | Interactive Hit / Stand / Double buttons. Win 2x, blackjack 2.5x, push returns the bet. |
+| `/blackjack bet` | Hit / Stand / Double buttons. Win 2x, blackjack 2.5x, push returns the bet. |
 | `/coinflip bet heads\|tails` | 2x |
 | `/roulette bet choice` | red/black/odd/even/low/high 2x, dozens 3x, single number 36x |
+| `/dice bet [chance]` | Roll 1–100; win if you roll at or under your chance. 50% pays 1.96x, 10% pays 9.8x. |
+| `/crash bet [auto_cashout]` | A multiplier climbs until it crashes. Hit **Cash Out** in time, or set an automatic cash-out. Goes up to 100x. |
+| `/mines bet [mines]` | 20 tiles with 1–15 hidden mines. Each gem raises your multiplier; a mine loses everything. |
+| `/highlow bet` | Guess whether the next card is higher or lower (ties lose). Each right guess grows your multiplier. |
+| `/duel @user bet` | Challenge another player. You both put up the bet and the winner takes both. |
+| `/lottery buy [tickets]` / `/lottery info` | ⚙️ 100 per ticket, up to 100 tickets each. The draw happens 24h after the first ticket of a round; the winner gets 90% of the pot. |
 | `/paytable` | Shows all payouts |
+
+In crash, mines and higher or lower, walking away cashes you out with whatever you've won so far.
 
 ### Shop
 | Command | What it does |
 | --- | --- |
-| `/shop` | List items and prices |
+| `/shop` | List items, roles and prices |
 | `/buy item [quantity]` / `/sell item [quantity]` | Buy an item, or sell it back for half price |
 | `/use item` | Use an item such as the Energy Drink |
 | `/inventory [@user]` | See what someone owns |
+| `/buyrole role` | Buy a role an admin has put up for sale |
 
 | Item | Price | Effect |
 | --- | --- | --- |
@@ -42,19 +57,34 @@ Balances are per-server and stored in a local SQLite file.
 
 Items are defined in [`kelpbot/shop.py`](kelpbot/shop.py). Add a new `Item(...)` there to put it in the shop.
 
-### Info
-`/balance [@user]`, `/stats [@user]`, `/leaderboard`
+### Progress and bragging rights
+| Command | What it does |
+| --- | --- |
+| `/balance [@user]` | Wallet, bank and net worth |
+| `/leaderboard [wealth\|weekly]` | Richest players, or this week's biggest gambling profits. Every Monday at 00:00 UTC the weekly top 3 win 5,000 / 2,500 / 1,000 and the board resets. |
+| `/achievements [@user]` | 15 achievements, like hitting the jackpot, clearing a mines board or pulling off 10 robberies. Most pay a one-time reward. |
+| `/halloffame` | Top 3 of every past season |
+| `/stats [@user]` | Games played, wagered, profit, biggest win |
 
 ### Admin
-- `/addmoney @user amount`: add money, or remove it with a negative amount.
-- `/autoclean [seconds]`: how long the bot's replies stay before deleting themselves. The default is 120 seconds, and `0` turns it off. Leave `seconds` empty to see the current setting.
-- `/cleanup [scan]`: delete the bot's messages from the last `scan` messages in this channel (default 100). Handy after a restart, since pending auto-deletes don't survive one.
+| Command | What it does |
+| --- | --- |
+| `/settings view` | Show this server's economy settings |
+| `/settings set setting value` | Change currency name/emoji, starting balance, daily and work pay, min/max bet, robbing on/off, bank interest, lottery ticket price or auto-delete delay |
+| `/settings reset setting` | Put a setting back to its default |
+| `/settings channel log\|announce [#channel]` | **Log channel:** a private feed of big wins, robberies, large transfers and admin actions. **Announce channel:** where lottery draws, weekly winners and season results go. If no announce channel is set, they go wherever the bot was last used. |
+| `/shoprole add role price` / `/shoprole remove role` | Sell roles in the shop. Roles with moderator permissions are refused, and the bot's own role must be above the role it sells. |
+| `/addmoney @user amount` | Add money, or remove it with a negative amount |
+| `/reseteconomy [@user]` | Wipe everyone's (or one player's) money, items and progress. Settings, shop roles and achievements are kept. Asks for confirmation. |
+| `/endseason` | Save the top 3 to `/halloffame`, give first place the Season Champion achievement, and reset the economy for a fresh season. Asks for confirmation. |
+| `/autoclean [seconds]` | Shortcut for the auto-delete delay |
+| `/cleanup [scan]` | Delete the bot's messages from the last `scan` messages in this channel (default 100). Handy after a restart, since pending auto-deletes don't survive one. |
 
-`/addmoney` and `/autoclean` need **Manage Server**, and `/cleanup` needs **Manage Messages**. You can change who sees them under Server Settings → Integrations → Kelpbot.
+`/settings`, `/addmoney`, `/reseteconomy`, `/endseason` and `/autoclean` need **Manage Server**. `/shoprole` needs **Manage Roles** and `/cleanup` needs **Manage Messages**. You can change who sees them under Server Settings → Integrations → Kelpbot.
 
 ## Keeping channels tidy
 
-- Public replies delete themselves after 2 minutes. A blackjack table stays until the hand is over, then starts its own timer.
+- Public replies delete themselves after 2 minutes. Blackjack, crash, mines, higher or lower and duels stay until the game is over, then start their own timer.
 - Errors, "you're on cooldown" notices and `/paytable` are only visible to the person who used the command, so they never clutter the channel.
 - To keep the casino in one place, go to Server Settings → Integrations → Kelpbot and allow its commands only in a `#casino` channel.
 - If the bot has **Manage Messages**, `/cleanup` deletes in bulk. Without it, `/cleanup` still works, just slower.
@@ -64,8 +94,9 @@ Items are defined in [`kelpbot/shop.py`](kelpbot/shop.py). Add a new `Item(...)`
 1. **Create the bot.** Go to <https://discord.com/developers/applications>, click
    **New Application**, open the **Bot** tab and click **Reset Token**. Copy the token.
 2. **Invite it.** Under **OAuth2 → URL Generator**, tick the `bot` and
-   `applications.commands` scopes and the **Send Messages**, **Embed Links**,
-   **Read Message History** and **Manage Messages** permissions, then open the generated URL and pick your server.
+   `applications.commands` scopes and the **View Channels**, **Send Messages**, **Embed Links**,
+   **Read Message History**, **Manage Messages** and **Manage Roles** permissions, then open the
+   generated URL and pick your server. (Manage Roles is only needed for `/buyrole`.)
 3. **Install and run** (Python 3.10+):
    ```bash
    python -m venv .venv
@@ -94,19 +125,37 @@ Pushing to the deployed branch redeploys automatically. Balances survive because
 
 ## Tweaking the economy
 
-All the numbers (starting balance, cooldowns, pay ranges, minimum bet, streak bonus)
-are in [`kelpbot/config.py`](kelpbot/config.py). Slot symbols, weights and payouts are
-in [`kelpbot/games/slots.py`](kelpbot/games/slots.py). The tests check that slots still
-favour the house after you change them.
+Server admins change most numbers with `/settings`. The defaults for those, plus everything
+else (cooldowns, robbery odds, weekly prizes, lottery rules, bank interest cap), are in
+[`kelpbot/config.py`](kelpbot/config.py). Achievements are in
+[`kelpbot/achievements.py`](kelpbot/achievements.py). Slot symbols, weights and payouts are in
+[`kelpbot/games/slots.py`](kelpbot/games/slots.py). The tests check that every game still
+favours the house after you change it.
 
 ## Project layout
 
 ```
-bot.py                  entry point
-kelpbot/config.py       settings and economy numbers
-kelpbot/db.py           SQLite balances, cooldowns, stats
-kelpbot/cogs/economy.py earning and info commands
-kelpbot/cogs/casino.py  game commands and the blackjack buttons
-kelpbot/games/          game rules with no Discord code (unit tested)
-tests/                  run with `pip install pytest && pytest`
+bot.py                     entry point, shared helpers (settings, logging, announcements)
+kelpbot/config.py          defaults and fixed numbers
+kelpbot/settings.py        per-server settings
+kelpbot/db.py              SQLite storage (upgrades older databases automatically)
+kelpbot/gambling.py        bet limits, payouts and button views shared by every game
+kelpbot/bank.py            deposits, withdrawals and interest
+kelpbot/achievements.py    achievement list and unlock rules
+kelpbot/lottery.py         ticket sales and draws
+kelpbot/weekly.py          weekly prizes and seasons
+kelpbot/robbery.py         /rob rules
+kelpbot/shop.py            shop items
+kelpbot/games/             game rules with no Discord code
+kelpbot/cogs/              the slash commands:
+  economy.py               earning, bank, leaderboards, achievements
+  casino.py                slots, blackjack, coinflip, roulette, dice
+  arcade.py                crash, mines, higher or lower
+  duels.py                 player-vs-player duels
+  lottery.py               lottery commands
+  scheduler.py             lottery draws and weekly payouts (runs every minute)
+  shop.py                  items and roles
+  admin.py                 settings, resets, seasons, shop roles
+  cleanup.py               auto-delete and /cleanup
+tests/                     run with `pip install pytest && pytest`
 ```

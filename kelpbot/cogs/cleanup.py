@@ -19,7 +19,6 @@ def fmt_delay(seconds: int) -> str:
     return f"{seconds}s"
 
 
-@app_commands.guild_only()
 class Cleanup(commands.Cog):
     def __init__(self, bot) -> None:
         self.bot = bot
@@ -28,7 +27,11 @@ class Cleanup(commands.Cog):
     async def on_app_command_completion(
         self, interaction: discord.Interaction, command: app_commands.Command
     ) -> None:
-        if interaction.guild_id is None or command.extras.get("manual_cleanup"):
+        if interaction.guild_id is None:
+            return
+        if interaction.channel_id:
+            self.bot.remember_channel(interaction.guild_id, interaction.channel_id)
+        if command.extras.get("manual_cleanup"):
             return
         if self.bot.db.auto_delete_seconds(interaction.guild_id) <= 0 or not interaction.response.is_done():
             return
@@ -69,6 +72,7 @@ class Cleanup(commands.Cog):
             await interaction.response.send_message(f"Auto-delete is **{fmt_delay(current)}**.", ephemeral=True)
             return
         self.bot.db.set_auto_delete_seconds(interaction.guild_id, seconds)
+        self.bot.log_event(interaction.guild_id, f"⚙️ <@{interaction.user.id}> set auto-delete to {fmt_delay(seconds)}.")
         if seconds:
             msg = f"✅ My replies will now delete themselves after **{fmt_delay(seconds)}**."
         else:

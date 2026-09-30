@@ -8,13 +8,14 @@ from kelpbot.db import Database
 
 
 def make_bot(default=120):
-    fake = SimpleNamespace(db=Database(":memory:", 1000, auto_delete_default=default), _cleanup_tasks=set())
+    fake = SimpleNamespace(db=Database(":memory:", 1000, auto_delete_default=default), _background=set())
     fake.deleted = []
     message = MagicMock()
     message.delete = AsyncMock(side_effect=lambda: fake.deleted.append(True))
     fake.get_partial_messageable = lambda cid: SimpleNamespace(get_partial_message=lambda mid: message)
-    fake._delete_later = lambda *a: bot_module.KelpBot._delete_later(fake, *a)
-    fake.schedule_cleanup = lambda *a: bot_module.KelpBot.schedule_cleanup(fake, *a)
+    for name in ("_delete_later", "schedule_cleanup", "fire", "remember_channel"):
+        method = getattr(bot_module.KelpBot, name)
+        setattr(fake, name, lambda *a, _m=method: _m(fake, *a))
     return fake
 
 
@@ -33,18 +34,19 @@ def test_schedule_deletes_after_delay_and_respects_off():
         b.schedule_cleanup(1, 10, 20)
         b.db.set_auto_delete_seconds(2, 0)
         b.schedule_cleanup(2, 10, 21)
-        assert len(b._cleanup_tasks) == 1
+        assert len(b._background) == 1
         await asyncio.sleep(1.1)
         return b
 
     b = asyncio.run(run())
-    assert b.deleted == [True] and not b._cleanup_tasks
+    assert b.deleted == [True] and not b._background
 
 
-def _interaction(ephemeral):
-    msg = SimpleNamespace(id=5, channel=SimpleNamespace(id=6), flags=SimpleNamespace(ephemeral=ephemeral))
+def _interaction(ephemeral, channel_id=6):
+    msg = SimpleNamespace(id=5, channel=SimpleNamespace(id=channel_id), flags=SimpleNamespace(ephemeral=ephemeral))
     return SimpleNamespace(
         guild_id=1,
+        channel_id=channel_id,
         response=SimpleNamespace(is_done=lambda: True),
         original_response=AsyncMock(return_value=msg),
     )
@@ -61,6 +63,13 @@ def test_listener_skips_ephemeral_and_manual_commands():
     asyncio.run(cog.on_app_command_completion(_interaction(True), normal))
     asyncio.run(cog.on_app_command_completion(_interaction(False), manual))
     assert calls == [(1, 6, 5)]
+
+
+def test_listener_remembers_last_channel_for_announcements():
+    b = make_bot()
+    cog = Cleanup(b)
+    asyncio.run(cog.on_app_command_completion(_interaction(True, channel_id=77), SimpleNamespace(extras={})))
+    assert b.db.config(1)[bot_module.LAST_CHANNEL_KEY] == "77"
 
 
 def test_fmt_delay():
