@@ -6,8 +6,8 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from kelpbot import achievements, config
-from kelpbot.shop import ENERGY_DRINK, ITEMS, Kind, TradeResult, buy, sell
+from kelpbot import achievements, perks
+from kelpbot.shop import ENERGY_DRINK, ITEMS, PETS, Kind, TradeResult, buy, sell
 
 ITEM_CHOICES = [app_commands.Choice(name=f"{i.name} ({i.price:,})", value=i.key) for i in ITEMS.values()]
 USABLE_CHOICES = [app_commands.Choice(name=i.name, value=i.key) for i in ITEMS.values() if i.kind is Kind.USABLE]
@@ -64,7 +64,10 @@ class Shop(commands.Cog):
                 f"🛍️ You bought **{quantity}x {it.label}** for {cfg.money(it.price * quantity)}.\n"
                 f"Wallet: {cfg.money(self.db.balance(gid, uid))}"
             )
-            await self.bot.award(interaction, achievements.bump(self.db, gid, uid, "items_bought", quantity))
+            rewards = achievements.bump(self.db, gid, uid, "items_bought", quantity)
+            if it.kind is Kind.PET and len(perks.pets(self.db, gid, uid)) == len(PETS):
+                rewards += achievements.unlock(self.db, gid, uid, "zookeeper")
+            await self.bot.award(interaction, rewards)
 
     @app_commands.command(description="Sell an item back to the shop for half what it cost.")
     @app_commands.choices(item=ITEM_CHOICES)
@@ -87,7 +90,8 @@ class Shop(commands.Cog):
     async def use_item(self, interaction: discord.Interaction, item: str) -> None:
         gid, uid = interaction.guild_id, interaction.user.id
         it = ITEMS[item]
-        if item == ENERGY_DRINK.key and not self.db.cooldown_remaining(gid, uid, "work", config.WORK_COOLDOWN):
+        if item == ENERGY_DRINK.key and not self.db.cooldown_remaining(gid, uid, "work",
+                                                                       perks.work_cooldown(self.db, gid, uid)):
             await interaction.response.send_message("You can already `/work`. Save it for later!", ephemeral=True)
             return
         if not self.db.remove_item(gid, uid, item):

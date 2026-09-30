@@ -1,7 +1,9 @@
 """Fake Discord objects and a bot fixture shared by the command and tracker tests."""
 
 import asyncio
+import datetime as dt
 import itertools
+import sys
 from types import SimpleNamespace
 
 import pytest
@@ -24,9 +26,14 @@ class FakeMessage:
         self.edits.append(kw)
 
 
+LONG_AGO = dt.datetime(2020, 1, 1, tzinfo=dt.timezone.utc)
+
+
 class FakeMember:
-    def __init__(self, uid, name="player"):
+    def __init__(self, uid, name="player", created_at=LONG_AGO, joined_at=LONG_AGO):
         self.id = uid
+        self.created_at = created_at
+        self.joined_at = joined_at
         self.display_name = name
         self.mention = f"<@{uid}>"
         self.bot = False
@@ -61,8 +68,8 @@ class FakeFollowup:
     def __init__(self, it):
         self.it = it
 
-    async def send(self, content=None, *, embed=None, wait=False, **kw):
-        self.it.followups.append(SimpleNamespace(content=content, embed=embed))
+    async def send(self, content=None, *, embed=None, wait=False, file=None, **kw):
+        self.it.followups.append(SimpleNamespace(content=content, embed=embed, file=file))
         return FakeMessage()
 
 
@@ -71,6 +78,7 @@ class FakeInteraction:
         self.user = user
         self.guild_id = guild_id
         self.channel_id = 50
+        self.permissions = SimpleNamespace(manage_guild=True)
         self.guild = SimpleNamespace(me=SimpleNamespace(guild_permissions=SimpleNamespace(manage_roles=True)))
         self.response = FakeResponse(self)
         self.followup = FakeFollowup(self)
@@ -141,3 +149,8 @@ FIRST_WIN = 250  # "Beginner's Luck" achievement reward, paid on a player's firs
 
 async def noop(*_args, **_kwargs):
     return None
+
+
+def loaded(module_name):
+    """The copy of a cog module the bot actually loaded (load_extension makes its own copy)."""
+    return sys.modules[module_name]

@@ -8,7 +8,7 @@ import time
 import discord
 from discord.ext import commands, tasks
 
-from kelpbot import achievements, config, lottery, weekly
+from kelpbot import achievements, backup, config, lottery, quests, server_events, stocks, weekly
 
 log = logging.getLogger("kelpbot.scheduler")
 MEDALS = ["🥇", "🥈", "🥉"]
@@ -29,7 +29,24 @@ class Scheduler(commands.Cog):
                 await self.draw_lottery(rnd.guild_id)
             except Exception:
                 log.exception("Lottery draw failed for guild %s", rnd.guild_id)
-        self.bot.db.prune_history(time.time() - config.HISTORY_DAYS * 24 * 60 * 60)
+        now = time.time()
+        self.bot.db.prune_history(now - config.HISTORY_DAYS * 24 * 60 * 60)
+        self.bot.db.prune_quest_counters(quests.day_key(now - 2 * 24 * 60 * 60))
+        try:
+            if path := backup.daily_backup(self.bot.db, config.DATABASE_PATH, now):
+                log.info("Saved daily backup to %s", path)
+        except OSError:
+            log.exception("Daily backup failed")
+        for guild_id in self.bot.db.stock_guilds():
+            try:
+                self.record_stock_moves(guild_id, stocks.update_due(self.bot.db, guild_id, now))
+            except Exception:
+                log.exception("Stock update failed for guild %s", guild_id)
+        for guild_id, ev in server_events.expired(self.bot.db, now):
+            server_events.stop(self.bot.db, guild_id)
+            await self.bot.announce(guild_id, discord.Embed(title=f"{ev.emoji} {ev.name} is over",
+                                                            description="Thanks for playing!",
+                                                            color=discord.Color.light_grey()))
         key = weekly.week_key()
         for guild_id in self.bot.db.guild_ids():
             try:
@@ -42,6 +59,13 @@ class Scheduler(commands.Cog):
     @tick.before_loop
     async def _wait_ready(self) -> None:
         await self.bot.wait_until_ready()
+
+    def record_stock_moves(self, guild_id: int, moves: list[tuple[str, float, float]]) -> None:
+        for symbol, old, new in moves:
+            change = (new - old) / old * 100
+            if abs(change) >= config.STOCK_BIG_MOVE_PERCENT:
+                self.bot.db.add_event(guild_id, "stock", amount=round(change * 100), amount2=round(new * 100),
+                                      detail=symbol)
 
     async def draw_lottery(self, guild_id: int) -> None:
         result = lottery.draw(self.bot.db, guild_id)

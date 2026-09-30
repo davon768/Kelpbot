@@ -10,22 +10,10 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from kelpbot import achievements, bank, config
+from kelpbot import achievements, bank, config, jobs, perks, quests, server_events, stocks
 from kelpbot.achievements import ACHIEVEMENTS, COUNTER_GOALS
 from kelpbot.robbery import RobResult, attempt_rob
-from kelpbot.shop import LAPTOP, LAPTOP_WORK_MULTIPLIER
-
-JOBS = [
-    ("fished for kelp", "🌿"),
-    ("delivered pizzas", "🍕"),
-    ("walked some dogs", "🐕"),
-    ("fixed a leaky faucet", "🔧"),
-    ("streamed for 3 viewers", "🎮"),
-    ("sold lemonade", "🍋"),
-    ("tutored a kid in math", "📐"),
-    ("washed cars", "🚗"),
-    ("cleaned up the beach", "🏖️"),
-]
+from kelpbot.trust import trust_problem
 ROB_SUCCESS = [
     "You picked {victim}'s pocket",
     "You distracted {victim} with a very convincing card trick",
@@ -63,7 +51,7 @@ class Economy(commands.Cog):
     def db(self):
         return self.bot.db
 
-    async def _check_cooldown(self, interaction: discord.Interaction, action: str, cooldown: int) -> bool:
+    async def _check_cooldown(self, interaction: discord.Interaction, action: str, cooldown: float) -> bool:
         remaining = self.db.cooldown_remaining(interaction.guild_id, interaction.user.id, action, cooldown)
         if remaining:
             await interaction.response.send_message(
@@ -82,6 +70,9 @@ class Economy(commands.Cog):
         embed.add_field(name="👛 Wallet", value=cfg.money(acct.balance))
         embed.add_field(name="🏦 Bank", value=cfg.money(acct.bank))
         embed.add_field(name="💰 Net worth", value=cfg.money(acct.net_worth))
+        portfolio = stocks.portfolio_value(self.db, interaction.guild_id, target.id)
+        if portfolio:
+            embed.add_field(name="📈 Stocks", value=cfg.money(portfolio))
         embed.add_field(name="🔥 Daily streak", value=str(acct.daily_streak))
         embed.set_thumbnail(url=target.display_avatar.url)
         await interaction.response.send_message(embed=embed)
@@ -99,6 +90,9 @@ class Economy(commands.Cog):
         kept = last is not None and self.db.cooldown_remaining(gid, uid, "daily", config.DAILY_STREAK_WINDOW) > 0
         streak = min(acct.daily_streak + 1, config.DAILY_STREAK_MAX) if kept else 1
         reward = cfg.daily_base + cfg.daily_streak_bonus * (streak - 1)
+        reward = int(reward * perks.daily_multiplier(self.db, gid, uid))
+        if server_events.is_active(self.db, gid, "double_pay"):
+            reward *= 2
 
         self.db.mark_used(gid, uid, "daily")
         self.db.set_streak(gid, uid, streak)
@@ -111,23 +105,43 @@ class Economy(commands.Cog):
         if streak >= config.DAILY_STREAK_MAX:
             await self.bot.award(interaction, achievements.unlock(self.db, gid, uid, "dedicated"))
 
-    @app_commands.command(description="Work an honest shift for some cash.")
+    @app_commands.command(description="Work a shift. Earn XP to level up into better-paying jobs.")
     async def work(self, interaction: discord.Interaction) -> None:
         gid, uid = interaction.guild_id, interaction.user.id
         cfg = self.bot.cfg(gid)
-        if not await self._check_cooldown(interaction, "work", config.WORK_COOLDOWN):
+        if not await self._check_cooldown(interaction, "work", perks.work_cooldown(self.db, gid, uid)):
             return
-        pay = random.randint(*cfg.work_range)
-        has_laptop = self.db.item_count(gid, uid, LAPTOP.key) > 0
-        if has_laptop:
-            pay = int(pay * LAPTOP_WORK_MULTIPLIER)
-        job, emoji = random.choice(JOBS)
+        old_level = jobs.level_for(self.db.account(gid, uid).work_xp)
+        job = jobs.job_for(old_level)
+        pay = random.randint(*cfg.work_range) * job.multiplier * perks.work_multiplier(self.db, gid, uid)
+        xp = random.randint(*config.WORK_XP)
+        notes = []
+        if server_events.is_active(self.db, gid, "double_pay"):
+            pay *= 2
+            notes.append("💼 double pay")
+        if server_events.is_active(self.db, gid, "xp_boost"):
+            xp *= 2
+            notes.append("⭐ double XP")
+        pay = int(pay)
         self.db.mark_used(gid, uid, "work")
         new_balance = self.db.credit(gid, uid, pay)
-        bonus = f" ({LAPTOP.emoji} laptop bonus)" if has_laptop else ""
-        await interaction.response.send_message(
-            f"{emoji} You {job} and earned **{cfg.money(pay)}**{bonus}.\nWallet: {cfg.money(new_balance)}"
-        )
+        new_xp = self.db.add_work_xp(gid, uid, xp)
+        level = jobs.level_for(new_xp)
+
+        extra = f" ({', '.join(notes)})" if notes else ""
+        lines = [f"{job.emoji} You {random.choice(job.shifts)} and earned **{cfg.money(pay)}** and {xp} XP{extra}.",
+                 f"Wallet: {cfg.money(new_balance)}"]
+        rewards = quests.progress(self.db, gid, uid, "work")
+        if level > old_level:
+            new_job = jobs.job_for(level)
+            lines.append(f"⬆️ **Level {level}!**")
+            if new_job != job:
+                lines[-1] += f" You've been promoted to **{new_job.emoji} {new_job.name}** ({new_job.multiplier}x pay)."
+                self.db.add_event(gid, "promotion", uid, level, detail=new_job.name)
+                if new_job == jobs.TOP_JOB:
+                    rewards += achievements.unlock(self.db, gid, uid, "tycoon")
+        await interaction.response.send_message("\n".join(lines))
+        await self.bot.award(interaction, rewards)
 
     @app_commands.command(description="Try to steal from another player's wallet. Get caught and you pay them a fine.")
     async def rob(self, interaction: discord.Interaction, user: discord.Member) -> None:
@@ -138,6 +152,11 @@ class Economy(commands.Cog):
             return
         if user.bot or user.id == uid:
             await interaction.response.send_message("You can't rob that user.", ephemeral=True)
+            return
+        if problem := trust_problem(user, cfg):
+            await interaction.response.send_message(
+                f"🚫 {user.display_name} is too new to rob ({problem}).", ephemeral=True
+            )
             return
         if not await self._check_cooldown(interaction, "rob", config.ROB_COOLDOWN):
             return
@@ -164,6 +183,7 @@ class Economy(commands.Cog):
             line = random.choice(ROB_SUCCESS).format(victim=user.mention)
             text = f"🦹 {line} and got away with **{cfg.money(outcome.amount)}**!"
             unlocked = achievements.bump(self.db, gid, uid, "rob_success")
+            unlocked += quests.progress(self.db, gid, uid, "rob")
             self.db.add_event(gid, "rob", uid, outcome.amount, other_id=user.id)
             self.bot.log_event(gid, f"🦹 <@{uid}> robbed <@{user.id}> of {cfg.money(outcome.amount)}.")
         else:
@@ -207,6 +227,12 @@ class Economy(commands.Cog):
         if user.bot or user.id == interaction.user.id:
             await interaction.response.send_message("You can't give money to that user.", ephemeral=True)
             return
+        if problem := trust_problem(interaction.user, cfg):
+            await interaction.response.send_message(
+                f"🚫 You can't send money yet ({problem}).",
+                ephemeral=True,
+            )
+            return
         if not self.db.transfer(interaction.guild_id, interaction.user.id, user.id, amount):
             await interaction.response.send_message("You don't have that much in your wallet.", ephemeral=True)
             return
@@ -232,7 +258,8 @@ class Economy(commands.Cog):
             f"🏦 Deposited **{cfg.money(value)}**. Bank: {cfg.money(acct.bank)} • Wallet: {cfg.money(acct.balance)}\n"
             f"-# Earns {cfg.bank_interest_percent}% interest per day."
         )
-        await self.bot.award(interaction, achievements.check_wealth(self.db, gid, uid))
+        rewards = achievements.check_wealth(self.db, gid, uid) + quests.progress(self.db, gid, uid, "deposit", value)
+        await self.bot.award(interaction, rewards)
 
     @app_commands.command(description="Take money out of the bank.")
     @app_commands.describe(amount="A number, 'half' or 'all'")

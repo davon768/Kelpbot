@@ -65,3 +65,33 @@ BEG_PAY = (20, 80)
 AUTO_DELETE_DEFAULT_SECONDS = 120
 AUTO_DELETE_MAX_SECONDS = 24 * 60 * 60
 
+
+# Jobs: /work earns XP; levels unlock better-paying jobs (see kelpbot/jobs.py).
+WORK_XP = (15, 25)
+
+# Daily quests (see kelpbot/quests.py)
+QUESTS_PER_DAY = 3
+QUEST_ALL_DONE_BONUS = 1_000
+
+# Heists (see kelpbot/games/heist.py)
+HEIST_LOBBY_SECONDS = 60
+HEIST_MAX_CREW = 10
+
+# Horse races (see kelpbot/games/horses.py)
+RACE_BETTING_SECONDS = 45
+
+# Stock market (see kelpbot/stocks.py)
+STOCK_UPDATE_SECONDS = 60 * 60
+STOCK_FEE_PERCENT = 1  # charged on every buy and sell
+STOCK_BIG_MOVE_PERCENT = 10  # hourly moves this big go into the tracker's history
+
+# Server events an admin can start with /event (see kelpbot/server_events.py)
+EVENT_MAX_MINUTES = 24 * 60
+LUCKY_HOUR_BONUS_PERCENT = 10
+
+# Daily database backups, kept next to the database file.
+BACKUP_KEEP_DAYS = 7
+
+# Alt-account protection defaults (server admins can change them with /settings).
+MIN_ACCOUNT_AGE_DAYS = 7
+MIN_SERVER_DAYS = 1

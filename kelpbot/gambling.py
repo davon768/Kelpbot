@@ -4,12 +4,23 @@ from __future__ import annotations
 
 import discord
 
-from kelpbot import achievements, config
-from kelpbot.achievements import Achievement
+from kelpbot import achievements, config, quests, server_events
+from kelpbot.rewards import Reward
 
 
-async def take_bet(bot, interaction: discord.Interaction, bet: int) -> bool:
-    """Check the server's bet limits and take the stake from the player's wallet."""
+async def game_allowed(bot, interaction: discord.Interaction, game: str) -> bool:
+    """False (after telling the player) if an admin switched this game off."""
+    if game in bot.cfg(interaction.guild_id).disabled_games:
+        await interaction.response.send_message(f"🚫 {game.capitalize()} is turned off in this server.",
+                                                ephemeral=True)
+        return False
+    return True
+
+
+async def take_bet(bot, interaction: discord.Interaction, bet: int, game: str) -> bool:
+    """Check the game is on and the bet is within limits, then take the stake from the wallet."""
+    if not await game_allowed(bot, interaction, game):
+        return False
     cfg = bot.cfg(interaction.guild_id)
     error = None
     if bet < cfg.min_bet:
@@ -25,21 +36,31 @@ async def take_bet(bot, interaction: discord.Interaction, bet: int) -> bool:
     return True
 
 
-def settle(bot, guild_id: int, user_id: int, bet: int, returned: int, game: str) -> tuple[int, list[Achievement]]:
-    """Pay out a finished game, record stats and check achievements. Returns (new balance, unlocked)."""
+def settle(bot, guild_id: int, user_id: int, bet: int, returned: int, game: str) -> tuple[int, list]:
+    """Pay out a finished game, record stats, and check achievements, quests and events.
+
+    Returns (new balance, rewards earned), where rewards are shown with bot.award().
+    """
     db = bot.db
     if returned:
         db.credit(guild_id, user_id, returned)
+    rewards: list = []
+    if returned > bet and server_events.is_active(db, guild_id, "lucky_hour"):
+        bonus = returned * config.LUCKY_HOUR_BONUS_PERCENT // 100
+        db.credit(guild_id, user_id, bonus)
+        rewards.append(Reward("🍀 Lucky Hour", "🍀", "Bonus", f"+{config.LUCKY_HOUR_BONUS_PERCENT}% on your winnings",
+                              bonus))
     db.record_game(guild_id, user_id, bet, returned)
     db.log_game(guild_id, user_id, game, bet, returned)
-    unlocked = achievements.after_game(db, guild_id, user_id, bet, returned)
+    rewards += achievements.after_game(db, guild_id, user_id, bet, returned)
+    rewards += quests.on_game(db, guild_id, user_id, game, bet, returned)
     profit = returned - bet
     if is_highlight(bet, returned):
         db.add_event(guild_id, "big_win", user_id, profit, amount2=bet, detail=game)
     if profit >= config.BIG_WIN_LOG_THRESHOLD:
         cfg = bot.cfg(guild_id)
         bot.log_event(guild_id, f"🎉 <@{user_id}> won **{cfg.money(profit)}** on {game} (bet {cfg.money(bet)}).")
-    return db.balance(guild_id, user_id), unlocked
+    return db.balance(guild_id, user_id), rewards
 
 
 def is_highlight(bet: int, returned: int) -> bool:
@@ -72,6 +93,14 @@ class PlayerView(discord.ui.View):
         self.cfg = bot.cfg(interaction.guild_id)
         self.message: discord.InteractionMessage | None = None
         self.settled = False
+        self.bet_id: int | None = None
+
+    def track_bet(self, amount: int) -> None:
+        """Remember the stake so it's refunded if the bot restarts before the game ends."""
+        if self.bet_id is None:
+            self.bet_id = self.bot.db.open_bet(self.guild_id, self.player.id, self.game_name, amount)
+        else:
+            self.bot.db.update_open_bet(self.bet_id, amount)
 
     @property
     def key(self) -> tuple[int, int, str]:
@@ -87,11 +116,12 @@ class PlayerView(discord.ui.View):
         for child in self.children:
             child.disabled = True
 
-    def finalize(self, bet: int, returned: int) -> list[Achievement] | None:
-        """Settle exactly once. Returns unlocked achievements, or None if already settled."""
+    def finalize(self, bet: int, returned: int) -> list | None:
+        """Settle exactly once. Returns rewards earned, or None if already settled."""
         if self.settled:
             return None
         self.settled = True
+        self.bot.db.close_bet(self.bet_id)
         self.balance, unlocked = settle(self.bot, self.guild_id, self.player.id, bet, returned, self.game_name)
         self.bot.active_games.discard(self.key)
         self.disable_all()

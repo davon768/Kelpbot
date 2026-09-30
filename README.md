@@ -1,9 +1,10 @@
 # Kelpbot 🎰
 
-A Discord casino bot with **fake money**. Players earn coins through daily rewards, work,
-robbing each other and begging, save them in the bank, gamble them on a dozen games, and
-spend them in the shop. Every server has its own separate economy, and admins can tune it
-with `/settings`. Everything is stored in a local SQLite file.
+A Discord casino bot with **fake money**. Players earn coins through daily rewards, jobs,
+daily quests, robbing each other and begging. They save coins in the bank, trade stocks,
+gamble on over a dozen games (some played together), and spend them on items, pets and roles.
+Every server has its own separate economy, and admins can tune it with `/settings`.
+Everything is stored in a local SQLite file. New here? `/help` lists every command.
 
 The numbers below are the defaults. Server admins can change the ones marked ⚙️ with `/settings`.
 
@@ -13,7 +14,9 @@ The numbers below are the defaults. Server admins can change the ones marked ⚙
 | Command | What it does |
 | --- | --- |
 | `/daily` | ⚙️ 500 coins, +100 per consecutive day (streak caps at 7 days). Claimable every 20h; the streak resets if you skip more than 48h. |
-| `/work` | ⚙️ Earn 100–300 coins. Once per hour. |
+| `/work` | ⚙️ Earn 100–300 coins times your job's multiplier, plus XP. Once per hour. |
+| `/job` | Your job and level. XP from `/work` unlocks better jobs: Kelp Farmer (1x) → Fisher (level 3, 1.2x) → Lifeguard (5, 1.4x) → Marine Biologist (8, 1.7x) → Ship Captain (12, 2x) → Casino Manager (18, 2.5x) → Kelp Tycoon (25, 3x). |
+| `/quests` | Three random daily quests (like "play 3 hands of blackjack" or "deposit 1,000"). Each pays 300–800 when done, plus 1,000 for finishing all three. New quests every day at 00:00 UTC. |
 | `/rob @user` | ⚙️ 50% chance to steal 10–30% of another player's **wallet**. If you get caught, you pay *them* a 150–400 fine. Once every 2 hours. You need at least 200 to try, the target needs at least 200, and someone who was just robbed is safe for an hour. Admins can turn robbing off. |
 | `/beg` | 20–80 coins, only if your wallet + bank is 100 or less. Every 5 minutes. |
 | `/give @user amount` | Send coins to another player. |
@@ -33,10 +36,13 @@ Bets must be between the server's ⚙️ minimum (10) and maximum (50,000) bet.
 | `/mines bet [mines]` | 20 tiles with 1–15 hidden mines. Each gem raises your multiplier; a mine loses everything. |
 | `/highlow bet` | Guess whether the next card is higher or lower (ties lose). Each right guess grows your multiplier. |
 | `/duel @user bet` | Challenge another player. You both put up the bet and the winner takes both. |
+| `/heist bet` | Start a heist; others join with the same buy-in for 60s (up to 10). A crew of 2 has a 50% chance and each gets 1.9x back; bigger crews are safer (up to 80%) but split the loot more ways. |
+| `/race horse bet` | The first bet opens a 45s betting window for everyone, then the race plays out live. Five horses from 35% (2.7x) to 8% (11.8x). |
 | `/lottery buy [tickets]` / `/lottery info` | ⚙️ 100 per ticket, up to 100 tickets each. The draw happens 24h after the first ticket of a round; the winner gets 90% of the pot. |
 | `/paytable` | Shows all payouts |
 
 In crash, mines and higher or lower, walking away cashes you out with whatever you've won so far.
+If the bot restarts in the middle of any game, heist, race or pending duel, the bet is refunded when it comes back.
 
 ### Shop
 | Command | What it does |
@@ -53,16 +59,33 @@ In crash, mines and higher or lower, walking away cashes you out with whatever y
 | 🪓 Crowbar | 600 | +25% success chance on your next `/rob` (hold up to 5) |
 | 🥤 Energy Drink | 250 | `/use` it to reset your `/work` cooldown |
 | 💻 Laptop | 7,500 | Permanently +50% `/work` pay |
+| 🐱 Cat | 5,000 | Pet: +10% `/work` pay |
+| 🦜 Parrot | 6,000 | Pet: +10% `/daily` |
+| 🐶 Guard Dog | 8,000 | Pet: robberies against you are 15% less likely to succeed |
+| 🐢 Turtle | 12,000 | Pet: +1% daily bank interest |
+| 🐙 Octopus | 20,000 | Pet: `/work` cooldown 15 minutes shorter |
+| 🐉 Dragon | 250,000 | Pet: no perk, pure glory |
 | 🏆 Golden Trophy, 🏎️ Sports Car, 🛥️ Kelp Yacht | 25k / 100k / 500k | Collectibles for showing off |
 
 Items are defined in [`kelpbot/shop.py`](kelpbot/shop.py). Add a new `Item(...)` there to put it in the shop.
 
+### Stock market
+| Command | What it does |
+| --- | --- |
+| `/stocks market` | Prices, 24h change and a price chart for KELP, SHEL, PRL and CRAB (CRAB is the wild one) |
+| `/stocks buy stock shares` / `/stocks sell stock shares` | Trade shares from your wallet. Each trade has a 1% fee. |
+| `/stocks portfolio [@user]` | Your shares, their value and your profit or loss |
+
+Prices move every hour and drift back toward their starting price over time. Hourly moves of 10% or more show up in the tracker.
+
 ### Progress and bragging rights
 | Command | What it does |
 | --- | --- |
+| `/help` | Every command, grouped by category |
+| `/profile [@user]` | Profile card: net worth and rank, wallet, bank, stocks, job and level, win rate and favourite game (last 30 days), streak, pets and achievement badges |
 | `/balance [@user]` | Wallet, bank and net worth |
 | `/leaderboard [wealth\|weekly]` | Richest players, or this week's biggest gambling profits. Every Monday at 00:00 UTC the weekly top 3 win 5,000 / 2,500 / 1,000 and the board resets. |
-| `/achievements [@user]` | 15 achievements, like hitting the jackpot, clearing a mines board or pulling off 10 robberies. Most pay a one-time reward. |
+| `/achievements [@user]` | 20 achievements, like hitting the jackpot, clearing a mines board, pulling off a heist or owning every pet. Most pay a one-time reward. |
 | `/halloffame` | Top 3 of every past season |
 | `/stats [@user]` | Games played, wagered, profit, biggest win |
 
@@ -70,17 +93,24 @@ Items are defined in [`kelpbot/shop.py`](kelpbot/shop.py). Add a new `Item(...)`
 | Command | What it does |
 | --- | --- |
 | `/settings view` | Show this server's economy settings |
-| `/settings set setting value` | Change currency name/emoji, starting balance, daily and work pay, min/max bet, robbing on/off, bank interest, lottery ticket price or auto-delete delay |
+| `/settings set setting value` | Change currency name/emoji, starting balance, daily and work pay, min/max bet, robbing on/off, bank interest, lottery ticket price, auto-delete delay, or the alt-account limits below |
+| `/settings game game on/off` | Turn any game off (or back on) in this server: slots, blackjack, coinflip, roulette, dice, crash, mines, higher or lower, duel, heist, horse race, lottery or stocks |
 | `/settings reset setting` | Put a setting back to its default |
 | `/settings channel log\|announce\|tracker [#channel]` | **Log channel:** a private feed of big wins, robberies, large transfers and admin actions. **Announce channel:** where lottery draws, weekly winners and season results go. If no announce channel is set, they go wherever the bot was last used. **Tracker channel:** a live tracker message (see below). |
+| `/event start event [minutes]` / `/event stop` | Run a timed event (5 minutes to 24 hours): 💼 **Double Pay** (`/work` and `/daily` pay double), 🍀 **Lucky Hour** (every win pays 10% extra) or ⭐ **XP Boost** (double job XP). It's announced when it starts and ends, and shown on the tracker. |
 | `/shoprole add role price` / `/shoprole remove role` | Sell roles in the shop. Roles with moderator permissions are refused, and the bot's own role must be above the role it sells. |
 | `/addmoney @user amount` | Add money, or remove it with a negative amount |
 | `/reseteconomy [@user]` | Wipe everyone's (or one player's) money, items and progress. Settings, shop roles and achievements are kept. Asks for confirmation. |
 | `/endseason` | Save the top 3 to `/halloffame`, give first place the Season Champion achievement, and reset the economy for a fresh season. Asks for confirmation. |
 | `/autoclean [seconds]` | Shortcut for the auto-delete delay |
 | `/cleanup [scan]` | Delete the bot's messages from the last `scan` messages in this channel (default 100). Handy after a restart, since pending auto-deletes don't survive one. |
+| `/backup` | **Bot owner only:** download a copy of the whole database. Other admins are refused, because the file holds every server's data. |
 
-`/settings`, `/addmoney`, `/reseteconomy`, `/endseason` and `/autoclean` need **Manage Server**. `/shoprole` needs **Manage Roles** and `/cleanup` needs **Manage Messages**. You can change who sees them under Server Settings → Integrations → Kelpbot.
+**Alt-account protection:** by default, Discord accounts younger than ⚙️ 7 days, or members who joined
+less than ⚙️ 1 day ago, can't use `/give` and can't be robbed. That stops someone farming `/daily` and `/work`
+on throwaway accounts and funnelling the money to their main. Set either limit to 0 to turn it off.
+
+`/settings`, `/event`, `/addmoney`, `/reseteconomy`, `/endseason` and `/autoclean` need **Manage Server**. `/shoprole` needs **Manage Roles** and `/cleanup` needs **Manage Messages**. You can change who sees them under Server Settings → Integrations → Kelpbot.
 
 ## Live tracker
 
@@ -89,7 +119,8 @@ Items are defined in [`kelpbot/shop.py`](kelpbot/shop.py). Add a new `Item(...)`
 - **Overview:** players, money in circulation, the lottery jackpot and draw time, the season, and when weekly prizes pay out
 - **Leaderboards:** top 5 richest and top 5 this week
 - **Today's highlights** (UTC day): games played, total wagered, whether the house is up or down, biggest win, luckiest multiplier, biggest loss, top earner, most active player, robberies, and yesterday's top earner
-- **Recent history:** the last 8 big wins (2,500+ profit, or 10x+ with 500+ profit), robberies, duels, lottery wins, achievements, weekly winners, seasons and role purchases; a 7-day activity chart; and last season's champion
+- **Recent history:** the last 8 big wins (2,500+ profit, or 10x+ with 500+ profit), robberies, duels, heists, job promotions, big stock moves, lottery wins, achievements, weekly winners, seasons and role purchases; a 7-day activity chart; and last season's champion
+- Any running server event is shown at the top
 
 It's edited in place at most once a minute, and only when something changed. If it gets buried under
 10+ messages, it moves back to the bottom once the channel has been quiet for 2 minutes. If someone
@@ -138,6 +169,12 @@ The repo includes `railway.json` (start command and auto-restart) and `.python-v
 
 Pushing to the deployed branch redeploys automatically. Balances survive because they live on the volume.
 
+## Backups
+
+Once a day, the bot copies its database to a `backups/` folder next to the database file (on Railway, that's `/data/backups`) and keeps the last 7 days.
+Those copies live on the same volume, so to keep a copy somewhere else, the bot's owner can run `/backup` to download one.
+To restore, stop the bot, replace `kelpbot.db` with a backup file, and start it again.
+
 ## Tweaking the economy
 
 Server admins change most numbers with `/settings`. The defaults for those, plus everything
@@ -159,6 +196,13 @@ kelpbot/bank.py            deposits, withdrawals and interest
 kelpbot/achievements.py    achievement list and unlock rules
 kelpbot/lottery.py         ticket sales and draws
 kelpbot/weekly.py          weekly prizes and seasons
+kelpbot/jobs.py            jobs and levels
+kelpbot/quests.py          daily quests
+kelpbot/perks.py           item and pet bonuses
+kelpbot/stocks.py          stock prices and trading
+kelpbot/server_events.py   timed events (double pay, lucky hour, XP boost)
+kelpbot/trust.py           alt-account protection
+kelpbot/backup.py          daily database backups
 kelpbot/tracker.py         builds the tracker's leaderboards, highlights and history
 kelpbot/robbery.py         /rob rules
 kelpbot/shop.py            shop items
@@ -168,11 +212,17 @@ kelpbot/cogs/              the slash commands:
   casino.py                slots, blackjack, coinflip, roulette, dice
   arcade.py                crash, mines, higher or lower
   duels.py                 player-vs-player duels
+  heist.py                 group heists
+  race.py                  horse races
+  stocks.py                /stocks commands
+  profile.py               /profile, /job, /quests
+  help.py                  /help
   lottery.py               lottery commands
-  scheduler.py             lottery draws, weekly payouts, history trimming (runs every minute)
+  scheduler.py             lottery draws, weekly payouts, stock prices, event endings,
+                           backups and history trimming (runs every minute)
   tracker.py               the live tracker message
   shop.py                  items and roles
-  admin.py                 settings, resets, seasons, shop roles
+  admin.py                 settings, events, resets, seasons, shop roles, backups
   cleanup.py               auto-delete and /cleanup
 tests/                     run with `pip install pytest && pytest`
 ```

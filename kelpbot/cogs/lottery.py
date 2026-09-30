@@ -6,8 +6,9 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from kelpbot import config
+from kelpbot import config, quests
 from kelpbot import lottery as lottery_logic
+from kelpbot.gambling import game_allowed
 
 
 @app_commands.guild_only()
@@ -21,6 +22,8 @@ class Lottery(commands.GroupCog, group_name="lottery"):
     async def buy(self, interaction: discord.Interaction,
                   tickets: app_commands.Range[int, 1, config.LOTTERY_MAX_TICKETS] = 1) -> None:
         gid, uid = interaction.guild_id, interaction.user.id
+        if not await game_allowed(self.bot, interaction, "lottery"):
+            return
         cfg = self.bot.cfg(gid)
         result = lottery_logic.buy(self.bot.db, gid, uid, tickets, cfg.lottery_ticket_price, interaction.channel_id)
         if result is lottery_logic.BuyResult.TOO_MANY:
@@ -39,6 +42,7 @@ class Lottery(commands.GroupCog, group_name="lottery"):
             f"🎟️ You bought **{tickets}** ticket(s) for {cfg.money(tickets * cfg.lottery_ticket_price)}. "
             f"You now hold **{mine}**.\nJackpot: **{cfg.money(self._prize(rnd.pot))}** • Draw <t:{int(rnd.draw_at)}:R>"
         )
+        await self.bot.award(interaction, quests.progress(self.bot.db, gid, uid, "lottery", tickets))
 
     @app_commands.command(description="See the jackpot, draw time and your odds.")
     async def info(self, interaction: discord.Interaction) -> None:

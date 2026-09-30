@@ -36,7 +36,16 @@ SETTINGS: dict[str, Setting] = {s.key: s for s in (
             "Cost of one lottery ticket", min=1),
     Setting("auto_delete_seconds", "Auto-delete delay", int, config.AUTO_DELETE_DEFAULT_SECONDS,
             "Seconds before bot replies delete themselves (0 = off)", max=config.AUTO_DELETE_MAX_SECONDS),
+    Setting("min_account_age_days", "Min account age (days)", int, config.MIN_ACCOUNT_AGE_DAYS,
+            "Younger Discord accounts can't /give or be robbed (0 = off)", max=365),
+    Setting("min_server_days", "Min days in server", int, config.MIN_SERVER_DAYS,
+            "Newer members can't /give or be robbed (0 = off)", max=365),
 )}
+
+# Games admins can switch off with /settings game.
+GAMES = ("slots", "blackjack", "coinflip", "roulette", "dice", "crash", "mines", "higher or lower",
+         "duel", "heist", "horse race", "lottery", "stocks")
+DISABLED_GAMES_KEY = "disabled_games"
 
 # Stored in the same table but set through /settings channel, not /settings set.
 CHANNEL_SETTINGS = {
@@ -67,6 +76,9 @@ class GuildConfig:
     log_channel_id: int
     announce_channel_id: int
     tracker_channel_id: int
+    min_account_age_days: int
+    min_server_days: int
+    disabled_games: frozenset[str]
 
     def money(self, amount: int) -> str:
         return f"{self.currency_emoji} {amount:,}"
@@ -92,7 +104,9 @@ def load(db: Database, guild_id: int) -> GuildConfig:
     raw = db.config(guild_id)
     values: dict[str, object] = {}
     for f in fields(GuildConfig):
-        if f.name in SETTINGS:
+        if f.name == DISABLED_GAMES_KEY:
+            values[f.name] = frozenset(g for g in raw.get(f.name, "").split(",") if g)
+        elif f.name in SETTINGS:
             s = SETTINGS[f.name]
             values[f.name] = _decode(s, raw[f.name]) if f.name in raw else s.default
         else:  # channel ids
@@ -140,3 +154,9 @@ def display(setting: Setting, value: object) -> str:
             return "off"
         return f"{value:,}"
     return str(value)
+
+
+def set_game_enabled(db: Database, guild_id: int, game: str, enabled: bool) -> None:
+    disabled = set(load(db, guild_id).disabled_games)
+    (disabled.discard if enabled else disabled.add)(game)
+    db.set_config(guild_id, DISABLED_GAMES_KEY, ",".join(sorted(disabled)) or None)

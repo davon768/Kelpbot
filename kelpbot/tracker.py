@@ -7,7 +7,7 @@ import time
 
 import discord
 
-from kelpbot import bank, config, weekly
+from kelpbot import bank, config, server_events, weekly
 from kelpbot.achievements import ACHIEVEMENTS
 from kelpbot.db import Database, Event
 from kelpbot.settings import GuildConfig
@@ -68,6 +68,17 @@ def event_line(cfg: GuildConfig, e: Event) -> str | None:
         text = f"🏁 Season {e.amount2} ended: {champ}"
     elif e.kind == "role":
         text = f"🎭 <@{e.user_id}> bought <@&{e.other_id}>"
+    elif e.kind == "heist":
+        if e.detail == "success":
+            text = f"💰 A crew of {e.amount2} led by <@{e.user_id}> pulled off a heist for {cfg.money(e.amount)}"
+        else:
+            text = f"🚓 A crew of {e.amount2} led by <@{e.user_id}> got caught and lost {cfg.money(e.amount)}"
+    elif e.kind == "promotion":
+        text = f"💼 <@{e.user_id}> was promoted to **{e.detail}** (level {e.amount})"
+    elif e.kind == "stock":
+        change, price = e.amount / 100, e.amount2 / 100
+        text = f"{'📈' if change >= 0 else '📉'} **{e.detail}** {'jumped' if change >= 0 else 'dropped'} " \
+               f"{abs(change):.1f}% to {price:,.2f}"
     else:
         return None
     return f"{text} · {when}"
@@ -86,6 +97,9 @@ def overview_embed(db: Database, guild_id: int, cfg: GuildConfig, now: float, ti
         lottery,
         f"🏁 Season **{weekly.current_season(db, guild_id)}** · weekly prizes <t:{next_monday(now)}:R>",
     ]
+    if current := server_events.active(db, guild_id, now):
+        ev, ends = current
+        lines.insert(0, f"{ev.emoji} **{ev.name} is on!** {ev.description}, ends <t:{int(ends)}:R>")
     return discord.Embed(title=title, description="\n".join(lines), color=discord.Color.gold())
 
 

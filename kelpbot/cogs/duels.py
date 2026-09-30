@@ -10,7 +10,7 @@ from discord import app_commands
 from discord.ext import commands
 
 from kelpbot import achievements
-from kelpbot.gambling import settle
+from kelpbot.gambling import game_allowed, settle
 
 DUEL_TIMEOUT = 60
 
@@ -26,6 +26,7 @@ class DuelView(discord.ui.View):
         self.cfg = bot.cfg(interaction.guild_id)
         self.message: discord.InteractionMessage | None = None
         self.done = False
+        self.bet_id = bot.db.open_bet(self.guild_id, self.challenger.id, "duel", bet)
 
     @property
     def key(self) -> tuple[int, int, str]:
@@ -41,6 +42,7 @@ class DuelView(discord.ui.View):
 
     def _close(self) -> None:
         self.done = True
+        self.bot.db.close_bet(self.bet_id)
         self.bot.active_games.discard(self.key)
         for child in self.children:
             child.disabled = True
@@ -63,13 +65,17 @@ class DuelView(discord.ui.View):
                 f"You need {self.cfg.money(self.bet)} in your wallet to accept.", ephemeral=True
             )
             return
+        # Both stakes stay recorded until the coin lands, in case the bot restarts mid-flip.
+        stakes = [self.bot.db.open_bet(self.guild_id, p.id, "duel", self.bet) for p in (self.challenger, self.opponent)]
         self._close()
         winner, loser = random.sample([self.challenger, self.opponent], 2)
         await interaction.response.edit_message(embed=self.embed("🪙 Flipping..."), view=self)
         await asyncio.sleep(1.5)
 
+        for stake in stakes:
+            self.bot.db.close_bet(stake)
         _, unlocked = settle(self.bot, self.guild_id, winner.id, self.bet, self.bet * 2, "duel")
-        settle(self.bot, self.guild_id, loser.id, self.bet, 0, "duel")
+        _, loser_rewards = settle(self.bot, self.guild_id, loser.id, self.bet, 0, "duel")
         self.bot.db.add_event(self.guild_id, "duel", winner.id, self.bet, other_id=loser.id)
         unlocked += achievements.unlock(self.bot.db, self.guild_id, winner.id, "duelist")
         await interaction.edit_original_response(
@@ -80,6 +86,7 @@ class DuelView(discord.ui.View):
             view=self,
         )
         await self.bot.award(interaction, unlocked, winner)
+        await self.bot.award(interaction, loser_rewards, loser)
 
     @discord.ui.button(label="Decline", style=discord.ButtonStyle.danger)
     async def decline(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
@@ -121,6 +128,8 @@ class Duels(commands.Cog):
     async def duel(self, interaction: discord.Interaction, opponent: discord.Member,
                    bet: app_commands.Range[int, 1]) -> None:
         gid, uid = interaction.guild_id, interaction.user.id
+        if not await game_allowed(self.bot, interaction, "duel"):
+            return
         cfg = self.bot.cfg(gid)
         error = None
         if opponent.bot or opponent.id == uid:

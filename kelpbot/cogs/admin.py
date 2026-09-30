@@ -8,10 +8,17 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from kelpbot import achievements, settings, weekly
-from kelpbot.settings import CHANNEL_SETTINGS, SETTINGS
+import os
+import tempfile
+
+from kelpbot import achievements, backup, config, server_events, settings, weekly
+from kelpbot.settings import CHANNEL_SETTINGS, GAMES, SETTINGS
 
 SETTING_CHOICES = [app_commands.Choice(name=s.label, value=s.key) for s in SETTINGS.values()]
+GAME_CHOICES = [app_commands.Choice(name=g, value=g) for g in GAMES]
+EVENT_CHOICES = [app_commands.Choice(name=f"{e.name}: {e.description}", value=e.key)
+                 for e in server_events.EVENTS.values()]
+DISCORD_UPLOAD_LIMIT = 10 * 1024 * 1024
 # Roles with any of these can't be sold: buying one would hand out moderator powers.
 DANGEROUS_PERMISSIONS = (
     "administrator", "manage_guild", "manage_roles", "manage_channels", "manage_messages", "manage_webhooks",
@@ -65,8 +72,10 @@ class SettingsGroup(app_commands.Group, name="settings", description="[Admin] Co
         for key, label in CHANNEL_SETTINGS.items():
             channel_id = getattr(cfg, key)
             lines.append(f"**{label.split(' (')[0]}**: {f'<#{channel_id}>' if channel_id else 'not set'}")
+        off = ", ".join(sorted(cfg.disabled_games)) or "none"
+        lines.append(f"**Games turned off**: {off}")
         embed = discord.Embed(title="⚙️ Server settings", description="\n".join(lines), color=discord.Color.blurple())
-        embed.set_footer(text="Change with /settings set, /settings channel or /settings reset")
+        embed.set_footer(text="Change with /settings set, /settings channel, /settings game or /settings reset")
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
     @app_commands.command(name="set", description="Change a setting.")
@@ -89,6 +98,14 @@ class SettingsGroup(app_commands.Group, name="settings", description="[Admin] Co
         shown = settings.display(s, parsed)
         self.bot.log_event(interaction.guild_id, f"⚙️ <@{interaction.user.id}> set **{s.label}** to {shown}.")
         await interaction.response.send_message(f"✅ **{s.label}** is now **{shown}**.", ephemeral=True)
+
+    @app_commands.command(description="Turn a game on or off in this server.")
+    @app_commands.choices(game=GAME_CHOICES)
+    async def game(self, interaction: discord.Interaction, game: str, enabled: bool) -> None:
+        settings.set_game_enabled(self.bot.db, interaction.guild_id, game, enabled)
+        state = "on" if enabled else "off"
+        self.bot.log_event(interaction.guild_id, f"⚙️ <@{interaction.user.id}> turned {game} {state}.")
+        await interaction.response.send_message(f"✅ **{game.capitalize()}** is now **{state}**.", ephemeral=True)
 
     @app_commands.command(description="Put a setting back to its default.")
     @app_commands.choices(setting=SETTING_CHOICES)
@@ -166,15 +183,73 @@ class ShopRoleGroup(app_commands.Group, name="shoprole", description="[Admin] Se
         await interaction.response.send_message(f"✅ {role.mention} is no longer for sale.", ephemeral=True)
 
 
+@app_commands.guild_only()
+@app_commands.default_permissions(manage_guild=True)
+class EventGroup(app_commands.Group, name="event", description="[Admin] Run a timed server event"):
+    def __init__(self, bot) -> None:
+        super().__init__()
+        self.bot = bot
+
+    @app_commands.command(description="Start an event (replaces any running one).")
+    @app_commands.choices(event=EVENT_CHOICES)
+    async def start(self, interaction: discord.Interaction, event: str,
+                    minutes: app_commands.Range[int, 5, config.EVENT_MAX_MINUTES] = 60) -> None:
+        gid = interaction.guild_id
+        ends = server_events.start(self.bot.db, gid, event, minutes)
+        ev = server_events.EVENTS[event]
+        embed = discord.Embed(title=f"{ev.emoji} {ev.name} has started!",
+                              description=f"{ev.description} until <t:{int(ends)}:t> (<t:{int(ends)}:R>).",
+                              color=discord.Color.gold())
+        await interaction.response.send_message(f"✅ {ev.name} is running for {minutes} minutes.", ephemeral=True)
+        await self.bot.announce(gid, embed, fallback_channel_id=interaction.channel_id)
+        self.bot.log_event(gid, f"🎉 <@{interaction.user.id}> started {ev.name} for {minutes} minutes.")
+
+    @app_commands.command(description="End the running event early.")
+    async def stop(self, interaction: discord.Interaction) -> None:
+        if server_events.active(self.bot.db, interaction.guild_id) is None:
+            await interaction.response.send_message("No event is running.", ephemeral=True)
+            return
+        ev = server_events.stop(self.bot.db, interaction.guild_id)
+        await interaction.response.send_message(f"✅ {ev.name} ended.", ephemeral=True)
+        await self.bot.announce(interaction.guild_id,
+                                discord.Embed(title=f"{ev.emoji} {ev.name} is over", color=discord.Color.light_grey()),
+                                fallback_channel_id=interaction.channel_id)
+
+
 class Admin(commands.Cog):
     def __init__(self, bot) -> None:
         self.bot = bot
         self.bot.tree.add_command(SettingsGroup(bot))
         self.bot.tree.add_command(ShopRoleGroup(bot))
+        self.bot.tree.add_command(EventGroup(bot))
 
     async def cog_unload(self) -> None:
-        self.bot.tree.remove_command("settings")
-        self.bot.tree.remove_command("shoprole")
+        for name in ("settings", "shoprole", "event"):
+            self.bot.tree.remove_command(name)
+
+    @app_commands.command(description="[Bot owner] Download a copy of the whole database.")
+    @app_commands.default_permissions(administrator=True)
+    async def backup(self, interaction: discord.Interaction) -> None:
+        # The file holds every server's data, so only whoever owns the bot may download it.
+        if not await self.bot.is_owner(interaction.user):
+            await interaction.response.send_message(
+                "Only the bot's owner can download backups, because they contain every server's data. "
+                "Daily backups are kept automatically.", ephemeral=True)
+            return
+        await interaction.response.defer(ephemeral=True, thinking=True)
+        path = os.path.join(tempfile.mkdtemp(), "kelpbot-backup.db")
+        try:
+            backup.make_backup(self.bot.db, path)
+            if os.path.getsize(path) > DISCORD_UPLOAD_LIMIT:
+                await interaction.followup.send(
+                    f"The backup is too big to upload to Discord. Daily copies are in "
+                    f"`{backup.backup_dir(config.DATABASE_PATH)}` on the server.", ephemeral=True)
+                return
+            await interaction.followup.send("💾 Here's a copy of the database.", file=discord.File(path),
+                                            ephemeral=True)
+        finally:
+            os.remove(path)
+            os.rmdir(os.path.dirname(path))
 
     @app_commands.command(name="addmoney", description="[Admin] Add or remove money from a player's wallet.")
     @app_commands.default_permissions(manage_guild=True)

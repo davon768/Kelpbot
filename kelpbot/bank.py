@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import time
 
-from kelpbot import config
+from kelpbot import config, perks
 from kelpbot.db import Database
 
 DAY = 24 * 60 * 60
@@ -21,6 +21,7 @@ def accrue(db: Database, guild_id: int, user_id: int, rate_percent: int, now: fl
     if days <= 0:
         return 0
     bank = acct.bank
+    rate_percent += perks.interest_bonus(db, guild_id, user_id)
     for _ in range(min(days, 365)):
         bank += min(config.BANK_INTEREST_CAP, bank * rate_percent // 100)
     db.set_bank(guild_id, user_id, bank, acct.bank_interest_at + days * DAY)

@@ -6,7 +6,7 @@ import random
 from dataclasses import dataclass
 from enum import Enum
 
-from kelpbot import config
+from kelpbot import config, perks
 from kelpbot.db import Database
 from kelpbot.shop import CROWBAR, CROWBAR_BONUS, PADLOCK
 
@@ -43,7 +43,7 @@ def attempt_rob(db: Database, guild_id: int, robber: int, victim: int, rng: rand
     if db.remove_item(guild_id, victim, PADLOCK.key):
         return RobOutcome(RobResult.BLOCKED)
 
-    chance = config.ROB_SUCCESS_CHANCE
+    chance = config.ROB_SUCCESS_CHANCE - perks.rob_defense(db, guild_id, victim)
     used_crowbar = db.remove_item(guild_id, robber, CROWBAR.key)
     if used_crowbar:
         chance += CROWBAR_BONUS

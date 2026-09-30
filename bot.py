@@ -7,7 +7,6 @@ import discord
 from discord.ext import commands
 
 from kelpbot import config, settings
-from kelpbot.achievements import Achievement
 from kelpbot.db import Database
 from kelpbot.settings import GuildConfig
 
@@ -21,6 +20,11 @@ EXTENSIONS = (
     "kelpbot.cogs.lottery",
     "kelpbot.cogs.scheduler",
     "kelpbot.cogs.tracker",
+    "kelpbot.cogs.heist",
+    "kelpbot.cogs.race",
+    "kelpbot.cogs.stocks",
+    "kelpbot.cogs.profile",
+    "kelpbot.cogs.help",
     "kelpbot.cogs.shop",
     "kelpbot.cogs.admin",
     "kelpbot.cogs.cleanup",
@@ -35,9 +39,14 @@ class KelpBot(commands.Bot):
         self.db = Database(config.DATABASE_PATH, config.STARTING_BALANCE, config.AUTO_DELETE_DEFAULT_SECONDS)
         self.active_games: set[tuple[int, int, str]] = set()
         self._background: set[asyncio.Task] = set()
+        self._refunds: list[tuple[int, int, str, int]] = []
 
     async def setup_hook(self) -> None:
         log.info("Using database at %s", config.DATABASE_PATH)
+        # Nothing survives a restart, so any stake still held belongs to a game that was cut off.
+        self._refunds = self.db.refund_open_bets()
+        if self._refunds:
+            log.info("Refunded %d bets from games interrupted by a restart", len(self._refunds))
         if config.ON_RAILWAY and not os.getenv("RAILWAY_VOLUME_MOUNT_PATH") and not os.getenv("DATABASE_PATH"):
             log.warning(
                 "No Railway volume attached! Balances will be WIPED on every redeploy. "
@@ -62,6 +71,11 @@ class KelpBot(commands.Bot):
 
     async def on_ready(self) -> None:
         log.info("Logged in as %s (%s)", self.user, self.user.id)
+        refunds, self._refunds = self._refunds, []
+        for guild_id, user_id, game, amount in refunds:
+            cfg = self.cfg(guild_id)
+            self.log_event(guild_id, f"↩️ Refunded <@{user_id}> {cfg.money(amount)} from a {game} game "
+                                     "interrupted by a restart.")
         await self.change_presence(activity=discord.Game("🎰 /slots • /blackjack • /crash"))
 
     def cfg(self, guild_id: int) -> GuildConfig:
@@ -123,24 +137,25 @@ class KelpBot(commands.Bot):
 
     # ---- achievements --------------------------------------------------------------
 
-    def achievement_embed(self, guild_id: int, user: discord.abc.User, unlocked: list[Achievement]) -> discord.Embed:
+    def rewards_embed(self, guild_id: int, user: discord.abc.User, rewards: list) -> discord.Embed:
+        """Achievements, quests and bonuses (anything with badge/emoji/name/description/reward)."""
         cfg = self.cfg(guild_id)
         lines = [
-            f"{a.emoji} **{a.name}**: {a.description}" + (f" (+{cfg.money(a.reward)})" if a.reward else "")
-            for a in unlocked
+            f"{r.badge} · {r.emoji} **{r.name}**: {r.description}" + (f" (+{cfg.money(r.reward)})" if r.reward else "")
+            for r in rewards
         ]
         return discord.Embed(
-            title=f"🏅 {user.display_name} unlocked an achievement!",
+            title=f"🎉 Nice one, {user.display_name}!",
             description="\n".join(lines),
             color=discord.Color.gold(),
         )
 
-    async def award(self, interaction: discord.Interaction, unlocked: list[Achievement],
+    async def award(self, interaction: discord.Interaction, rewards: list,
                     user: discord.abc.User | None = None) -> None:
-        """Announce newly unlocked achievements as a follow-up to an interaction."""
-        if not unlocked:
+        """Announce achievements, finished quests and bonuses as a follow-up to an interaction."""
+        if not rewards:
             return
-        embed = self.achievement_embed(interaction.guild_id, user or interaction.user, unlocked)
+        embed = self.rewards_embed(interaction.guild_id, user or interaction.user, rewards)
         try:
             if interaction.response.is_done():
                 msg = await interaction.followup.send(embed=embed, wait=True)

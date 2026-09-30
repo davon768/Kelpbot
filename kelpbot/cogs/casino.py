@@ -16,6 +16,7 @@ from kelpbot.games import dice as dice_game
 from kelpbot.games import roulette as roulette_game
 from kelpbot.games import slots as slot_machine
 from kelpbot.games.blackjack import BlackjackGame, format_hand, hand_value, is_blackjack
+from kelpbot.games.horses import HORSES
 
 Bet = app_commands.Range[int, 1]
 
@@ -84,6 +85,7 @@ class BlackjackView(PlayerView):
             await interaction.response.send_message("You can't afford to double down.", ephemeral=True)
             return
         self.game.double_down()
+        self.track_bet(self.game.bet)
         await self._update(interaction)
 
     async def on_timeout(self) -> None:
@@ -107,7 +109,7 @@ class Casino(commands.Cog):
 
     @app_commands.command(description="Spin the slot machine.")
     async def slots(self, interaction: discord.Interaction, bet: Bet) -> None:
-        if not await take_bet(self.bot, interaction, bet):
+        if not await take_bet(self.bot, interaction, bet, "slots"):
             return
         gid, uid = interaction.guild_id, interaction.user.id
         cfg = self.bot.cfg(gid)
@@ -135,10 +137,11 @@ class Casino(commands.Cog):
     # Cleaned up by BlackjackView when the hand ends, not when the command returns.
     @app_commands.command(description="Play a hand of blackjack against the dealer.", extras={"manual_cleanup": True})
     async def blackjack(self, interaction: discord.Interaction, bet: Bet) -> None:
-        if not await start_guard(self.bot, interaction, "blackjack") or not await take_bet(self.bot, interaction, bet):
+        if not await start_guard(self.bot, interaction, "blackjack") or not await take_bet(self.bot, interaction, bet, "blackjack"):
             return
         view = BlackjackView(self.bot, interaction, BlackjackGame(bet=bet))
         self.bot.active_games.add(view.key)
+        view.track_bet(bet)
         view.finish_if_done()  # natural blackjacks settle immediately
         await interaction.response.send_message(embed=view.embed(), view=view)
         view.message = await interaction.original_response()
@@ -149,7 +152,7 @@ class Casino(commands.Cog):
 
     @app_commands.command(description="Flip a coin. Double or nothing.")
     async def coinflip(self, interaction: discord.Interaction, bet: Bet, side: Literal["heads", "tails"]) -> None:
-        if not await take_bet(self.bot, interaction, bet):
+        if not await take_bet(self.bot, interaction, bet, "coinflip"):
             return
         cfg = self.bot.cfg(interaction.guild_id)
         result = random.choice(["heads", "tails"])
@@ -171,7 +174,7 @@ class Casino(commands.Cog):
                 ephemeral=True,
             )
             return
-        if not await take_bet(self.bot, interaction, bet):
+        if not await take_bet(self.bot, interaction, bet, "roulette"):
             return
         cfg = self.bot.cfg(interaction.guild_id)
         n = roulette_game.spin()
@@ -200,7 +203,7 @@ class Casino(commands.Cog):
         bet: Bet,
         chance: app_commands.Range[int, dice_game.MIN_CHANCE, dice_game.MAX_CHANCE] = 50,
     ) -> None:
-        if not await take_bet(self.bot, interaction, bet):
+        if not await take_bet(self.bot, interaction, bet, "dice"):
             return
         cfg = self.bot.cfg(interaction.guild_id)
         rolled = dice_game.roll()
@@ -242,6 +245,9 @@ class Casino(commands.Cog):
             inline=False,
         )
         e.add_field(name="⚔️ Duel", value="50/50 against another player. Winner takes both bets.", inline=False)
+        e.add_field(name="💰 Heist", value="Crew of 2: 50% for 1.9x · 3: 60% for 1.58x · 4: 70% for 1.35x · "
+                                           "5+: 80% for 1.18x", inline=False)
+        e.add_field(name="🏇 Horse race", value=" · ".join(f"{h.name} {h.payout}x" for h in HORSES), inline=False)
         max_text = f"{cfg.max_bet:,} maximum" if cfg.max_bet else "no maximum"
         e.set_footer(text=f"Bets: {cfg.min_bet:,} minimum, {max_text}. Payouts include your original bet.")
         await interaction.response.send_message(embed=e, ephemeral=True)

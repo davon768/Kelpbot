@@ -52,3 +52,28 @@ def test_leaderboard_order():
     db.credit(1, 2, 500)
     db.credit(1, 3, -100)
     assert [a.user_id for a in db.leaderboard(1)] == [2, 1, 3]
+
+
+def test_upgrades_a_first_release_database(tmp_path):
+    import sqlite3
+
+    path = str(tmp_path / "old.db")
+    old = sqlite3.connect(path)
+    old.executescript("""
+        CREATE TABLE accounts (guild_id INTEGER NOT NULL, user_id INTEGER NOT NULL, balance INTEGER NOT NULL,
+            daily_streak INTEGER NOT NULL DEFAULT 0, total_wagered INTEGER NOT NULL DEFAULT 0,
+            total_won INTEGER NOT NULL DEFAULT 0, games_played INTEGER NOT NULL DEFAULT 0,
+            biggest_win INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (guild_id, user_id));
+        CREATE TABLE guild_settings (guild_id INTEGER PRIMARY KEY, auto_delete_seconds INTEGER);
+        INSERT INTO accounts (guild_id, user_id, balance) VALUES (1, 42, 4321);
+        INSERT INTO guild_settings VALUES (1, 30);
+    """)
+    old.commit()
+    old.close()
+    db = Database(path, 1000, auto_delete_default=120)
+    acct = db.account(1, 42)
+    assert (acct.balance, acct.bank, acct.work_xp, acct.weekly_profit) == (4321, 0, 0, 0)
+    assert db.auto_delete_seconds(1) == 30
+    db.log_game(1, 42, "dice", 10, 0)
+    db.open_bet(1, 42, "crash", 5)
+    assert db.refund_open_bets() == [(1, 42, "crash", 5)]

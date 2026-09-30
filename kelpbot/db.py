@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS accounts (
     bank         INTEGER NOT NULL DEFAULT 0,
     bank_interest_at REAL NOT NULL DEFAULT 0,
     weekly_profit INTEGER NOT NULL DEFAULT 0,
+    work_xp      INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY (guild_id, user_id)
 );
 CREATE TABLE IF NOT EXISTS cooldowns (
@@ -99,6 +100,36 @@ CREATE TABLE IF NOT EXISTS events (
     detail   TEXT NOT NULL DEFAULT ''
 );
 CREATE INDEX IF NOT EXISTS events_guild_ts ON events (guild_id, ts);
+CREATE TABLE IF NOT EXISTS open_bets (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    guild_id   INTEGER NOT NULL,
+    user_id    INTEGER NOT NULL,
+    game       TEXT NOT NULL,
+    amount     INTEGER NOT NULL,
+    created_at REAL NOT NULL
+);
+CREATE TABLE IF NOT EXISTS stock_prices (
+    guild_id   INTEGER NOT NULL,
+    symbol     TEXT NOT NULL,
+    price      REAL NOT NULL,
+    updated_at REAL NOT NULL,
+    PRIMARY KEY (guild_id, symbol)
+);
+CREATE TABLE IF NOT EXISTS stock_history (
+    guild_id INTEGER NOT NULL,
+    symbol   TEXT NOT NULL,
+    ts       REAL NOT NULL,
+    price    REAL NOT NULL
+);
+CREATE INDEX IF NOT EXISTS stock_history_guild_ts ON stock_history (guild_id, symbol, ts);
+CREATE TABLE IF NOT EXISTS holdings (
+    guild_id INTEGER NOT NULL,
+    user_id  INTEGER NOT NULL,
+    symbol   TEXT NOT NULL,
+    shares   INTEGER NOT NULL,
+    cost     INTEGER NOT NULL,
+    PRIMARY KEY (guild_id, user_id, symbol)
+);
 CREATE TABLE IF NOT EXISTS hall_of_fame (
     guild_id  INTEGER NOT NULL,
     season    INTEGER NOT NULL,
@@ -115,11 +146,12 @@ ACCOUNT_MIGRATIONS = {
     "bank": "INTEGER NOT NULL DEFAULT 0",
     "bank_interest_at": "REAL NOT NULL DEFAULT 0",
     "weekly_profit": "INTEGER NOT NULL DEFAULT 0",
+    "work_xp": "INTEGER NOT NULL DEFAULT 0",
 }
 
 # Tables that make up a server's economy (wiped by a reset). Settings, shop roles,
 # achievements and the hall of fame are deliberately kept.
-ECONOMY_TABLES = ("accounts", "cooldowns", "inventory", "counters", "lottery_tickets")
+ECONOMY_TABLES = ("accounts", "cooldowns", "inventory", "counters", "lottery_tickets", "holdings")
 
 
 @dataclass
@@ -135,6 +167,7 @@ class Account:
     bank: int
     bank_interest_at: float
     weekly_profit: int
+    work_xp: int
 
     @property
     def net(self) -> int:
@@ -598,3 +631,100 @@ class Database:
     def prune_history(self, before: float) -> None:
         self.conn.execute("DELETE FROM game_log WHERE ts < ?", (before,))
         self.conn.execute("DELETE FROM events WHERE ts < ?", (before,))
+        self.conn.execute("DELETE FROM stock_history WHERE ts < ?", (before,))
+
+    # ---- open bets (refunded if the bot restarts mid-game) ------------------------------
+
+    def open_bet(self, guild_id: int, user_id: int, game: str, amount: int) -> int:
+        cur = self.conn.execute(
+            "INSERT INTO open_bets (guild_id, user_id, game, amount, created_at) VALUES (?, ?, ?, ?, ?)",
+            (guild_id, user_id, game, amount, time.time()),
+        )
+        return cur.lastrowid
+
+    def update_open_bet(self, bet_id: int, amount: int) -> None:
+        self.conn.execute("UPDATE open_bets SET amount = ? WHERE id = ?", (amount, bet_id))
+
+    def close_bet(self, bet_id: int | None) -> None:
+        if bet_id is not None:
+            self.conn.execute("DELETE FROM open_bets WHERE id = ?", (bet_id,))
+
+    def open_bets(self) -> list[tuple[int, int, int, str, int]]:
+        rows = self.conn.execute("SELECT id, guild_id, user_id, game, amount FROM open_bets")
+        return [tuple(r) for r in rows]
+
+    def refund_open_bets(self) -> list[tuple[int, int, str, int]]:
+        """Give back every stake from a game that never finished. Returns (guild, user, game, amount)."""
+        refunded = []
+        with self.transaction():
+            for bet_id, guild_id, user_id, game, amount in self.open_bets():
+                self.credit(guild_id, user_id, amount)
+                self.close_bet(bet_id)
+                refunded.append((guild_id, user_id, game, amount))
+        return refunded
+
+    # ---- jobs --------------------------------------------------------------------------
+
+    def add_work_xp(self, guild_id: int, user_id: int, xp: int) -> int:
+        self._ensure(guild_id, user_id)
+        self.conn.execute(
+            "UPDATE accounts SET work_xp = work_xp + ? WHERE guild_id = ? AND user_id = ?", (xp, guild_id, user_id)
+        )
+        return self.account(guild_id, user_id).work_xp
+
+    # ---- stocks --------------------------------------------------------------------------
+
+    def stock_prices(self, guild_id: int) -> dict[str, tuple[float, float]]:
+        rows = self.conn.execute("SELECT symbol, price, updated_at FROM stock_prices WHERE guild_id = ?", (guild_id,))
+        return {r["symbol"]: (r["price"], r["updated_at"]) for r in rows}
+
+    def set_stock_price(self, guild_id: int, symbol: str, price: float, ts: float) -> None:
+        self.conn.execute(
+            "INSERT INTO stock_prices (guild_id, symbol, price, updated_at) VALUES (?, ?, ?, ?) "
+            "ON CONFLICT (guild_id, symbol) DO UPDATE SET price = excluded.price, updated_at = excluded.updated_at",
+            (guild_id, symbol, price, ts),
+        )
+        self.conn.execute(
+            "INSERT INTO stock_history (guild_id, symbol, ts, price) VALUES (?, ?, ?, ?)", (guild_id, symbol, ts, price)
+        )
+
+    def stock_history(self, guild_id: int, symbol: str, since: float) -> list[tuple[float, float]]:
+        rows = self.conn.execute(
+            "SELECT ts, price FROM stock_history WHERE guild_id = ? AND symbol = ? AND ts >= ? ORDER BY ts",
+            (guild_id, symbol, since),
+        )
+        return [(r["ts"], r["price"]) for r in rows]
+
+    def stock_guilds(self) -> list[int]:
+        return [r[0] for r in self.conn.execute("SELECT DISTINCT guild_id FROM stock_prices")]
+
+    def holdings(self, guild_id: int, user_id: int) -> dict[str, tuple[int, int]]:
+        rows = self.conn.execute(
+            "SELECT symbol, shares, cost FROM holdings WHERE guild_id = ? AND user_id = ?", (guild_id, user_id)
+        )
+        return {r["symbol"]: (r["shares"], r["cost"]) for r in rows}
+
+    def set_holding(self, guild_id: int, user_id: int, symbol: str, shares: int, cost: int) -> None:
+        if shares <= 0:
+            self.conn.execute(
+                "DELETE FROM holdings WHERE guild_id = ? AND user_id = ? AND symbol = ?", (guild_id, user_id, symbol)
+            )
+        else:
+            self.conn.execute(
+                "INSERT INTO holdings (guild_id, user_id, symbol, shares, cost) VALUES (?, ?, ?, ?, ?) "
+                "ON CONFLICT (guild_id, user_id, symbol) DO UPDATE SET shares = excluded.shares, cost = excluded.cost",
+                (guild_id, user_id, symbol, shares, cost),
+            )
+
+    def prune_quest_counters(self, oldest_day_key: str) -> None:
+        """Daily quest progress is stored as counters named q:YYYYMMDD:...; drop old days."""
+        self.conn.execute("DELETE FROM counters WHERE key LIKE 'q:%' AND key < ?", (f"q:{oldest_day_key}",))
+
+    def game_counts(self, guild_id: int, user_id: int, since: float) -> list[tuple[str, int, int]]:
+        """(game, played, won) per game for one player since a time."""
+        rows = self.conn.execute(
+            "SELECT game, COUNT(*) AS played, SUM(returned > bet) AS won FROM game_log "
+            "WHERE guild_id = ? AND user_id = ? AND ts >= ? GROUP BY game ORDER BY played DESC",
+            (guild_id, user_id, since),
+        )
+        return [(r["game"], r["played"], r["won"]) for r in rows]

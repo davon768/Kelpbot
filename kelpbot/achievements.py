@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import ClassVar
 
 from kelpbot.db import Database
 
@@ -14,6 +15,7 @@ class Achievement:
     emoji: str
     description: str
     reward: int
+    badge: ClassVar[str] = "🏅 Achievement"
 
 
 ACHIEVEMENTS: dict[str, Achievement] = {a.key: a for a in (
@@ -32,6 +34,11 @@ ACHIEVEMENTS: dict[str, Achievement] = {a.key: a for a in (
     Achievement("saver", "Saver", "🏦", "Have 10,000 in the bank", 500),
     Achievement("millionaire", "Millionaire", "💎", "Reach a net worth of 1,000,000", 10_000),
     Achievement("champion", "Season Champion", "👑", "Finish a season in first place", 0),
+    Achievement("getaway", "Clean Getaway", "💰", "Pull off a successful heist", 1_000),
+    Achievement("long_shot", "Long Shot", "🐎", "Win a horse race betting on a 12% or lower horse", 2_000),
+    Achievement("tycoon", "Kelp Tycoon", "🏭", "Reach the top job", 5_000),
+    Achievement("wolf", "Wolf of Kelp Street", "📈", "Make 10,000 profit selling stock in one trade", 2_500),
+    Achievement("zookeeper", "Zookeeper", "🦁", "Own every pet at once", 5_000),
 )}
 
 # counter name -> (goal, achievement unlocked when the counter reaches it)

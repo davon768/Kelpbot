@@ -14,6 +14,7 @@ class Kind(Enum):
     PASSIVE = "Used up automatically"
     USABLE = "Use with /use"
     UPGRADE = "Permanent upgrade"
+    PET = "Pet (permanent perk)"
     COLLECTIBLE = "Collectible"
 
 
@@ -48,10 +49,20 @@ TROPHY = Item("trophy", "Golden Trophy", "🏆", 25_000, Kind.COLLECTIBLE, "Proo
 SPORTS_CAR = Item("sports_car", "Sports Car", "🏎️", 100_000, Kind.COLLECTIBLE, "Goes fast. Mostly for showing off.")
 YACHT = Item("yacht", "Kelp Yacht", "🛥️", 500_000, Kind.COLLECTIBLE, "The ultimate flex.")
 
-ITEMS: dict[str, Item] = {i.key: i for i in (PADLOCK, CROWBAR, ENERGY_DRINK, LAPTOP, TROPHY, SPORTS_CAR, YACHT)}
+CAT = Item("cat", "Cat", "🐱", 5_000, Kind.PET, "+10% pay from /work.", max_owned=1)
+PARROT = Item("parrot", "Parrot", "🦜", 6_000, Kind.PET, "+10% from /daily.", max_owned=1)
+DOG = Item("dog", "Guard Dog", "🐶", 8_000, Kind.PET, "Robberies against you are 15% less likely to succeed.",
+           max_owned=1)
+TURTLE = Item("turtle", "Turtle", "🐢", 12_000, Kind.PET, "+1% daily bank interest.", max_owned=1)
+OCTOPUS = Item("octopus", "Octopus", "🐙", 20_000, Kind.PET, "/work cooldown is 15 minutes shorter.", max_owned=1)
+DRAGON = Item("dragon", "Dragon", "🐉", 250_000, Kind.PET, "Legendary. No perk, just glory.", max_owned=1)
+PETS = (CAT, PARROT, DOG, TURTLE, OCTOPUS, DRAGON)
+
+ITEMS: dict[str, Item] = {
+    i.key: i for i in (PADLOCK, CROWBAR, ENERGY_DRINK, LAPTOP, *PETS, TROPHY, SPORTS_CAR, YACHT)
+}
 
 CROWBAR_BONUS = 0.25
-LAPTOP_WORK_MULTIPLIER = 1.5
 
 
 class TradeResult(Enum):

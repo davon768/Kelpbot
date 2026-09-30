@@ -240,6 +240,7 @@ class Arcade(commands.Cog):
 
     async def _start(self, interaction: discord.Interaction, view: PlayerView) -> None:
         self.bot.active_games.add(view.key)
+        view.track_bet(view.game.bet)
         await interaction.response.send_message(embed=view.embed(), view=view)
         view.message = await interaction.original_response()
 
@@ -252,7 +253,7 @@ class Arcade(commands.Cog):
         bet: Bet,
         auto_cashout: app_commands.Range[float, 1.01, crash_game.MAX_MULTIPLIER] | None = None,
     ) -> None:
-        if not await start_guard(self.bot, interaction, "crash") or not await take_bet(self.bot, interaction, bet):
+        if not await start_guard(self.bot, interaction, "crash") or not await take_bet(self.bot, interaction, bet, "crash"):
             return
         game = crash_game.CrashGame(bet, crash_game.crash_point(), time.monotonic(), auto_cashout)
         view = CrashView(self.bot, interaction, game)
@@ -280,14 +281,14 @@ class Arcade(commands.Cog):
     async def mines(
         self, interaction: discord.Interaction, bet: Bet, mines: app_commands.Range[int, 1, 15] = 3
     ) -> None:
-        if not await start_guard(self.bot, interaction, "mines") or not await take_bet(self.bot, interaction, bet):
+        if not await start_guard(self.bot, interaction, "mines") or not await take_bet(self.bot, interaction, bet, "mines"):
             return
         await self._start(interaction, MinesView(self.bot, interaction, mines_game.MinesGame(bet, mines)))
 
     @app_commands.command(description="Guess if the next card is higher or lower. Keep going to grow your multiplier.",
                           extras={"manual_cleanup": True})
     async def highlow(self, interaction: discord.Interaction, bet: Bet) -> None:
-        if not await start_guard(self.bot, interaction, "higher or lower") or not await take_bet(self.bot, interaction, bet):
+        if not await start_guard(self.bot, interaction, "higher or lower") or not await take_bet(self.bot, interaction, bet, "higher or lower"):
             return
         await self._start(interaction, HighLowView(self.bot, interaction, highlow.HighLowGame(bet)))
 
