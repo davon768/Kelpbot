@@ -9,7 +9,7 @@ from types import SimpleNamespace
 import pytest
 
 import bot as bot_module
-from kelpbot import config
+from kelpbot import config, quests
 
 GUILD = 1
 _ids = itertools.count(1000)
@@ -104,6 +104,9 @@ class FakeInteraction:
 @pytest.fixture
 def kb(monkeypatch):
     monkeypatch.setattr(config, "DATABASE_PATH", ":memory:")
+    # Daily quests are random per player and pay bonuses that would make exact balance checks
+    # flaky. They have their own tests (test_progression.py), so command tests run without them.
+    monkeypatch.setattr(quests, "todays_quests", lambda guild_id, user_id, day: [])
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     b = bot_module.KelpBot()

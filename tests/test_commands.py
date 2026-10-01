@@ -199,3 +199,37 @@ def test_leaderboards_and_info_commands(kb):
     assert "No seasons" in call(kb, "halloffame", alice).last_text
     assert call(kb, "paytable", alice).sent[-1].ephemeral
     assert "Games played" in call(kb, "stats", alice).last_text
+
+
+def test_blackjack_at_21_only_offers_stand(kb):
+    from kelpbot.games.blackjack import BlackjackGame, Card
+
+    alice = FakeMember(1)
+    view = call(kb, "blackjack", alice, bet=100).sent[-1].view
+    if view.settled:
+        return  # dealt a blackjack; covered by the reveal test
+    view.game = BlackjackGame(bet=100, shoe=[Card("K", "♠"), Card("5", "♠")],
+                              player=[Card("10", "♠"), Card("6", "♠")], dealer=[Card("10", "♥"), Card("2", "♥")])
+    view.track_bet(100)
+    it = press(kb, view, view.hit, alice)
+    assert "Press Stand" in it.last_text and not view.settled
+    assert view.hit.disabled and view.double.disabled and not view.stand.disabled
+    press(kb, view, view.stand, alice)
+    assert view.settled
+
+
+def test_blackjack_on_the_deal_is_revealed_after_the_opening(kb, monkeypatch):
+    from conftest import loaded
+    from kelpbot.games.blackjack import BlackjackGame, Card
+
+    casino = loaded("kelpbot.cogs.casino")
+    monkeypatch.setattr(casino, "REVEAL_SECONDS", 0)
+    natural = lambda bet: BlackjackGame(bet=bet, shoe=[Card("2", "♠")], player=[Card("A", "♠"), Card("K", "♠")],
+                                        dealer=[Card("9", "♥"), Card("7", "♥")])
+    monkeypatch.setattr(casino, "BlackjackGame", natural)
+    it = call(kb, "blackjack", FakeMember(1), bet=100)
+    opening = it.sent[-1].embed
+    assert "Checking the dealer" in opening.description and "🂠" in opening.fields[0].value
+    final = it.edits[-1].embed
+    assert "Blackjack!" in final.title and "🂠" not in final.fields[0].value
+    assert kb.db.balance(GUILD, 1) == 1000 + 150 + 500 + FIRST_WIN  # 3:2 payout + Natural + Beginner's Luck

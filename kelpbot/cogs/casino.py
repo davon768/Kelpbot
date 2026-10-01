@@ -19,6 +19,7 @@ from kelpbot.games.blackjack import BlackjackGame, format_hand, hand_value, is_b
 from kelpbot.games.horses import HORSES
 
 Bet = app_commands.Range[int, 1]
+REVEAL_SECONDS = 1.5  # pause between showing the deal and revealing a blackjack
 
 
 class BlackjackView(PlayerView):
@@ -33,14 +34,22 @@ class BlackjackView(PlayerView):
         self._sync_buttons()
 
     def _sync_buttons(self) -> None:
+        self.hit.disabled = not self.game.can_hit
         self.double.disabled = not self.game.can_double
 
-    def embed(self) -> discord.Embed:
+    def embed(self, opening: bool = False) -> discord.Embed:
+        """The table. `opening` shows a finished deal as it was dealt, before the blackjack is revealed."""
         g = self.game
-        done = g.finished
+        done = g.finished and not opening
         if done:
             text, color = result_line(self.cfg, g.bet, g.payout())
             title = f"🃏 Blackjack: {g.outcome.value}"
+        elif opening:
+            text = ("🃏 You were dealt blackjack! Checking the dealer's cards..." if is_blackjack(g.player)
+                    else "The dealer peeks at their face-down card...")
+            color, title = discord.Color.dark_green(), "🃏 Blackjack"
+        elif hand_value(g.player) == 21:
+            text, color, title = "**21!** Press Stand to see what the dealer has.", discord.Color.dark_green(), "🃏 Blackjack"
         else:
             text, color, title = "Hit, stand, or double down?", discord.Color.dark_green(), "🃏 Blackjack"
         dealer_value = hand_value(g.dealer) if done else "?"
@@ -142,10 +151,14 @@ class Casino(commands.Cog):
         view = BlackjackView(self.bot, interaction, BlackjackGame(bet=bet))
         self.bot.active_games.add(view.key)
         view.track_bet(bet)
-        view.finish_if_done()  # natural blackjacks settle immediately
-        await interaction.response.send_message(embed=view.embed(), view=view)
+        view.finish_if_done()  # a blackjack on the deal settles straight away (the reveal comes below)
+        await interaction.response.send_message(embed=view.embed(opening=view.settled), view=view)
         view.message = await interaction.original_response()
-        if view.settled:  # natural blackjack finished before the message existed
+        if view.settled:
+            # Someone was dealt blackjack. Show the deal first, then reveal, instead of
+            # flashing straight to the result.
+            await asyncio.sleep(REVEAL_SECONDS)
+            await interaction.edit_original_response(embed=view.embed(), view=view)
             self.bot.schedule_cleanup(interaction.guild_id, view.message.channel.id, view.message.id)
         await self.bot.award(interaction, view.unlocked)
         view.unlocked = []

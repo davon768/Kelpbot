@@ -86,20 +86,24 @@ class BlackjackGame:
         return self.outcome is not None
 
     @property
+    def can_hit(self) -> bool:
+        """Hitting on 21 can only hurt, so the player just stands."""
+        return not self.finished and hand_value(self.player) < 21
+
+    @property
     def can_double(self) -> bool:
-        return not self.finished and len(self.player) == 2
+        return self.can_hit and len(self.player) == 2
 
     def _draw(self) -> Card:
         return self.shoe.pop()
 
     def hit(self) -> None:
-        if self.finished:
+        """Draw a card. Reaching 21 doesn't end the turn: the dealer waits for the player to stand."""
+        if not self.can_hit:
             return
         self.player.append(self._draw())
         if hand_value(self.player) > 21:
             self.outcome = Outcome.BUST
-        elif hand_value(self.player) == 21:
-            self.stand()
 
     def stand(self) -> None:
         if self.finished:

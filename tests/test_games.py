@@ -86,3 +86,22 @@ def test_roulette_parsing_and_payouts():
     assert roulette.payout_multiplier("2nd12", 13) == 3
     assert roulette.payout_multiplier(17, 17) == 36
     assert roulette.payout_multiplier(0, 17) == 0
+
+
+def test_hitting_to_21_waits_for_the_player_to_stand():
+    # shoe pops from the end: the player draws the 5, the dealer would draw the K
+    g = BlackjackGame(bet=50, shoe=[c("K"), c("5")], player=[c("10"), c("6")], dealer=[c("10"), c("2")])
+    g.hit()
+    assert hand_value(g.player) == 21 and not g.finished
+    assert len(g.dealer) == 2  # the dealer hasn't played yet
+    assert not g.can_hit and not g.can_double
+    g.hit()  # ignored at 21
+    assert len(g.player) == 3
+    g.stand()
+    assert g.finished and len(g.dealer) == 3
+
+
+def test_soft_21_after_hitting_also_waits():
+    g = BlackjackGame(bet=50, shoe=[c("9"), c("A")], player=[c("5"), c("5")], dealer=[c("10"), c("7")])
+    g.hit()
+    assert hand_value(g.player) == 21 and not g.finished and not g.can_hit
