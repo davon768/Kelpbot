@@ -8,7 +8,7 @@ from discord.ext import commands
 
 CATEGORIES: dict[str, tuple[str, ...]] = {
     "💰 Earning & saving": ("balance", "daily", "work", "job", "quests", "beg", "rob", "give", "deposit", "withdraw"),
-    "🎰 Casino games": ("slots", "blackjack", "coinflip", "roulette", "dice", "crash", "mines", "highlow", "paytable"),
+    "🎰 Casino games": ("games", "slots", "blackjack", "coinflip", "roulette", "dice", "crash", "mines", "highlow", "paytable"),
     "👥 Play together": ("duel", "heist", "race", "lottery"),
     "🛒 Shop & stocks": ("shop", "buy", "sell", "use", "inventory", "buyrole", "stocks"),
     "🏆 Progress": ("profile", "stats", "leaderboard", "achievements", "halloffame"),
@@ -56,7 +56,7 @@ def overview_embed(categories: list[str]) -> discord.Embed:
         title="🎰 Kelpbot help",
         description=(
             "A casino with fake money. Earn it, save it, gamble it, show it off.\n\n"
-            "**New here?** Try `/daily`, then `/work`, then `/slots 50`.\n"
+            "**New here?** Try `/daily`, then `/work`, then `/games` to pick something to play.\n"
             "Check `/quests` every day for bonus coins, and `/profile` to see how you're doing.\n\n"
             "Pick a category below to see its commands."
         ),

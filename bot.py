@@ -25,6 +25,7 @@ EXTENSIONS = (
     "kelpbot.cogs.stocks",
     "kelpbot.cogs.profile",
     "kelpbot.cogs.help",
+    "kelpbot.cogs.games",
     "kelpbot.cogs.shop",
     "kelpbot.cogs.admin",
     "kelpbot.cogs.cleanup",

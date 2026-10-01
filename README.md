@@ -29,6 +29,7 @@ Bets must be between the server's ⚙️ minimum (10) and maximum (50,000) bet.
 
 | Command | How it works |
 | --- | --- |
+| `/games` | Every game in one list. Pick one from the menu, enter your bet in the pop-up, and it starts, no typing needed. |
 | `/slots bet` | 3 reels, up to 500x for 7️⃣7️⃣7️⃣ (about 88% return to player) |
 | `/blackjack bet` | Hit / Stand / Double buttons. Win 2x, blackjack 2.5x, push returns the bet. |
 | `/coinflip bet heads\|tails` | 2x |

@@ -63,6 +63,10 @@ class FakeResponse:
     async def defer(self, **kw):
         self.done = True
 
+    async def send_modal(self, modal):
+        self.done = True
+        self.it.modal = modal
+
 
 class FakeFollowup:
     def __init__(self, it):
@@ -84,6 +88,7 @@ class FakeInteraction:
         self.followup = FakeFollowup(self)
         self.sent, self.edits, self.followups = [], [], []
         self.message = None
+        self.modal = None
 
     async def original_response(self):
         return self.message
