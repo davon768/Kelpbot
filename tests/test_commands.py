@@ -233,3 +233,29 @@ def test_blackjack_on_the_deal_is_revealed_after_the_opening(kb, monkeypatch):
     final = it.edits[-1].embed
     assert "Blackjack!" in final.title and "🂠" not in final.fields[0].value
     assert kb.db.balance(GUILD, 1) == 1000 + 150 + 500 + FIRST_WIN  # 3:2 payout + Natural + Beginner's Luck
+
+
+def test_slots_shows_big_reels_and_spins_again(kb, monkeypatch):
+    from conftest import loaded
+
+    monkeypatch.setattr(loaded("kelpbot.cogs.casino"), "SLOT_REEL_SECONDS", 0)
+    alice = FakeMember(1)
+    it = call(kb, "slots", alice, bet=100)
+    first = it.sent[-1]
+    assert first.content == "❓  ❓  ❓" and first.embed.title == "🎰 Slots"
+    final = it.edits[-1]
+    assert "❓" not in final.content and len(final.content.split()) == 3  # emoji only, so Discord shows them big
+    view = first.view
+    assert not view.again.disabled
+
+    assert "isn't your machine" in press(kb, view, view.again, FakeMember(2)).last_text
+    again = press(kb, view, view.again, alice)
+    assert kb.db.account(GUILD, 1).games_played == 2
+    assert again.edits[-1].embed.footer.text.startswith("Bet: 100")
+
+    kb.db.credit(GUILD, 1, -10_000_000)  # broke: Spin again explains instead of spinning
+    broke = press(kb, view, view.again, alice)
+    assert broke.sent[-1].ephemeral and kb.db.account(GUILD, 1).games_played == 2
+
+    kb.run(view.on_timeout())
+    assert view.message.edits[-1] == {"view": None}

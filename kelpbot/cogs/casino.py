@@ -20,6 +20,52 @@ from kelpbot.games.horses import HORSES
 
 Bet = app_commands.Range[int, 1]
 REVEAL_SECONDS = 1.5  # pause between showing the deal and revealing a blackjack
+SLOT_REEL_SECONDS = 0.7  # pause before each reel stops
+SLOTS_IDLE_SECONDS = 120  # Spin again disappears (and auto-delete starts) after this long without a spin
+
+
+def slot_reels(stopped: list) -> str:
+    """The reel row: stopped symbols, then question marks for reels still spinning."""
+    faces = [s.emoji for s in stopped] + ["❓"] * (slot_machine.REELS - len(stopped))
+    return "  ".join(faces)
+
+
+class SlotsView(discord.ui.View):
+    """The Spin again button. It stays until the player stops spinning for a while."""
+
+    def __init__(self, cog: "Casino", interaction: discord.Interaction, bet: int) -> None:
+        super().__init__(timeout=SLOTS_IDLE_SECONDS)
+        self.cog = cog
+        self.guild_id = interaction.guild_id
+        self.player_id = interaction.user.id
+        self.bet = bet
+        self.spinning = False
+        self.message: discord.InteractionMessage | None = None
+
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        if interaction.user.id != self.player_id:
+            await interaction.response.send_message("This isn't your machine! Start your own with `/slots`.",
+                                                    ephemeral=True)
+            return False
+        return True
+
+    @discord.ui.button(label="Spin again", style=discord.ButtonStyle.success, emoji="🎰")
+    async def again(self, interaction: discord.Interaction, _: discord.ui.Button) -> None:
+        if self.spinning:
+            await interaction.response.send_message("Still spinning!", ephemeral=True)
+            return
+        if not await take_bet(self.cog.bot, interaction, self.bet, "slots"):
+            return
+        await self.cog.spin_slots(interaction, self.bet, self)
+
+    async def on_timeout(self) -> None:
+        if self.message is None:
+            return
+        try:
+            await self.message.edit(view=None)
+        except discord.HTTPException:
+            pass
+        self.cog.bot.schedule_cleanup(self.guild_id, self.message.channel.id, self.message.id)
 
 
 class BlackjackView(PlayerView):
@@ -116,10 +162,15 @@ class Casino(commands.Cog):
     def _footer(self, bet: int, balance: int, extra: str = "") -> str:
         return f"{extra + ' • ' if extra else ''}Bet: {bet:,} • Wallet: {balance:,}"
 
-    @app_commands.command(description="Spin the slot machine.")
+    # Cleaned up by SlotsView once the player stops spinning, not when the command returns.
+    @app_commands.command(description="Spin the slot machine.", extras={"manual_cleanup": True})
     async def slots(self, interaction: discord.Interaction, bet: Bet) -> None:
         if not await take_bet(self.bot, interaction, bet, "slots"):
             return
+        await self.spin_slots(interaction, bet, SlotsView(self, interaction, bet))
+
+    async def spin_slots(self, interaction: discord.Interaction, bet: int, view: "SlotsView") -> None:
+        """One spin. The first spin posts the machine; Spin again edits the same message."""
         gid, uid = interaction.guild_id, interaction.user.id
         cfg = self.bot.cfg(gid)
         reels = slot_machine.spin()
@@ -128,19 +179,27 @@ class Casino(commands.Cog):
         if all(s == slot_machine.SYMBOLS[-1] for s in reels):
             unlocked += achievements.unlock(self.bot.db, gid, uid, "jackpot")
 
-        # Little spinning animation, revealing one reel at a time.
-        embed = discord.Embed(title="🎰 Slots", description="**[ ❓ | ❓ | ❓ ]**", color=discord.Color.purple())
-        await interaction.response.send_message(embed=embed)
+        # The reels go in the message text on their own, which Discord shows as big emoji.
+        # The embed underneath holds the result, like the machine on the landing page.
+        view.spinning = True
+        view.again.disabled = True
+        embed = discord.Embed(title="🎰 Slots", description="Spinning...", color=discord.Color.purple())
+        embed.set_footer(text=f"Bet: {bet:,}")
+        if view.message is None:
+            await interaction.response.send_message(slot_reels([]), embed=embed, view=view)
+            view.message = await interaction.original_response()
+        else:
+            await interaction.response.edit_message(content=slot_reels([]), embed=embed, view=view)
         for i in range(1, len(reels) + 1):
-            await asyncio.sleep(0.7)
-            shown = [s.emoji for s in reels[:i]] + ["❓"] * (len(reels) - i)
-            embed.description = f"**[ {' | '.join(shown)} ]**"
-            await interaction.edit_original_response(embed=embed)
+            await asyncio.sleep(SLOT_REEL_SECONDS)
+            await interaction.edit_original_response(content=slot_reels(reels[:i]))
 
         text, embed.color = result_line(cfg, bet, returned)
-        embed.description += f"\n\n{text}"
+        embed.description = text
         embed.set_footer(text=self._footer(bet, balance))
-        await interaction.edit_original_response(embed=embed)
+        view.spinning = False
+        view.again.disabled = False
+        await interaction.edit_original_response(content=slot_reels(reels), embed=embed, view=view)
         await self.bot.award(interaction, unlocked)
 
     # Cleaned up by BlackjackView when the hand ends, not when the command returns.

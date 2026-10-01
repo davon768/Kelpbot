@@ -31,6 +31,10 @@
   --embed-ink: #1f2a27;
   --embed-muted: #5b6b66;
   --embed-edge: #d9e3dd;
+  --win: #2d9a5c;         /* Discord embed colours the bot uses: green, red, purple */
+  --lose: #d0453b;
+  --spin: #8a4fd8;
+  --button: #248046;      /* Discord's green button */
   --display: "Limelight", "Rockwell", Georgia, serif;
   --body: "Karla", "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -89,32 +93,36 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .btn:focus-visible, button:focus-visible { outline: 3px solid var(--brass); outline-offset: 3px; }
 .fineprint { margin-top: 18px; font-size: 14px; color: var(--muted); }
 
-/* ---- the Discord-style slot demo ---- */
+/* ---- the Discord-style slot demo (mirrors what the bot really posts) ---- */
 .embed {
   background: var(--embed); color: var(--embed-ink); border: 1px solid var(--embed-edge);
   border-left: 4px solid var(--brass); border-radius: 6px; padding: 16px 18px; min-width: 0;
-  box-shadow: 0 18px 40px -24px rgba(8, 30, 24, 0.55);
 }
-.cmd { font: 500 13px/1.4 var(--mono); color: var(--embed-muted); margin-bottom: 10px; }
-.cmd b { color: var(--kelp); font-weight: 600; }
-.embed h3 { font-size: 16px; margin-bottom: 10px; }
-.reels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-block: 6px 12px; }
-.reel {
-  height: 88px; border-radius: 8px; background: var(--brass-soft); display: grid; place-items: center;
-  font-size: 44px; overflow: hidden; border: 1px solid var(--embed-edge);
+.discord {
+  background: var(--embed); color: var(--embed-ink); border: 1px solid var(--embed-edge); border-radius: 10px;
+  padding: 14px 18px 18px; box-shadow: 0 18px 40px -24px rgba(8, 30, 24, 0.55); min-width: 0;
 }
-.reel.spin span { animation: blur 0.12s linear infinite; }
-@keyframes blur { from { transform: translateY(-30%); opacity: 0.4; } to { transform: translateY(30%); opacity: 0.9; } }
-.result { font-weight: 700; min-height: 1.6em; }
-.result.win { color: var(--kelp); }
-.result.lose { color: var(--coral); }
-.embed-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
-.embed-foot .mono { color: var(--embed-muted); font-size: 12px; }
+.cmd { font: 500 13px/1.4 var(--body); color: var(--embed-muted); margin: 0 0 6px 52px; }
+.cmd b { color: var(--kelp); font-weight: 700; }
+.msg { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--brass-soft); display: grid; place-items: center; font-size: 20px; }
+.msg-body { display: grid; gap: 8px; justify-items: start; min-width: 0; }
+.author { font-weight: 700; font-size: 15px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.app { font: 700 10px/1 var(--body); background: var(--spin); color: #fff; padding: 3px 5px; border-radius: 3px; letter-spacing: 0.04em; }
+.time { font-weight: 400; font-size: 12px; color: var(--embed-muted); }
+.reels { display: flex; gap: 10px; font-size: 44px; line-height: 1.15; }
+.reels span { width: 1.15em; text-align: center; }
+.slot-embed { border-left-color: var(--win); width: 100%; max-width: 360px; padding: 12px 16px; display: grid; gap: 6px; }
+.slot-embed.lose { border-left-color: var(--lose); }
+.slot-embed.spinning { border-left-color: var(--spin); }
+.slot-embed h3 { font-size: 15px; }
+.result { font-weight: 700; font-size: 15px; min-height: 1.5em; }
+.embed-foot { font-size: 12px; color: var(--embed-muted); }
 .spin-btn {
-  background: var(--kelp); color: var(--embed); border: 0; border-radius: 4px; padding: 9px 16px;
-  font: 700 14px/1 var(--body); cursor: pointer;
+  background: var(--button); color: #fff; border: 0; border-radius: 4px; padding: 8px 16px;
+  font: 600 14px/1.2 var(--body); cursor: pointer;
 }
-.spin-btn:disabled { opacity: 0.6; cursor: wait; }
+.spin-btn:disabled { opacity: 0.55; cursor: wait; }
 .demo-note { font-size: 13px; color: var(--muted); margin-top: 10px; }
 
 /* ---- money loop ---- */
@@ -176,10 +184,9 @@ footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var
   body { font-size: 16px; padding-inline: 16px; }
   .loop, .pairs { grid-template-columns: 1fr; }
   .loop > div + div { border-left: 0; border-top: 1px solid var(--line); }
-  .reel { height: 72px; font-size: 36px; }
+  .reels { font-size: 36px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .reel.spin span { animation: none; }
   .btn { transition: none; }
 }
 </style>
@@ -212,21 +219,23 @@ img { max-width: 100%; }
     </div>
 
     <div>
-      <div class="embed" aria-live="polite">
-        <p class="cmd">Marina used <b>/slots</b> bet: 50</p>
-        <h3>🎰 Slots</h3>
-        <div class="reels" id="reels">
-          <div class="reel"><span>🍒</span></div>
-          <div class="reel"><span>🍒</span></div>
-          <div class="reel"><span>🍒</span></div>
-        </div>
-        <p class="result win" id="result">🎉 You won 🪙 200!</p>
-        <div class="embed-foot">
-          <span class="mono" id="wallet">Bet: 50 • Wallet: 1,200</span>
-          <button class="spin-btn" id="spin" type="button">Spin again</button>
+      <div class="discord" aria-live="polite">
+        <p class="cmd">↳ Marina used <b>/slots</b></p>
+        <div class="msg">
+          <div class="avatar" aria-hidden="true">🎰</div>
+          <div class="msg-body">
+            <p class="author">Kelpbot <span class="app">APP</span> <span class="time">Today at 9:41 PM</span></p>
+            <div class="reels" id="reels"><span>🍒</span><span>🍒</span><span>🍋</span></div>
+            <div class="embed slot-embed" id="slot-embed">
+              <h3>🎰 Slots</h3>
+              <p class="result" id="result">🎉 You won 🪙 50!</p>
+              <p class="embed-foot" id="wallet">Bet: 50 • Wallet: 1,250</p>
+            </div>
+            <button class="spin-btn" id="spin" type="button">🎰 Spin again</button>
+          </div>
         </div>
       </div>
-      <p class="demo-note">Try it. This demo uses the bot's real symbols, odds and payouts (a jackpot is 1 in a million).</p>
+      <p class="demo-note">Try it. This is what the bot posts in Discord, with its real symbols, odds and payouts (a jackpot is 1 in a million).</p>
     </div>
   </header>
 
@@ -390,9 +399,10 @@ img { max-width: 100%; }
   const SYMBOLS = [["🍒", 30, 5], ["🍋", 25, 10], ["🍊", 20, 15], ["🍇", 14, 25], ["🔔", 7, 50], ["💎", 3, 100], ["7️⃣", 1, 500]];
   const TOTAL = SYMBOLS.reduce((sum, s) => sum + s[1], 0);
   const BET = 50;
-  let wallet = 1200;
+  let wallet = 1250;
 
-  const reels = [...document.querySelectorAll("#reels .reel")];
+  const faces = [...document.querySelectorAll("#reels span")];
+  const embed = document.getElementById("slot-embed");
   const result = document.getElementById("result");
   const walletEl = document.getElementById("wallet");
   const button = document.getElementById("spin");
@@ -411,31 +421,27 @@ img { max-width: 100%; }
   const fmt = (n) => n.toLocaleString("en-US");
   const wait = (ms) => new Promise((r) => setTimeout(r, reduced ? 0 : ms));
 
+  // Same steps as the bot: question marks, then each reel stops 0.7s apart, then the result.
   button.addEventListener("click", async () => {
     if (wallet < BET) wallet = 1000; // out of pretend money: a kind stranger tops you up
     wallet -= BET;
     button.disabled = true;
-    result.className = "result";
-    result.textContent = "Spinning…";
+    embed.className = "embed slot-embed spinning";
+    result.textContent = "Spinning...";
+    walletEl.textContent = `Bet: ${BET}`;
     const spin = [pick(), pick(), pick()];
-    reels.forEach((r) => r.classList.add("spin"));
-    const faces = reels.map((r) => r.querySelector("span"));
-    const shuffle = setInterval(() => faces.forEach((f, i) => {
-      if (reels[i].classList.contains("spin")) f.textContent = pick()[0];
-    }), 90);
-    for (let i = 0; i < reels.length; i++) {
-      await wait(450);
-      reels[i].classList.remove("spin");
+    faces.forEach((f) => { f.textContent = "❓"; });
+    for (let i = 0; i < faces.length; i++) {
+      await wait(700);
       faces[i].textContent = spin[i][0];
     }
-    clearInterval(shuffle);
     const returned = BET * multiplier(spin);
     wallet += returned;
     if (returned > BET) {
-      result.className = "result win";
+      embed.className = "embed slot-embed";
       result.textContent = `🎉 You won 🪙 ${fmt(returned - BET)}!`;
     } else {
-      result.className = "result lose";
+      embed.className = "embed slot-embed lose";
       result.textContent = `💀 You lost 🪙 ${fmt(BET)}.`;
     }
     walletEl.textContent = `Bet: ${BET} • Wallet: ${fmt(wallet)}`;
