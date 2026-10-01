@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kelpbot Casino</title>
+<meta name="description" content="A full casino economy for your Discord server: jobs, a bank, stocks, heists, horse races and a dozen games. All money is fake.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kelpbot Casino">
+<meta property="og:description" content="A full casino economy for your Discord server: jobs, a bank, stocks, heists, horse races and a dozen games. All money is fake.">
+<meta property="og:url" content="https://davon768.github.io/Kelpbot/">
+<meta name="theme-color" content="#9a6b12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%B0%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Limelight&family=Karla:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a casino marquee over a kelp bed. Asymmetric hero (pitch left, live slot reel right),
+   then a payout ledger, the shared games, the owner's toolkit, a tracker preview and three setup steps. */
+:root {
+  --bg: #eef3ee;          /* sea-foam paper */
+  --surface: #f8fbf7;
+  --ink: #12302a;         /* deep kelp */
+  --muted: #4d6760;
+  --line: #cfdcd4;
+  --brass: #9a6b12;       /* casino brass, readable on light */
+  --brass-soft: #f1e3c2;
+  --kelp: #2f7a5a;
+  --coral: #b4462f;
+  --embed: #ffffff;
+  --embed-ink: #1f2a27;
+  --embed-muted: #5b6b66;
+  --embed-edge: #d9e3dd;
+  --display: "Limelight", "Rockwell", Georgia, serif;
+  --body: "Karla", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1c19; --surface: #11261f; --ink: #e5efe8; --muted: #9db4ab; --line: #24413a;
+    --brass: #e0b45a; --brass-soft: #2e2715; --kelp: #6cc39a; --coral: #f08a6f;
+    --embed: #1a2b27; --embed-ink: #e8f0ec; --embed-muted: #9fb3ab; --embed-edge: #2b4640;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1c19; --surface: #11261f; --ink: #e5efe8; --muted: #9db4ab; --line: #24413a;
+  --brass: #e0b45a; --brass-soft: #2e2715; --kelp: #6cc39a; --coral: #f08a6f;
+  --embed: #1a2b27; --embed-ink: #e8f0ec; --embed-muted: #9fb3ab; --embed-edge: #2b4640;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 17px/1.6 var(--body);
+  padding-inline: 20px;
+  padding-block: 0;
+}
+.wrap { max-width: 1080px; margin-inline: auto; }
+h1, h2 { font-family: var(--display); font-weight: 400; text-wrap: balance; line-height: 1.1; margin: 0; }
+h2 { font-size: clamp(28px, 4vw, 40px); }
+h3 { font-size: 18px; margin: 0; }
+p { margin: 0; }
+a { color: inherit; }
+code, .mono { font-family: var(--mono); font-size: 0.86em; }
+code { background: var(--brass-soft); padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+.eyebrow { font: 600 12px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--brass); }
+section { padding-block: 56px; border-top: 1px solid var(--line); display: grid; gap: 28px; }
+.lede { color: var(--muted); max-width: 62ch; }
+
+/* ---- nav + hero ---- */
+nav { display: flex; justify-content: space-between; align-items: center; padding-block: 22px; gap: 16px; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-size: 24px; letter-spacing: 0.02em; }
+.brand span { color: var(--brass); }
+.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 48px; align-items: center; padding-block: 36px 64px; }
+.hero h1 { font-size: clamp(44px, 7vw, 76px); }
+.hero h1 em { font-style: normal; color: var(--brass); }
+.hero .lede { font-size: 19px; margin-top: 18px; }
+.ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px; border-radius: 999px;
+  font: 700 16px/1 var(--body); text-decoration: none; border: 2px solid var(--ink); cursor: pointer;
+  background: transparent; color: var(--ink); transition: transform 0.15s ease;
+}
+.btn.primary { background: var(--ink); color: var(--bg); }
+.btn:hover { transform: translateY(-2px); }
+.btn:focus-visible, button:focus-visible { outline: 3px solid var(--brass); outline-offset: 3px; }
+.fineprint { margin-top: 18px; font-size: 14px; color: var(--muted); }
+
+/* ---- the Discord-style slot demo ---- */
+.embed {
+  background: var(--embed); color: var(--embed-ink); border: 1px solid var(--embed-edge);
+  border-left: 4px solid var(--brass); border-radius: 6px; padding: 16px 18px; min-width: 0;
+  box-shadow: 0 18px 40px -24px rgba(8, 30, 24, 0.55);
+}
+.cmd { font: 500 13px/1.4 var(--mono); color: var(--embed-muted); margin-bottom: 10px; }
+.cmd b { color: var(--kelp); font-weight: 600; }
+.embed h3 { font-size: 16px; margin-bottom: 10px; }
+.reels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-block: 6px 12px; }
+.reel {
+  height: 88px; border-radius: 8px; background: var(--brass-soft); display: grid; place-items: center;
+  font-size: 44px; overflow: hidden; border: 1px solid var(--embed-edge);
+}
+.reel.spin span { animation: blur 0.12s linear infinite; }
+@keyframes blur { from { transform: translateY(-30%); opacity: 0.4; } to { transform: translateY(30%); opacity: 0.9; } }
+.result { font-weight: 700; min-height: 1.6em; }
+.result.win { color: var(--kelp); }
+.result.lose { color: var(--coral); }
+.embed-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+.embed-foot .mono { color: var(--embed-muted); font-size: 12px; }
+.spin-btn {
+  background: var(--kelp); color: var(--embed); border: 0; border-radius: 4px; padding: 9px 16px;
+  font: 700 14px/1 var(--body); cursor: pointer;
+}
+.spin-btn:disabled { opacity: 0.6; cursor: wait; }
+.demo-note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+/* ---- money loop ---- */
+.loop { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.loop > div { padding: 22px 20px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.loop > div + div { border-left: 1px solid var(--line); }
+.loop h3 { font-family: var(--display); font-weight: 400; font-size: 24px; color: var(--brass); }
+.loop p { color: var(--muted); font-size: 15px; }
+.loop .cmds { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ---- payout ledger ---- */
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; min-width: 640px; }
+th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 12px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); background: var(--surface); }
+tr:last-child td { border-bottom: 0; }
+td.pay { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--brass); font-weight: 600; white-space: nowrap; }
+td.game { white-space: nowrap; font-weight: 700; }
+
+/* ---- together + owners ---- */
+.pairs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; }
+.pair { display: grid; gap: 6px; min-width: 0; }
+.pair h3 { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.pair p { color: var(--muted); }
+.owners { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+.checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.checks li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; }
+.checks li::before { content: "◆"; color: var(--brass); font-size: 12px; line-height: 1.9; }
+.checks b { display: block; }
+.checks span { color: var(--muted); font-size: 15px; }
+
+/* ---- tracker preview ---- */
+.tracker { display: grid; gap: 10px; }
+.tracker .embed { border-left-color: var(--kelp); }
+.tracker .embed h3 { font-size: 15px; }
+.tracker ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; font-size: 14px; }
+.tracker .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.example-tag { font: 600 11px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+/* ---- steps ---- */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; counter-reset: step; }
+.step { display: grid; gap: 8px; min-width: 0; }
+.step::before {
+  counter-increment: step; content: counter(step); font-family: var(--display); font-size: 44px;
+  color: var(--brass); line-height: 1;
+}
+.step p { color: var(--muted); }
+
+footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+@media (max-width: 860px) {
+  .hero, .owners { grid-template-columns: 1fr; }
+  .loop { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .loop > div:nth-child(3) { border-left: 0; }
+  .loop > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .steps { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; padding-inline: 16px; }
+  .loop, .pairs { grid-template-columns: 1fr; }
+  .loop > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .reel { height: 72px; font-size: 36px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reel.spin span { animation: none; }
+  .btn { transition: none; }
+}
+</style>
+<style>
+/* Base reset (the hosted page has no wrapper adding one). */
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="brand">Kelp<span>bot</span></div>
+    <a class="btn" href="https://discord.com/oauth2/authorize?client_id=1554976352120340620&amp;permissions=268528640&amp;scope=bot+applications.commands">Add to Discord</a>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <p class="eyebrow">A casino economy for Discord</p>
+      <h1>Fake money. <em>Real</em> bragging rights.</h1>
+      <p class="lede">Kelpbot gives your server a whole economy to play with: jobs, a bank, a stock market,
+        heists, horse races and a dozen casino games. Every coin is pretend, and every leaderboard is very real.</p>
+      <div class="ctas">
+        <a class="btn primary" href="https://discord.com/oauth2/authorize?client_id=1554976352120340620&amp;permissions=268528640&amp;scope=bot+applications.commands">Add Kelpbot to your server</a>
+        <a class="btn" href="#games">See the games</a>
+      </div>
+      <p class="fineprint">Free. Slash commands only. No real money can be bought, won or cashed out.</p>
+    </div>
+
+    <div>
+      <div class="embed" aria-live="polite">
+        <p class="cmd">Marina used <b>/slots</b> bet: 50</p>
+        <h3>🎰 Slots</h3>
+        <div class="reels" id="reels">
+          <div class="reel"><span>🍒</span></div>
+          <div class="reel"><span>🍒</span></div>
+          <div class="reel"><span>🍒</span></div>
+        </div>
+        <p class="result win" id="result">🎉 You won 🪙 200!</p>
+        <div class="embed-foot">
+          <span class="mono" id="wallet">Bet: 50 • Wallet: 1,200</span>
+          <button class="spin-btn" id="spin" type="button">Spin again</button>
+        </div>
+      </div>
+      <p class="demo-note">Try it. This demo uses the bot's real symbols, odds and payouts (a jackpot is 1 in a million).</p>
+    </div>
+  </header>
+
+  <section>
+    <div>
+      <p class="eyebrow">How the money moves</p>
+      <h2>Earn it, grow it, risk it, flaunt it</h2>
+    </div>
+    <div class="loop">
+      <div>
+        <h3>Earn</h3>
+        <p>Claim a daily reward, work shifts to level up from Kelp Farmer to Kelp Tycoon, and finish three new quests each day.</p>
+        <div class="cmds"><code>/daily</code> <code>/work</code> <code>/quests</code></div>
+      </div>
+      <div>
+        <h3>Grow</h3>
+        <p>The bank pays daily interest and robbers can't touch it. Four stocks move every hour.</p>
+        <div class="cmds"><code>/deposit</code> <code>/stocks</code></div>
+      </div>
+      <div>
+        <h3>Risk</h3>
+        <p>Twelve games, from a coin flip to crash. Or rob someone's wallet and hope you don't pay them a fine.</p>
+        <div class="cmds"><code>/crash</code> <code>/rob</code></div>
+      </div>
+      <div>
+        <h3>Flaunt</h3>
+        <p>Buy pets, roles and a 500,000-coin yacht. Collect 20 achievements and climb the weekly board.</p>
+        <div class="cmds"><code>/shop</code> <code>/profile</code></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="games">
+    <div>
+      <p class="eyebrow">The floor</p>
+      <h2>Every game, with its real odds</h2>
+      <p class="lede" style="margin-top: 12px">Payouts include your stake. Every game keeps a small house edge, so the leaderboard means something.</p>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Game</th><th>How it plays</th><th>Top payout</th></tr></thead>
+        <tbody>
+          <tr><td class="game">🎰 Slots</td><td>Three reels. Two cherries pays too.</td><td class="pay">500x</td></tr>
+          <tr><td class="game">🃏 Blackjack</td><td>Hit, stand or double with buttons. Dealer stands on 17.</td><td class="pay">2.5x</td></tr>
+          <tr><td class="game">🚀 Crash</td><td>A multiplier climbs until it crashes. Cash out in time, or set an auto cash-out.</td><td class="pay">100x</td></tr>
+          <tr><td class="game">💣 Mines</td><td>Twenty tiles, up to fifteen mines. Every gem raises the multiplier.</td><td class="pay">1,000x+</td></tr>
+          <tr><td class="game">🔮 Higher or Lower</td><td>Guess the next card. Keep your streak going or cash out.</td><td class="pay">1,000x</td></tr>
+          <tr><td class="game">🎡 Roulette</td><td>European wheel: colours, dozens or a single number.</td><td class="pay">36x</td></tr>
+          <tr><td class="game">🎲 Dice</td><td>Pick your win chance from 1 to 95%. Rarer rolls pay more.</td><td class="pay">98x</td></tr>
+          <tr><td class="game">🪙 Coinflip</td><td>Heads or tails.</td><td class="pay">2x</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div>
+      <p class="eyebrow">Better with friends</p>
+      <h2>Games the whole channel plays</h2>
+    </div>
+    <div class="pairs">
+      <div class="pair">
+        <h3>💰 Heists <code>/heist</code></h3>
+        <p>Start a heist and your friends buy in within 60 seconds. A crew of two has a 50% chance; five or more have 80%, but split the loot more ways.</p>
+      </div>
+      <div class="pair">
+        <h3>🏇 Horse races <code>/race</code></h3>
+        <p>The first bet opens the betting window. Then everyone watches the race play out live, from Seaweed Sprinter at 2.7x to Lucky Limpet at 11.8x.</p>
+      </div>
+      <div class="pair">
+        <h3>⚔️ Duels <code>/duel</code></h3>
+        <p>Challenge someone. You both put up the same bet, a coin decides, and the winner takes it all.</p>
+      </div>
+      <div class="pair">
+        <h3>🎟️ Lottery <code>/lottery</code></h3>
+        <p>Tickets go into one pot for the server, and the draw happens 24 hours after the first ticket is bought. More tickets mean better odds.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="owners">
+      <div style="display: grid; gap: 18px;">
+        <div>
+          <p class="eyebrow">For server owners</p>
+          <h2>Your server, your rules</h2>
+        </div>
+        <ul class="checks">
+          <li><div><b>A separate economy for every server</b><span>Balances, items and leaderboards never cross between servers.</span></div></li>
+          <li><div><b>Tune everything</b><span>Set the currency name and emoji, starting money, pay, bet limits and interest, and turn any game on or off.</span></div></li>
+          <li><div><b>A tidy channel</b><span>Replies clean themselves up after two minutes, and errors are only visible to the person who caused them.</span></div></li>
+          <li><div><b>Events and seasons</b><span>Run Double Pay or Lucky Hour for an evening. End a season to crown the top three and start everyone fresh.</span></div></li>
+          <li><div><b>Built to be fair</b><span>Brand-new accounts can't funnel money, bets come back if the bot restarts, and a log channel records big wins and admin actions.</span></div></li>
+        </ul>
+      </div>
+
+      <div class="tracker">
+        <span class="example-tag">Example · live tracker channel</span>
+        <div class="embed">
+          <h3>📊 Kelp Cove Tracker</h3>
+          <ul>
+            <li>👥 <span class="num">48</span> players · 💰 <span class="num">🪙 1,284,300</span> in circulation</li>
+            <li>🎟️ Lottery jackpot <span class="num">🪙 18,900</span>, drawn in 3 hours</li>
+            <li>🍀 <b>Lucky Hour is on!</b> Every winning game pays 10% extra</li>
+          </ul>
+        </div>
+        <div class="embed">
+          <h3>☀️ Today's highlights</h3>
+          <ul>
+            <li>🎲 <b class="num">312 games</b> · the house is down <span class="num">🪙 4,120</span></li>
+            <li>🔥 Biggest win: Finn <b class="num">+🪙 24,750</b> on crash</li>
+            <li>🎯 Luckiest hit: Coral <b class="num">42.0x</b> on mines</li>
+            <li>🦹 <b>3 robberies</b>, <span class="num">🪙 2,610</span> stolen</li>
+          </ul>
+        </div>
+        <div class="embed">
+          <h3>📜 Recent history</h3>
+          <ul>
+            <li>💰 A crew of 4 led by Marina pulled off a heist for <span class="num">🪙 5,400</span></li>
+            <li>💼 Finn was promoted to <b>Ship Captain</b> (level 12)</li>
+            <li>📈 <b>CRAB</b> jumped 14.2% to <span class="num">47.30</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div>
+      <p class="eyebrow">Setup</p>
+      <h2>Up and running in a minute</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3>Add Kelpbot</h3>
+        <p>Use the button on this page and pick your server. You need the Manage Server permission.</p>
+      </div>
+      <div class="step">
+        <h3>Give it a home</h3>
+        <p>Make a <code>#casino</code> channel and run <code>/settings channel tracker</code> there to post the live tracker.</p>
+      </div>
+      <div class="step">
+        <h3>Start playing</h3>
+        <p>Everyone starts with 🪙 1,000. Type <code>/help</code> for every command, or jump straight in with <code>/daily</code>.</p>
+      </div>
+    </div>
+    <div class="ctas" style="margin-top: 0">
+      <a class="btn primary" href="https://discord.com/oauth2/authorize?client_id=1554976352120340620&amp;permissions=268528640&amp;scope=bot+applications.commands">Add Kelpbot to your server</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>Kelpbot is a game. All money is fake: it can't be bought, sold or exchanged for anything real.</span>
+    <span class="mono">Made for Discord</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  // The bot's real slot machine (kelpbot/games/slots.py): symbol, weight, payout for three of a kind.
+  const SYMBOLS = [["🍒", 30, 5], ["🍋", 25, 10], ["🍊", 20, 15], ["🍇", 14, 25], ["🔔", 7, 50], ["💎", 3, 100], ["7️⃣", 1, 500]];
+  const TOTAL = SYMBOLS.reduce((sum, s) => sum + s[1], 0);
+  const BET = 50;
+  let wallet = 1200;
+
+  const reels = [...document.querySelectorAll("#reels .reel")];
+  const result = document.getElementById("result");
+  const walletEl = document.getElementById("wallet");
+  const button = document.getElementById("spin");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const pick = () => {
+    let roll = Math.random() * TOTAL;
+    for (const s of SYMBOLS) { if ((roll -= s[1]) < 0) return s; }
+    return SYMBOLS[0];
+  };
+  const multiplier = (spin) => {
+    if (spin.every((s) => s === spin[0])) return spin[0][2];
+    if (spin.filter((s) => s === SYMBOLS[0]).length === 2) return 2;
+    return 0;
+  };
+  const fmt = (n) => n.toLocaleString("en-US");
+  const wait = (ms) => new Promise((r) => setTimeout(r, reduced ? 0 : ms));
+
+  button.addEventListener("click", async () => {
+    if (wallet < BET) wallet = 1000; // out of pretend money: a kind stranger tops you up
+    wallet -= BET;
+    button.disabled = true;
+    result.className = "result";
+    result.textContent = "Spinning…";
+    const spin = [pick(), pick(), pick()];
+    reels.forEach((r) => r.classList.add("spin"));
+    const faces = reels.map((r) => r.querySelector("span"));
+    const shuffle = setInterval(() => faces.forEach((f, i) => {
+      if (reels[i].classList.contains("spin")) f.textContent = pick()[0];
+    }), 90);
+    for (let i = 0; i < reels.length; i++) {
+      await wait(450);
+      reels[i].classList.remove("spin");
+      faces[i].textContent = spin[i][0];
+    }
+    clearInterval(shuffle);
+    const returned = BET * multiplier(spin);
+    wallet += returned;
+    if (returned > BET) {
+      result.className = "result win";
+      result.textContent = `🎉 You won 🪙 ${fmt(returned - BET)}!`;
+    } else {
+      result.className = "result lose";
+      result.textContent = `💀 You lost 🪙 ${fmt(BET)}.`;
+    }
+    walletEl.textContent = `Bet: ${BET} • Wallet: ${fmt(wallet)}`;
+    button.disabled = false;
+  });
+})();
+</script>
+</body>
+</html>

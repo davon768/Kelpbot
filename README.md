@@ -6,6 +6,8 @@ gamble on over a dozen games (some played together), and spend them on items, pe
 Every server has its own separate economy, and admins can tune it with `/settings`.
 Everything is stored in a local SQLite file. New here? `/help` lists every command.
 
+**Website:** <https://davon768.github.io/Kelpbot/> (the page lives in [`docs/index.html`](docs/index.html)).
+
 The numbers below are the defaults. Server admins can change the ones marked ⚙️ with `/settings`.
 
 ## Commands
