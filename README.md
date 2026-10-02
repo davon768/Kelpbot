@@ -92,6 +92,14 @@ Prices move every hour and drift back toward their starting price over time. Hou
 | `/halloffame` | Top 3 of every past season |
 | `/stats [@user]` | Games played, wagered, profit, biggest win |
 
+### Facts
+| Command | What it does |
+| --- | --- |
+| `/funfact` | Posts a fun fact in the channel, from a list of 529 across 16 topics (animals, space, history, kelp and more) |
+| `/notsofunfact` | Posts a fact that's sad 😢, dark 💀 or completely uninteresting 😐, from a list of 301 |
+
+Each server works through each list in its own shuffled order, so no fact repeats until every one has been shown; then it reshuffles. Facts stay in the channel (they're not auto-deleted), and there's a 10-second cooldown per person. To add facts, put new lines in [`kelpbot/data/fun_facts.txt`](kelpbot/data/fun_facts.txt) or [`kelpbot/data/not_fun_facts.txt`](kelpbot/data/not_fun_facts.txt).
+
 ### Admin
 | Command | What it does |
 | --- | --- |

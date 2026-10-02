@@ -12,6 +12,7 @@ CATEGORIES: dict[str, tuple[str, ...]] = {
     "👥 Play together": ("duel", "heist", "race", "lottery"),
     "🛒 Shop & stocks": ("shop", "buy", "sell", "use", "inventory", "buyrole", "stocks"),
     "🏆 Progress": ("profile", "stats", "leaderboard", "achievements", "halloffame"),
+    "🧠 Facts": ("funfact", "notsofunfact"),
     "🛠️ Admin": ("settings", "event", "shoprole", "addmoney", "reseteconomy", "endseason", "autoclean", "cleanup",
                  "backup"),
 }

@@ -1,0 +1,563 @@
+# Fun facts for /funfact. One fact per line. Lines starting with # are category headers or comments.
+# Add new facts anywhere; every server sees each fact once before any repeats.
+
+# Animals
+Octopuses have three hearts and blue blood.
+A group of flamingos is called a flamboyance.
+Wombat poop is cube-shaped, which stops it from rolling away.
+Koala fingerprints are so similar to human ones that they can be hard to tell apart under a microscope.
+Sloths can hold their breath for up to 40 minutes by slowing their heart rate.
+Crows can recognize individual human faces and remember them for years.
+An ostrich's eye is bigger than its brain.
+Hummingbirds can fly backwards.
+Butterflies taste with their feet.
+A shrimp's heart is in its head.
+Sea stars have no brain and no blood.
+A narwhal's tusk is actually a tooth that grows through its upper lip.
+Giraffes have seven neck bones, the same number as humans.
+Axolotls can regrow lost limbs, parts of their heart and even parts of their brain.
+Tardigrades, tiny "water bears", have survived being exposed to the vacuum of space.
+Male seahorses carry the eggs and give birth to the young.
+Owls can't move their eyes, so they turn their heads up to about 270 degrees instead.
+A blue whale's heart can weigh around 180 kilograms (400 pounds).
+Blue whales are the largest animals known to have ever lived.
+Honeybees tell each other where flowers are by doing a "waggle dance".
+Bottlenose dolphins use signature whistles that work like names.
+Polar bears have black skin, and their fur is actually transparent, not white.
+Cats can't taste sweetness.
+A dog's nose print is unique, much like a human fingerprint.
+Electric eels aren't true eels. They're a kind of knifefish.
+Jellyfish have been around for more than 500 million years, long before the dinosaurs.
+Some turtles can breathe through their rear end while underwater.
+A group of crows is called a murder.
+A group of owls is called a parliament.
+Penguins have a gland above their eyes that filters salt out of seawater.
+A mantis shrimp punches so fast that the water around its claw briefly boils and flashes with light.
+Bats are the only mammals capable of true flight.
+Rats make ultrasonic laughing sounds when they're tickled.
+Cheetahs can reach highway speeds in just a few seconds from a standing start.
+A woodpecker's tongue wraps around the back of its skull.
+Snakes smell with their tongues, flicking scent particles to an organ in the roof of their mouth.
+Platypuses glow blue-green under ultraviolet light.
+Platypuses are mammals that lay eggs, and the males have venomous spurs on their back legs.
+Hippos produce a reddish oily fluid that works like a natural sunscreen.
+Squirrels help plant forests, because many of the nuts they bury are never dug up and sprout into trees.
+Arctic terns fly roughly 70,000 kilometers a year, the longest migration of any animal.
+Goats have rectangular pupils, which give them a wide view to spot predators.
+Frogs use their eyeballs to help swallow, pulling them down into their head to push food along.
+One species of jellyfish can turn back into a younger stage of its life, over and over.
+In lab tests, bumblebees have been able to fly in air as thin as it is above Mount Everest.
+Elephants can recognize themselves in a mirror.
+About two-thirds of an octopus's neurons are in its arms rather than its head.
+A cow has four compartments in its stomach.
+Starfish can regrow lost arms, and a few species can regrow a whole body from one arm.
+Some parrots can live for more than 80 years.
+Hummingbird hearts can beat more than 1,000 times a minute.
+Ants don't have lungs. Oxygen reaches their bodies through tiny holes along their sides.
+
+# Ocean and kelp
+Giant kelp can grow up to about 60 centimeters (2 feet) in a single day.
+Kelp isn't a plant. It's a type of brown algae.
+Sea otters wrap themselves in kelp so they don't drift away while they sleep.
+Sea otters protect kelp forests by eating sea urchins, which would otherwise mow the kelp down.
+Giant kelp can grow to more than 45 meters (150 feet) long.
+Kelp stays upright using little gas-filled floats called pneumatocysts.
+Alginate from kelp is used to thicken foods like ice cream and to make toothpaste smooth.
+Scientists estimate that roughly half of the oxygen we breathe comes from the ocean, mostly from tiny phytoplankton.
+The Pacific Ocean is bigger than all of Earth's land put together.
+The deepest known point in the ocean, the Challenger Deep, is nearly 11 kilometers (7 miles) down.
+If Mount Everest were dropped into the Mariana Trench, its peak would still be about 2 kilometers underwater.
+More than 80% of the ocean floor has never been mapped in high detail.
+The ocean holds about 97% of all the water on Earth.
+Sound travels about four times faster in water than in air.
+The Great Barrier Reef is the largest structure built by living things, and it can be seen from orbit.
+Coral is an animal, not a plant or a rock.
+Most creatures in the deep sea can make their own light.
+Anglerfish lure prey toward their mouths with a glowing growth on their heads.
+The longest mountain range on Earth is underwater: the mid-ocean ridge runs about 65,000 kilometers.
+Sea cucumbers can push out their own internal organs to scare off predators, then grow them back.
+Clownfish are all born male, and the dominant one in a group can become female.
+Sea urchins have no eyes, but they can sense light with their tube feet.
+Some whale calls can travel hundreds of kilometers underwater.
+Sharks have existed for longer than trees.
+Greenland sharks can live for at least 250 years, making them among the longest-lived vertebrates.
+An octopus can squeeze through any gap bigger than its hard beak.
+The ocean sunfish is one of the heaviest bony fish and can weigh over 2,000 kilograms.
+Most of the salt in the ocean came from rocks on land, washed into the sea by rivers.
+If all the salt in the ocean were spread over the land, it would form a layer about 150 meters thick.
+Hydrothermal vents on the sea floor support whole ecosystems that live without sunlight.
+The ocean looks blue because water absorbs red light and scatters blue light.
+Sea turtles often return to the same beach where they hatched to lay their own eggs.
+Antarctic krill may have one of the largest total masses of any wild animal species on Earth.
+Seahorses are fish, even though they swim upright.
+A pistol shrimp snaps its claw so fast that it makes a bubble that briefly gets nearly as hot as the Sun's surface.
+Sea otters have the thickest fur of any animal, with up to about a million hairs per square inch.
+Walruses use their tusks to haul themselves out of the water onto ice.
+Kelp forests are found along cold, nutrient-rich coasts on every continent except Antarctica.
+
+# Space
+A day on Venus is longer than its year.
+Venus spins in the opposite direction to most of the planets.
+A teaspoon of neutron star material would weigh about a billion tons on Earth.
+More than a million Earths could fit inside the Sun.
+Sunlight takes about 8 minutes and 20 seconds to reach Earth.
+Saturn is less dense than water, so it would float in a big enough bathtub.
+Jupiter has the shortest day of any planet, just under 10 hours.
+The footprints left on the Moon could last for millions of years because there's no wind to blow them away.
+Olympus Mons on Mars is about two and a half times as tall as Mount Everest.
+Dust storms on Mars can grow large enough to cover the whole planet.
+Sunsets on Mars look blue.
+A year on Mercury lasts just 88 Earth days.
+Uranus spins on its side.
+Neptune has the fastest winds in the solar system, over 2,000 kilometers per hour.
+By most estimates, there are more stars in the universe than grains of sand on all of Earth's beaches.
+Space is silent, because sound needs air or another material to travel through.
+The International Space Station circles Earth about every 90 minutes, so astronauts see around 16 sunrises a day.
+Astronauts can grow a few centimeters taller in space because their spines stretch out without gravity.
+The Moon is drifting away from Earth by about 3.8 centimeters every year.
+The same side of the Moon always faces Earth.
+Pluto is smaller than Earth's Moon.
+A day on Pluto lasts about six and a half Earth days.
+Halley's Comet comes back about every 76 years. Its next visit is in 2061.
+Some of the starlight you see tonight left its star thousands of years ago.
+The Sun holds about 99.8% of all the mass in the solar system.
+Earth is the only planet in the solar system that isn't named after a god.
+Saturn's rings are mostly ice, and in places they're only about 10 meters thick.
+Jupiter's Great Red Spot is a storm bigger than Earth that has lasted for centuries.
+Venus is the hottest planet, even hotter than Mercury, because its thick atmosphere traps heat.
+The first animals to go to space and come back alive were fruit flies, in 1947.
+Laika the dog became the first animal to orbit Earth, in 1957.
+Yuri Gagarin became the first person in space in 1961.
+Neil Armstrong and Buzz Aldrin landed on the Moon on 20 July 1969.
+Twelve people have walked on the Moon.
+Voyager 1, launched in 1977, is the farthest human-made object from Earth.
+The Voyager probes each carry a golden record with sounds and pictures from Earth.
+A black hole's gravity is so strong that not even light can escape it.
+Astronomers have found planets that orbit two stars, like Tatooine in Star Wars.
+Earth's spin is very slowly slowing down, so days get a tiny bit longer over millions of years.
+Earth is closest to the Sun in early January, during winter in the Northern Hemisphere.
+Seasons are caused by the tilt of Earth's axis, not by how far Earth is from the Sun.
+The Moon has quakes, called moonquakes.
+On Mercury, temperatures swing from about 430°C in the day to about -180°C at night.
+Light from the Moon takes a little over one second to reach Earth.
+Mars has two small moons, Phobos and Deimos.
+Jupiter has more than 90 known moons.
+A spacecraft has touched the Sun's outer atmosphere: NASA's Parker Solar Probe, in 2021.
+
+# Human body
+An adult human skeleton has 206 bones.
+Babies are born with around 300 bones, and many of them fuse together as they grow.
+The smallest bone in your body, the stapes, is in your ear.
+The femur, your thigh bone, is the longest and strongest bone in your body.
+The cells lining your stomach are replaced every few days.
+Humans share about 98 to 99% of their DNA with chimpanzees.
+Your heart beats around 100,000 times a day.
+Fingernails grow about two to three times faster than toenails.
+You can't tickle yourself because your brain predicts the feeling before it happens.
+Your skin is your body's largest organ.
+An adult has about 5 liters of blood.
+A red blood cell lives for about 120 days.
+Your brain uses about 20% of your body's energy, even though it's about 2% of your weight.
+Your brain is nearly 60% fat.
+You shed tens of thousands of skin cells every minute.
+Your taste buds are replaced about every two weeks.
+The "funny bone" isn't a bone. It's the ulnar nerve running past your elbow.
+Goosebumps are a leftover reflex that once made our ancestors' body hair stand up.
+Humans glow very faintly, but the light is about 1,000 times too weak for our eyes to see.
+Your body has roughly as many bacterial cells as human cells.
+Hiccups are caused by sudden spasms of the diaphragm.
+Babies are born with kneecaps made of cartilage, which slowly turn into bone.
+Your left lung is smaller than your right one to make room for your heart.
+The hyoid bone in your throat is the only bone that isn't connected to another bone.
+Your heart has its own electrical system and can keep beating for a short time outside the body.
+Cracking your knuckles makes noise from gas bubbles in the joint, and studies haven't linked it to arthritis.
+Your body contains about 3 to 4 grams of iron, enough to make a small nail.
+The average person has around 100,000 hairs on their head.
+Tooth enamel is the hardest substance in the human body.
+Even identical twins have different fingerprints.
+Your nose and ears keep growing slowly throughout your life.
+The human eye blinks around 15 to 20 times a minute.
+Your body makes roughly a liter of saliva every day.
+Your bones are constantly being rebuilt, and you get a mostly new skeleton about every 10 years.
+Humans are one of the very few animals that cry emotional tears.
+The acid in your stomach is strong enough that your stomach needs a layer of mucus to protect itself.
+Each eyelash lasts a few months before it falls out and is replaced.
+Your sense of smell is closely linked to memory, which is why a scent can suddenly bring back a moment.
+Newborn babies can't see colors well; their color vision develops over the first months.
+
+# History
+Cleopatra lived closer in time to the Moon landing than to the building of the Great Pyramid.
+Oxford University is older than the Aztec Empire.
+Woolly mammoths were still alive on a remote island when the Great Pyramid was being built.
+The shortest war in history, between Britain and Zanzibar in 1896, lasted less than 45 minutes.
+Napoleon wasn't especially short. He was about average height for a Frenchman of his time.
+There's no evidence that Vikings wore horned helmets in battle.
+The Great Wall of China can't be seen with the naked eye from the Moon.
+Roman concrete made with volcanic ash is so durable that some Roman harbors are still standing today.
+The Eiffel Tower can grow about 15 centimeters taller in summer because the iron expands in the heat.
+The Eiffel Tower was only meant to stand for 20 years, and was saved partly because it was useful as a radio antenna.
+The Statue of Liberty was originally a shiny copper color before it turned green.
+Johannes Gutenberg built his printing press around 1440.
+The ancient Olympic Games are traditionally dated to 776 BC, in Olympia, Greece.
+The ancient Egyptians used a calendar with 365 days.
+The Titanic sank in 1912 on its very first voyage.
+The Hundred Years' War actually lasted 116 years.
+The oldest surviving photograph was taken around 1827 by Nicéphore Niépce, and needed hours of exposure.
+Abraham Lincoln is in the National Wrestling Hall of Fame.
+In the 1830s, ketchup was sold as a medicine.
+Ada Lovelace wrote what's considered the first computer program in the 1840s, for a machine that was never built.
+The Colosseum in Rome could hold around 50,000 spectators.
+The Roman city of Pompeii was buried by the eruption of Mount Vesuvius in 79 AD.
+The Rosetta Stone helped decode Egyptian hieroglyphs because it has the same text written in three scripts.
+Machu Picchu was built by the Inca in the 1400s.
+Chess most likely began in India around the 6th century as a game called chaturanga.
+Paper was invented in China around 2,000 years ago.
+Fireworks were first invented in China.
+The Wright brothers' first powered flight in 1903 lasted 12 seconds.
+The Berlin Wall fell in 1989.
+The first email was sent in 1971 by Ray Tomlinson.
+The first website went online in 1991.
+In ancient Rome, purple dye was so expensive that purple clothes were a sign of status and power.
+The ancient Maya used a symbol for zero.
+Modern evidence suggests the pyramids of Giza were built by paid workers rather than slaves.
+Albert Einstein was offered the presidency of Israel in 1952 and turned it down.
+The Mona Lisa was stolen from the Louvre in 1911 and wasn't recovered for two years.
+The Leaning Tower of Pisa started leaning while it was still being built.
+Thomas Edison didn't invent the first light bulb; he made a practical, long-lasting one.
+Alexander Fleming discovered penicillin by accident in 1928, after mold grew on a dish he'd left out.
+Olympic gold medals are mostly silver; the last solid gold ones were awarded in 1912.
+Big Ben is the name of the great bell, not the clock tower.
+Ancient Egyptians kept cats as pets and sometimes mummified them.
+Tug of war was an Olympic sport from 1900 to 1920.
+From 1912 to 1948, the Olympics awarded medals for painting, music, literature and architecture.
+Only a handful of deaths were officially recorded in the Great Fire of London in 1666.
+Before alarm clocks were common, "knocker-uppers" were paid to tap on windows to wake people up.
+Most of the signers of the US Declaration of Independence signed it on August 2, 1776, not July 4.
+Ancient Egyptians used slabs of stone as pillows.
+The first known university in continuous operation, al-Qarawiyyin in Morocco, was founded in 859.
+The Great Pyramid of Giza was the tallest human-made structure in the world for nearly 4,000 years.
+
+# Geography
+Russia stretches across 11 time zones.
+Canada has more lakes than the rest of the world combined.
+Australia is wider from east to west than the Moon.
+Africa is the only continent that sits in all four hemispheres.
+The Sahara Desert is roughly the size of the United States.
+Antarctica is the largest desert in the world.
+The shores of the Dead Sea are the lowest land on Earth.
+Mount Everest grows a few millimeters taller each year.
+Mauna Kea in Hawaii is taller than Everest if you measure from its base on the ocean floor.
+Vatican City is the smallest country in the world.
+Monaco is the second-smallest country in the world.
+Nepal has the only national flag that isn't a rectangle.
+Alaska is both the westernmost and the easternmost US state, because its Aleutian Islands cross the 180° line.
+The Amazon River carries more water than the next several biggest rivers combined.
+Lake Baikal in Russia is the deepest lake on Earth and holds about a fifth of the world's unfrozen surface fresh water.
+There's a village in Norway called Hell, and it freezes over every winter.
+Istanbul is split between two continents, Europe and Asia.
+Greenland is the world's largest island that isn't a continent.
+Brazil borders every country in South America except Chile and Ecuador.
+Parts of the Atacama Desert in Chile have gone years without a drop of rain.
+Point Nemo is the spot in the ocean farthest from land, and the nearest people are often the astronauts flying overhead.
+The summit of Mount Everest is made of limestone that formed at the bottom of an ancient sea.
+Indonesia is made up of more than 17,000 islands.
+Japan has more than 14,000 islands, according to a 2023 recount.
+Geographers still argue over whether the Nile or the Amazon is the longest river.
+Angel Falls in Venezuela is the tallest uninterrupted waterfall in the world, at 979 meters.
+About three-quarters of the world's volcanoes are around the Pacific "Ring of Fire".
+About 90% of the ice on Earth is in Antarctica.
+If all of Antarctica's ice melted, sea levels would rise by about 58 meters.
+Saudi Arabia has no permanent rivers.
+Liechtenstein and Uzbekistan are the only "doubly landlocked" countries, surrounded only by other landlocked countries.
+The equator passes through 13 countries.
+Mount Kilimanjaro is the tallest freestanding mountain in the world.
+Ecuador is named after the equator, which runs through it.
+The Caspian Sea is actually the world's largest lake.
+The Strait of Gibraltar is all that separates Europe and Africa: about 14 kilometers at its narrowest.
+Bolivia has two capitals, La Paz and Sucre.
+Mount Everest's height was remeasured in 2020 at 8,848.86 meters.
+
+# Science
+Water expands when it freezes, which is why ice floats.
+A bolt of lightning is about five times hotter than the surface of the Sun.
+Bananas are slightly radioactive because they contain potassium.
+Diamonds and the graphite in pencils are both made of pure carbon.
+Glass isn't a slow-flowing liquid; it's an amorphous solid.
+Honey almost never spoils, and edible honey has been found in ancient Egyptian tombs.
+Helium was discovered on the Sun before it was found on Earth.
+Light travels about 300,000 kilometers per second.
+Atoms are almost entirely empty space.
+At its "triple point", water can boil and freeze at the same time.
+J and Q are the only letters that don't appear anywhere in the periodic table.
+Tungsten has the highest melting point of any metal, 3,422°C.
+Mercury is the only metal that's liquid at room temperature.
+Gallium is a metal that melts in your hand.
+Earth's inner core is about as hot as the surface of the Sun.
+Rainbows are actually full circles. From the ground we usually only see part of them.
+Sound travels through air at about 343 meters per second.
+A teaspoon of healthy soil can contain more microorganisms than there are people on Earth.
+Liquid oxygen is pale blue.
+Bubble wrap was originally invented to be a textured wallpaper.
+Velcro was inspired by burrs that kept sticking to an inventor's dog.
+The microwave oven was invented after a chocolate bar melted in an engineer's pocket near a radar machine.
+Super Glue was discovered by accident while researchers were working on clear plastic gun sights.
+If you uncoiled the DNA in just one of your cells, it would stretch about 2 meters.
+An average puffy cumulus cloud weighs around 500 tonnes.
+Earth's air is about 78% nitrogen and 21% oxygen.
+Antibiotics don't work against viruses, only bacteria.
+Thunder is the sound of air expanding explosively as lightning heats it.
+Absolute zero, the coldest possible temperature, is -273.15°C.
+Pluto was reclassified as a dwarf planet in 2006.
+Young sunflowers follow the sun across the sky, but mature ones settle facing east.
+Concrete is the most widely used human-made material on Earth.
+Water is the only common substance found naturally on Earth as a solid, a liquid and a gas.
+Hot air balloons float because hot air is less dense than the cooler air around it.
+Sound can travel through solids, which is why you can hear through walls.
+Fire doesn't burn the same way in space: in microgravity, flames form round, blue balls.
+Static electricity is why a balloon rubbed on your hair can stick to a wall.
+The element helium makes your voice sound higher because sound travels faster through it.
+Gold is so malleable that a single gram can be hammered into a sheet about one square meter in size.
+The smell of rain on dry ground has a name: petrichor.
+
+# Plants
+Bananas are berries, but strawberries aren't.
+Peanuts aren't nuts. They're legumes, like peas and beans.
+Botanically speaking, tomatoes are fruits.
+Some kinds of bamboo can grow up to about 90 centimeters (35 inches) in a single day.
+The oldest known living tree is a bristlecone pine more than 4,800 years old.
+Pando, a grove of aspen trees in Utah, is a single organism connected by one root system.
+Pineapples take about 18 months to two years to grow.
+A strawberry has around 200 seeds on its outside.
+A Venus flytrap only snaps shut when a hair inside is touched twice, so it doesn't waste energy on raindrops.
+Coffee beans are the seeds of a fruit called the coffee cherry.
+Vanilla comes from the seed pods of an orchid.
+Cucumbers are about 95% water.
+Apples float because about a quarter of their volume is air.
+Cashews grow attached to the bottom of a fruit called the cashew apple.
+The corpse flower smells like rotting meat to attract the flies that pollinate it.
+Trees can share nutrients with each other through underground networks of fungi.
+Avocados are technically berries.
+Rhubarb stalks are edible, but the leaves are poisonous.
+The "wasabi" served outside Japan is often horseradish dyed green.
+Broccoli, cabbage, kale, cauliflower and Brussels sprouts are all the same plant species.
+Carrots were originally purple or yellow before orange varieties became popular.
+The smell of freshly cut grass is a chemical the plant releases when it's damaged.
+A cactus's spines are actually modified leaves.
+Some seeds can stay alive for centuries: a 2,000-year-old date palm seed was sprouted in 2005.
+Oak trees don't produce acorns until they're around 20 to 50 years old.
+
+# Food
+The Aztecs used cacao beans as money.
+Chili peppers are spicy to mammals, but birds can't feel the heat, so they spread the seeds.
+Fortune cookies were most likely invented in the United States, not China.
+In large amounts, nutmeg can cause hallucinations.
+Almonds are the seeds of a fruit closely related to peaches.
+White chocolate contains no cocoa solids, only cocoa butter.
+Popcorn pops because the water inside each kernel turns to steam and bursts the shell.
+Lobster was once so plentiful in colonial America that it was considered food for the poor.
+The idea that carrots give you great night vision was spread by Britain in World War II to hide its radar technology.
+Potatoes were the first vegetable grown in space, in 1995.
+Apples, pears, cherries and roses all belong to the same plant family.
+Saffron is the world's most expensive spice by weight.
+It takes around 150 crocus flowers to make a single gram of saffron.
+Sushi originally referred to rice fermented to preserve fish, not the fish itself.
+There are well over a thousand different kinds of cheese in the world.
+Cashews are never sold in their shells because the shells contain a toxic oil related to poison ivy.
+Ripe cranberries bounce.
+Ice cream cones became popular at the 1904 World's Fair in St. Louis.
+Milk chocolate was invented in Switzerland in 1875.
+The Caesar salad was invented in Tijuana, Mexico.
+Hawaiian pizza was invented in Canada.
+German chocolate cake is named after a man called Samuel German, not the country.
+Pound cake got its name from its original recipe: a pound each of flour, butter, sugar and eggs.
+Bread rises because yeast gives off carbon dioxide gas as it feeds.
+Mushrooms are more closely related to animals than to plants.
+A single strand of spaghetti is called a spaghetto.
+Honey is made from flower nectar that bees partly digest and then dry out by fanning their wings.
+Cheddar cheese gets its name from the village of Cheddar in England.
+Tea is the most consumed drink in the world after water.
+The holes in Swiss cheese are made by gas bubbles released by bacteria.
+Pistachios are related to cashews and mangoes.
+Ancient Romans flavored food with a fermented fish sauce called garum.
+
+# Words and language
+"Set" has one of the longest dictionary entries in English, with hundreds of meanings.
+"Pneumonoultramicroscopicsilicovolcanoconiosis" is one of the longest words in English dictionaries.
+The dot over a lowercase i or j is called a tittle.
+"Bookkeeper" has three double letters in a row.
+"Strengths" is one of the longest English words with only one vowel.
+The word "alphabet" comes from alpha and beta, the first two letters of the Greek alphabet.
+The ampersand (&) started out as a stylized way of writing "et", Latin for "and".
+"OK" began in 1830s Boston as a joke abbreviation for "oll korrect".
+The # symbol is also called an octothorpe.
+E is the most common letter in English.
+The word "robot" comes from a Czech word for forced labor, first used in a 1920 play.
+"Quarantine" comes from the Italian for "forty days".
+The sandwich is named after the 4th Earl of Sandwich.
+"Muscle" comes from the Latin for "little mouse".
+Papua New Guinea has more than 800 languages, more than any other country.
+There are around 7,000 languages spoken in the world today.
+"The quick brown fox jumps over the lazy dog" uses every letter of the alphabet.
+"Goodbye" comes from "God be with ye".
+The word "nerd" first appeared in a 1950 Dr. Seuss book, If I Ran the Zoo.
+"Emoji" comes from the Japanese for "picture" and "character"; it's not related to "emotion".
+Shakespeare's writing contains the earliest known uses of words like "swagger" and "bedroom".
+"Hippopotomonstrosesquippedaliophobia" is a jokey word for the fear of long words.
+"Facetious" contains all five vowels in alphabetical order.
+Esperanto, a language invented to be easy to learn, was published in 1887.
+"Typewriter" can be typed using only the top row of letters on a keyboard.
+"Avocado" comes from the Nahuatl (Aztec) word ahuacatl.
+"Ketchup" may come from a Hokkien Chinese word for a fermented fish sauce.
+"Stewardesses" is one of the longest words you can type with only your left hand.
+The word "salary" comes from the Latin word for salt.
+In English, "Q" is almost always followed by "U".
+
+# Technology
+The first recorded computer "bug" was an actual moth stuck in a Harvard computer in 1947.
+The world's first webcam was set up at Cambridge University to watch a coffee pot.
+The QWERTY keyboard layout dates back to typewriters from the 1870s.
+IBM's first 1-gigabyte hard drive, from 1980, weighed about 250 kilograms and cost $40,000.
+The Apollo 11 guidance computer had about 4 kilobytes of RAM.
+The first YouTube video, "Me at the zoo", was uploaded in 2005.
+The first text message, sent in 1992, said "Merry Christmas".
+Email is older than the World Wide Web.
+Junk email is called spam because of a Monty Python sketch.
+"Wi-Fi" doesn't stand for anything. It was just a catchy name.
+The first computer mouse, built in the 1960s, was made of wood.
+Nintendo was founded in 1889 as a company that made playing cards.
+Google was originally called BackRub.
+Amazon started out selling only books.
+CAPTCHA stands for "Completely Automated Public Turing test to tell Computers and Humans Apart".
+The first .com domain ever registered was symbolics.com, in 1985.
+Bluetooth is named after Harald Bluetooth, a Viking-era king of Denmark.
+Ray Tomlinson picked the @ symbol for email addresses.
+The first iPhone was released in 2007.
+ENIAC, one of the first general-purpose computers, weighed about 27 tonnes.
+Pac-Man was originally called Puck Man in Japan.
+Tetris was created in the Soviet Union in 1984.
+Minecraft is the best-selling video game of all time.
+A Game Boy that was damaged in a bombing during the Gulf War still works, and was displayed at a Nintendo store.
+Discord launched in 2015.
+The first set of emoji was designed in Japan in 1999 and had 176 symbols.
+The Python programming language is named after Monty Python, not the snake.
+One of the first viruses for PCs, called Brain, was written in Pakistan in 1986.
+The Linux mascot, a penguin, is named Tux.
+SOS was chosen as a distress signal because it's simple to send in Morse code, not because it stands for words.
+"Tennis for Two", from 1958, is often called one of the first video games.
+The first commercially sold computer game console, the Magnavox Odyssey, came out in 1972.
+The first hard drive, made by IBM in 1956, stored about 5 megabytes and was the size of two refrigerators.
+The word "pixel" is short for "picture element".
+
+# Numbers and math
+The idea of zero as a number was developed in India.
+A googol is 1 followed by 100 zeros. Google's name is a play on the word.
+In a room of just 23 people, there's a better than even chance that two share a birthday.
+111,111,111 × 111,111,111 = 12,345,678,987,654,321.
+Pi has been calculated to more than 100 trillion digits.
+A well-shuffled deck of 52 cards is almost certainly in an order that has never existed before.
+Every odd number has an "e" in its English spelling.
+"Forty" is the only number whose letters are in alphabetical order.
+Zero is an even number.
+The infinity symbol (∞) is called a lemniscate.
+Sunflower seeds are arranged in spirals that follow the Fibonacci sequence.
+0.999… repeating forever is exactly equal to 1.
+The equals sign was invented in 1557 by a Welsh mathematician, Robert Recorde.
+There are infinitely many prime numbers, as Euclid proved more than 2,000 years ago.
+The largest known prime number has more than 41 million digits.
+In theory, folding a sheet of paper in half 42 times would make it thick enough to reach the Moon.
+Four is the only number in English with as many letters as its value.
+The digits of any multiple of 9 add up to a multiple of 9.
+A baker's dozen is 13.
+Roman numerals have no symbol for zero.
+The numbers from 1 to 100 add up to 5,050.
+Bees build hexagonal honeycomb because it holds the most honey for the least wax.
+A "jiffy" is a real unit of time in electronics, often 1/60 or 1/100 of a second.
+In medieval Europe, a "moment" was a unit of time equal to 90 seconds.
+
+# Music, art and entertainment
+"Happy Birthday to You" was under copyright in the US until 2016.
+Beethoven kept composing music after he went almost completely deaf.
+Mozart wrote his first symphony when he was 8 years old.
+A church in Germany is playing John Cage's "As Slow as Possible", a performance scheduled to end in 2640.
+The piano's full name is the pianoforte, Italian for "soft-loud".
+Snow White and the Seven Dwarfs (1937) was Disney's first feature-length animated film.
+Steamboat Willie (1928) was the first Mickey Mouse cartoon released with sound.
+The Simpsons is the longest-running scripted primetime TV series in the US.
+Pokémon is the highest-grossing media franchise of all time.
+By number of tires, LEGO is the world's biggest tire manufacturer.
+LEGO bricks made in 1958 still fit together with bricks made today.
+A Rubik's Cube has over 43 quintillion possible arrangements.
+Any scrambled Rubik's Cube can be solved in 20 moves or fewer.
+Barbie's full name is Barbara Millicent Roberts.
+The first Kermit the Frog puppet was made from an old coat and a ping-pong ball cut in half.
+The Beatles have the most number-one hits on the US Billboard Hot 100.
+"Jingle Bells" was the first song broadcast from space, played on a harmonica in 1965.
+Elvis Presley's natural hair color was dark blond.
+The Oscar statuette's official name is the Academy Award of Merit.
+The Phantom of the Opera is the longest-running show in Broadway history.
+There are more possible games of chess than there are atoms in the observable universe.
+Shakespeare's Globe Theatre burned down in 1613 after a stage cannon set its thatched roof on fire.
+The Mona Lisa is painted on a wooden panel, not canvas.
+Vincent van Gogh painted The Starry Night while staying at an asylum in France.
+The world's oldest known musical instruments are flutes carved from bird bone more than 40,000 years ago.
+Monopoly was based on an earlier game, The Landlord's Game, designed to show the problems with monopolies.
+The board game Candy Land was created in the 1940s by a woman recovering from polio.
+
+# Sports
+A golf ball usually has between 300 and 500 dimples.
+Basketball was invented in 1891 by James Naismith, using peach baskets as hoops.
+Volleyball was invented in 1895, just four years after basketball.
+When the Olympic rings were designed, their colors plus white could make every competing nation's flag.
+A marathon is 42.195 kilometers long because of the route chosen for the 1908 London Olympics.
+Ice hockey pucks are frozen before games so they bounce less.
+Usain Bolt's 100-meter world record is 9.58 seconds.
+Michael Phelps has won 23 Olympic gold medals.
+Surfing and skateboarding made their Olympic debut at the Tokyo 2020 Games.
+A regulation baseball has 108 double stitches.
+The fastest badminton smash ever recorded was over 560 kilometers per hour.
+Astronaut Alan Shepard hit golf balls on the Moon in 1971.
+The Tour de France covers roughly 3,500 kilometers over three weeks.
+The first modern Olympic Games were held in Athens in 1896.
+Women first competed in the Olympics in 1900.
+A Formula 1 car makes so much downforce that, in theory, it could drive upside down in a tunnel.
+The term "hat trick" comes from cricket.
+Table tennis balls can travel more than 100 kilometers per hour in professional play.
+The Stanley Cup has had engraving mistakes, including misspelled names, that were never fully fixed.
+The first FIFA World Cup was held in Uruguay in 1930.
+
+# Everyday things
+The man who designed the Pringles can, Fredric Baur, had some of his ashes buried in one.
+The plastic tips on the ends of shoelaces are called aglets.
+The tiny pocket on jeans was originally made for pocket watches.
+Play-Doh was originally sold as a wallpaper cleaner.
+One of the first mechanical alarm clocks, made in 1787, could only ring at 4 a.m.
+Scotland's national animal is the unicorn.
+The Burj Khalifa in Dubai is about 828 meters tall.
+The Empire State Building is struck by lightning around 20 to 25 times a year.
+The color orange was named after the fruit, not the other way around.
+Flamingos are pink because of the pigments in the food they eat.
+US paper money is made mostly of cotton, not paper.
+The grooves on the edges of some coins were added to stop people shaving off bits of precious metal.
+The first traffic light was installed in London in 1868 and was lit with gas.
+The first product scanned with a barcode, in 1974, was a pack of chewing gum.
+The man on the Monopoly box is called Rich Uncle Pennybags, or Mr. Monopoly.
+Wales has a red dragon on its national flag.
+A "butt" was once an official unit for measuring wine.
+Paperclips have been made in roughly the same shape since the late 1800s.
+
+# Casino trivia
+All the numbers on a roulette wheel add up to 666.
+The first true slot machine, the Liberty Bell, was invented by Charles Fey around 1895.
+Early slot machines often paid out in drinks or cigars instead of cash.
+In roulette, the zero pocket is green so it stands apart from the red and black numbers.
+The king of hearts is the only king in a standard deck without a mustache.
+The opposite faces of a standard six-sided die always add up to 7.
+At the Monte Carlo Casino in 1913, the roulette ball landed on black 26 times in a row.
+The ace of spades often has the fanciest design because England once printed a tax stamp on it.
+Mathematician Edward Thorp proved card counting could beat blackjack in his 1962 book Beat the Dealer.
+The word "jackpot" comes from poker, where players needed a pair of jacks or better to open the betting.
+Blackjack is also known as twenty-one.
+Playing cards were most likely invented in China during the Tang dynasty.
+The four suits used today come from France: spades, hearts, diamonds and clubs.
+The house edge means casino games are designed so the casino wins a little more than it loses over time.
+A standard deck of playing cards has 52 cards, and 13 in each suit.

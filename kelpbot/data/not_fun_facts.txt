@@ -1,0 +1,309 @@
+# Not-so-fun facts for /notsofunfact. One fact per line, under a section header.
+# Sections: Sad, Dark, Uninteresting. Every server sees each fact once before any repeats.
+
+# Sad
+The last known Tasmanian tiger died in a zoo in Hobart in 1936.
+Martha, the last passenger pigeon, died at the Cincinnati Zoo in 1914. Her species had once numbered in the billions.
+Lonesome George, the last known Pinta Island tortoise, died in 2012.
+Toughie, the last known Rabbs' fringe-limbed tree frog, died in 2016.
+Sudan, the last male northern white rhino, died in 2018. Only two females of his kind are left.
+The baiji, a river dolphin that lived in China's Yangtze River, was declared functionally extinct in 2006.
+The dodo was gone less than a century after people first wrote about it.
+The fourth global coral bleaching event, which began in 2023, has affected more than 80% of the world's reef area.
+Hachikō the dog kept waiting at a Tokyo train station for nearly ten years after his owner died.
+Laika, the first animal to orbit Earth, was never meant to come home and died within hours of launch.
+The Voyager probes will eventually run out of power and go silent, but they'll keep drifting through space for billions of years.
+The Mars rover Opportunity went silent in 2018 when a dust storm blocked the sunlight it needed to recharge.
+By common estimates, only about 1 in 1,000 sea turtle hatchlings survives to adulthood.
+Some adult mayflies live for less than a day.
+Mozart was buried in a shared grave, and nobody knows exactly where his body lies.
+Vincent van Gogh sold very few paintings in his lifetime. Now they sell for tens of millions.
+In 2018, an orca named Tahlequah carried her dead calf through the ocean for 17 days.
+Glacier National Park had around 150 glaciers in 1850. Only about 25 are still big enough to count.
+In 2019, Iceland held a funeral for Okjökull, the first of its glaciers lost to climate change.
+Nikola Tesla died in debt, alone in a New York hotel room.
+Edgar Allan Poe died at 40, and the cause of his death is still a mystery.
+Australia's 2019–20 bushfires killed or displaced an estimated 3 billion animals.
+The Aral Sea, once the fourth-largest lake in the world, has mostly dried up.
+More than 99% of all species that have ever lived on Earth are now extinct.
+Only about 3% of Earth's water is fresh, and most of that is frozen.
+Amelia Earhart disappeared over the Pacific in 1937 and has never been found.
+None of the musicians in the Titanic's band survived the sinking.
+The Titanic had lifeboat seats for only about half of the people on board.
+Many large dog breeds only live around 8 to 10 years.
+A worker honeybee in summer usually lives for only about six weeks.
+Male honeybees die right after they mate.
+Arctic sea ice at its late-summer low has shrunk by roughly a third or more since satellite records began in 1979.
+In about 5 billion years, the Sun will swell into a red giant and Earth will likely be scorched or swallowed.
+In roughly a billion years, the Sun will be bright enough to boil away Earth's oceans.
+As the Moon slowly drifts away, total solar eclipses will stop happening in roughly 600 million years.
+Saturn's rings are slowly raining down onto the planet and could be gone in a few hundred million years.
+Most people can't remember anything from before they were about three years old, and those memories won't come back.
+Without review, people tend to forget most new information within a few days.
+Researchers have linked long-term loneliness to health risks comparable to smoking.
+Around 40% of the world's roughly 7,000 languages are endangered.
+The playwright Aeschylus wrote somewhere between 70 and 90 plays. Only 7 survive.
+About three-quarters of American silent films are lost forever.
+Dozens of early Doctor Who episodes are missing because the BBC erased or threw out the tapes.
+NASA's original high-quality recordings of the Apollo 11 moonwalk were probably erased and reused.
+Your phone's battery loses a little capacity every time it goes through a charge cycle.
+The great auk was hunted to extinction; the last confirmed pair was killed in 1844.
+Steller's sea cow was hunted to extinction just 27 years after Europeans first described it.
+The golden toad of Costa Rica was last seen in 1989.
+The Pyrenean ibex went extinct in 2000. A clone born in 2003 lived for only a few minutes.
+The western black rhino was declared extinct in 2011.
+The quagga, a half-striped relative of the zebra, went extinct in 1883.
+Some cicadas spend 17 years underground and then live as adults for only a few weeks.
+Elephants have been seen returning to the bones of their dead and touching them gently with their trunks.
+Hummingbirds burn energy so fast that most nights they drop into a near-hibernation state to avoid starving.
+Pacific salmon die shortly after they spawn.
+Female octopuses usually stop eating while guarding their eggs and die soon after they hatch.
+Up to a billion birds are estimated to die from flying into windows in the US every year.
+Pet cats are estimated to kill billions of birds in the US every year.
+Most of the stars you can see at night will outlive everyone who has ever looked at them.
+The only people known to have died in space were the three Soyuz 11 cosmonauts, in 1971.
+Pluto was demoted to a dwarf planet in 2006, before it had finished even one trip around the Sun since its discovery in 1930.
+The bristlecone pine called Prometheus, over 4,800 years old, was cut down in 1964 by a researcher studying it.
+
+# Dark
+About 117 billion people are estimated to have ever been born. Most of them are dead.
+More than 300 people have died climbing Mount Everest, and many bodies remain on the mountain.
+Ancient Egyptian embalmers removed the brain through the nose.
+In the Victorian era, it was common to photograph family members after they died.
+In the 1800s, people patented "safety coffins" with bells, in case someone was buried alive.
+The Black Death killed roughly a third to half of Europe's population in the 1300s.
+The 1918 flu pandemic infected about a third of the world's population.
+Smallpox killed an estimated 300 million people in the 20th century before it was eradicated in 1980.
+Lead was added to petrol for decades, and lead exposure is linked to lower IQ.
+Radium was once added to toothpaste, chocolate and drinks as a "health" product.
+Arsenic was used to make a popular green wallpaper in the 1800s.
+Hat makers once used mercury to make felt, which slowly poisoned them.
+In the 1840s, Ignaz Semmelweis was ridiculed for telling doctors to wash their hands.
+In medieval Europe, animals were sometimes put on trial for crimes.
+Before anesthesia, surgeons were judged by speed, and some could amputate a leg in under a minute.
+A cockroach can live for about a week without its head.
+A chicken named Mike lived for 18 months after most of its head was cut off.
+After death, the body's own enzymes start breaking it down.
+Hair and nails don't keep growing after death. The skin dries and shrinks back, making them look longer.
+Around 170,000 people die every day worldwide.
+More than a million pieces of space junk bigger than a centimeter are orbiting Earth.
+Your mattress is almost certainly home to thousands of dust mites.
+Tiny mites called Demodex live on most adults' faces, mostly around the eyelashes.
+Some parasitic wasps lay their eggs inside living caterpillars.
+A fungus called Ophiocordyceps takes over ants' bodies, makes them climb, and then kills them.
+Sand tiger shark babies eat their siblings while still in the womb.
+Female praying mantises sometimes eat the male during or after mating.
+The Dead Sea is so salty that almost nothing can live in it.
+The surface of Venus is hot enough to melt lead.
+Falling into a black hole would stretch you out like spaghetti. Scientists actually call it spaghettification.
+Without a spacesuit in space, a person would lose consciousness in about 15 seconds.
+The ravens at the Tower of London have their flight feathers trimmed so they can't fly away.
+Ancient Romans used urine to clean clothes and whiten teeth.
+In the 1700s, blowing tobacco smoke into a drowning victim's rear end was a recommended way to revive them.
+For centuries, Europeans ground up Egyptian mummies and sold them as medicine.
+The inventor of the lobotomy won a Nobel Prize in 1949.
+Heroin was once sold by Bayer as a cough medicine.
+Early Coca-Cola contained cocaine.
+Some Victorian "soothing syrups" for teething babies contained morphine.
+Bloodletting was a standard medical treatment for more than 2,000 years.
+George Washington's doctors drained a large amount of his blood while treating him in the hours before he died.
+Most of the plastic ever made still exists in some form.
+Researchers have found microplastics in human blood.
+The Great Pacific Garbage Patch covers an area about twice the size of Texas.
+Mosquitoes are the deadliest animals to humans, because of the diseases they spread.
+Sharks kill fewer than ten people a year on average, while people kill tens of millions of sharks.
+Cows kill more people in the US each year than sharks do.
+Bones are usually the last part of a body to remain.
+Victorians often wore mourning jewelry woven from a dead relative's hair.
+The Catacombs of Paris hold the remains of around six million people.
+A crypt in Rome is decorated with the bones of about 3,700 friars.
+Plague doctors stuffed the beaks of their masks with herbs, believing it would protect them from "bad air".
+Ancient Romans believed drinking gladiator blood could cure epilepsy.
+Doctors once tasted urine to help diagnose diabetes, because it tastes sweet.
+A honeybee dies after stinging a mammal, because its barbed stinger tears out of its body.
+Ötzi the Iceman died about 5,300 years ago with an arrowhead lodged in his shoulder.
+The plaster figures at Pompeii were made by filling the hollows that bodies left in the volcanic ash.
+Every atom in your body will still exist long after you're gone.
+One leading theory says the universe will end in "heat death", when nothing can ever happen again.
+Mars's moon Phobos is spiraling inward and will crash into Mars or break apart in about 50 million years.
+Some deep-sea anglerfish males fuse permanently to a female and slowly lose most of their organs.
+Medieval European cities often dumped waste straight into the street, sometimes from upstairs windows.
+In some Victorian factories, matches were made with white phosphorus that destroyed workers' jawbones.
+"Mad as a hatter" probably comes from the mercury poisoning that affected hat makers.
+Before refrigeration, spoiled food was one of the most common causes of illness.
+The guillotine was used for executions in France until 1977.
+For most of human history, around half of all children died before reaching adulthood.
+Some ancient Egyptian mummies were made of animals, and millions of mummified birds have been found.
+Tapeworms can grow several meters long inside the human gut.
+The body of the Russian revolutionary Vladimir Lenin has been preserved and on display in Moscow since 1924.
+
+# Uninteresting
+A ream of paper is 500 sheets.
+A sheet of A4 paper measures 210 by 297 millimeters.
+US Letter paper is 8.5 by 11 inches.
+A gross is 144 of something.
+A fortnight is two weeks.
+There are 1,000 grams in a kilogram.
+A liter of water weighs about one kilogram.
+A teaspoon is about 5 milliliters.
+A tablespoon is three teaspoons.
+In US recipes, a cup is about 240 milliliters.
+Many pencils are six-sided so they don't roll off desks.
+Pencil "lead" is actually graphite mixed with clay.
+Most pencils sold in the US are No. 2, which is the same as HB.
+Most rulers are 30 centimeters, or 12 inches, long.
+A standard interior door in the US is 80 inches tall.
+A standard US kitchen counter is about 36 inches high.
+Most office chairs have five legs for stability.
+US school buses are painted a color officially called "National School Bus Glossy Yellow".
+A DL envelope is sized to fit a sheet of A4 folded into thirds.
+Ctrl+S usually saves a file.
+Ceiling tiles in offices are often 60 by 60 centimeters, or 2 by 2 feet.
+Concrete reaches most of its design strength after about 28 days.
+A year has 52 weeks, plus one or two days.
+A leap year has 366 days.
+February is the shortest month.
+The plastic clips that close bread bags are mostly made by a company called Kwik Lok.
+Lettuce is about 95% water.
+Corrugated cardboard has a wavy middle layer called fluting.
+Most grocery receipts are printed on thermal paper.
+Thermal paper turns black when it gets hot.
+Escalators usually move at about half a meter per second.
+In the US, a light switch is usually up for on. In the UK, it's usually down for on.
+The UK drives on the left side of the road.
+Most traffic lights have three colors.
+Products are usually labeled with a UPC or EAN barcode.
+Paperclips are usually made of steel wire.
+Office staples are usually made of galvanized steel wire.
+In 2023, Microsoft announced that Word's default font would change from Calibri to Aptos.
+Times New Roman was designed for The Times newspaper in London in the early 1930s.
+"Grey" and "gray" are both correct spellings.
+A standard Euro pallet measures 1,200 by 800 millimeters.
+Shipping containers are commonly 20 or 40 feet long.
+Plywood is made of thin layers of wood glued together.
+Drywall is also called plasterboard or gypsum board.
+Most carpet is made from nylon or polyester.
+Fluorescent tubes contain a small amount of mercury.
+Some calendars start the week on Sunday and others on Monday.
+Most countries write the date with the day before the month.
+The ISO date format puts the year first, then the month, then the day.
+White is the most popular car color in the world.
+Spreadsheet columns are usually labeled with letters and rows with numbers.
+Microsoft Excel has 1,048,576 rows.
+The last column in Microsoft Excel is XFD.
+Cell A1 is in the top-left corner of a spreadsheet.
+A standard US parking space is roughly 9 by 18 feet.
+Toilet paper rolls usually have a cardboard tube in the middle.
+The original 1891 patent for toilet paper rolls shows the paper hanging over the top, not underneath.
+Tap water in many places is treated with chlorine.
+Most tea bags are made of filter paper.
+The minute hand on a clock is usually longer than the hour hand.
+Clocks in advertisements are often set to about 10:10.
+Food safety guidelines recommend keeping a fridge at or below 4°C (40°F).
+Freezers are usually set to -18°C (0°F).
+Most electric kettles switch off on their own when the water boils.
+A golf hole is 4.25 inches across.
+A tennis court is 23.77 meters long.
+A basketball hoop is 10 feet off the ground.
+Adult soccer is played with a size 5 ball.
+A soccer team has 11 players on the field.
+A standard bank card measures 85.60 by 53.98 millimeters.
+Most credit card numbers are 16 digits long.
+Many new phones charge with a USB-C cable.
+A standard US light bulb socket is called E26.
+In many countries, a standard step in a staircase rises about 17 to 18 centimeters.
+The default Windows XP wallpaper is a photo of a green hill called "Bliss".
+In most fonts, a capital O is wider than a capital I.
+In British English, the dot at the end of a sentence is called a full stop.
+A standard sheet of US printer paper weighs about 4.5 grams.
+Most postage stamps today are self-adhesive.
+Royal Mail post boxes in the UK are red.
+US Postal Service mailboxes are blue.
+Wet floor signs are usually yellow.
+Traffic cones are usually orange.
+Carrots are root vegetables.
+Oats are a cereal grain.
+Rice is a grain.
+Mayonnaise is mostly oil.
+Butter is about 80% fat.
+Most sliced loaves of bread have two end pieces, often called heels.
+Puffed rice cakes are mostly air.
+The Enter key is also called the Return key.
+The space bar is the biggest key on most keyboards.
+A full-size keyboard usually has 104 or 105 keys.
+A standard USB-A plug only fits in one way.
+In many US elevators, the "close door" button doesn't do anything during normal operation.
+Most refrigerators have a light that comes on when you open the door.
+Ice cubes are frozen water.
+Fog is a cloud that touches the ground.
+Drizzle is rain made of very small drops.
+Puddles eventually evaporate.
+Dust settles on surfaces over time.
+Most adults have 32 teeth, counting wisdom teeth.
+Most people have ten fingers and ten toes.
+Earth is slightly flattened at the poles.
+Water boils at 100°C at sea level.
+Water freezes at 0°C.
+There are 60 minutes in an hour.
+There are 24 hours in a day.
+There are seven days in a week.
+Tuesday comes after Monday.
+Socks are usually sold in pairs.
+Gravel is sold sorted by the size of its stones.
+Most bricks are laid in a pattern called a running bond.
+A standard UK brick is 215 by 102.5 by 65 millimeters.
+Paint dries as the water or solvent in it evaporates.
+Rubber bands stretch.
+Envelopes have a flap.
+Postcards usually have a picture on one side.
+Most microwave ovens have a turntable.
+Most toasters have two slots.
+A loaf of bread is usually sliced before it's sold.
+The letter E is on the top row of a QWERTY keyboard.
+The word "beige" has five letters.
+Beige comes from a French word for natural, undyed wool.
+A dozen eggs is 12 eggs.
+A pair of shoes is two shoes.
+Ketchup is usually red.
+Most clocks go clockwise.
+Grass is green because of chlorophyll.
+The ocean is salty.
+Shoelaces come in different lengths.
+Doors have hinges.
+Most chairs have four legs.
+Most tables have four legs, too.
+A standard die has six sides.
+Spoons are used for eating soup.
+Most stairs go both up and down.
+Lightbulbs get warm when they're on.
+Most mugs have one handle.
+Sandpaper is rated by grit; a higher number means finer sand.
+Cereal is usually eaten with milk.
+Most windows are made of glass.
+Bread goes stale faster in the fridge than at room temperature.
+A round pizza is often cut into eight slices.
+Hot water can be made cold by leaving it out.
+The average house fly lives for about four weeks.
+A kilometer is 1,000 meters.
+A mile is about 1.6 kilometers.
+An inch is exactly 2.54 centimeters.
+A foot is 12 inches.
+A yard is three feet.
+The freezing point of water is 32°F.
+There are 365 days in most years.
+A century is 100 years.
+Most bananas sold in stores are a variety called Cavendish.
+Most carrots sold in stores are orange.
+Coffee is usually served hot.
+The number after 99 is 100.
+Most people blink without thinking about it.
+Paper can be folded.
+Most cardboard boxes are brown.
+A pencil can be sharpened.
+Toast is bread that has been heated.
+Cheese is made from milk.
+Most clouds are made of tiny water droplets or ice crystals.
+A standard deck of playing cards fits in one hand.
+Most books have page numbers.
+Most phone numbers in the US have ten digits including the area code.
+Most email addresses contain an @ symbol. All of them do, actually.
