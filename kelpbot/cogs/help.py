@@ -9,7 +9,7 @@ from discord.ext import commands
 CATEGORIES: dict[str, tuple[str, ...]] = {
     "💰 Earning & saving": ("balance", "daily", "work", "job", "quests", "beg", "rob", "give", "deposit", "withdraw"),
     "🎰 Casino games": ("games", "slots", "blackjack", "coinflip", "roulette", "dice", "crash", "mines", "highlow", "paytable"),
-    "👥 Play together": ("duel", "heist", "race", "lottery"),
+    "👥 Play together": ("trivia", "duel", "heist", "race", "lottery"),
     "🛒 Shop & stocks": ("shop", "buy", "sell", "use", "inventory", "buyrole", "stocks"),
     "🏆 Progress": ("profile", "stats", "leaderboard", "achievements", "halloffame"),
     "🧠 Facts": ("funfact", "notsofunfact"),

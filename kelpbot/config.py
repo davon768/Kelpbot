@@ -95,3 +95,10 @@ BACKUP_KEEP_DAYS = 7
 # Alt-account protection defaults (server admins can change them with /settings).
 MIN_ACCOUNT_AGE_DAYS = 7
 MIN_SERVER_DAYS = 1
+
+# Trivia (see kelpbot/trivia.py for the questions)
+TRIVIA_SECONDS = 20  # how long a question stays open
+TRIVIA_REWARDS = {"easy": 100, "medium": 150, "hard": 250}
+TRIVIA_FIRST_BONUS_PERCENT = 50  # extra for the first correct answer
+TRIVIA_DAILY_CAP = 2_500  # most a player can earn from trivia per (UTC) day
+TRIVIA_START_COOLDOWN = 20  # seconds between /trivia uses per player

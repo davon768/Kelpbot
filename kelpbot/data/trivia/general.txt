@@ -1,0 +1,447 @@
+# Hand-written trivia. Format: difficulty|question|correct answer|wrong|wrong|wrong
+# Difficulty is easy, medium or hard. "# Name" lines start a category.
+
+# Science
+easy|What gas do plants absorb from the air for photosynthesis?|Carbon dioxide|Oxygen|Nitrogen|Helium
+easy|What is H2O more commonly known as?|Water|Hydrogen peroxide|Salt|Ammonia
+easy|What force keeps us on the ground?|Gravity|Magnetism|Friction|Inertia
+easy|What is the freezing point of water in Celsius?|0°C|32°C|-10°C|100°C
+easy|What is the boiling point of water at sea level in Celsius?|100°C|90°C|120°C|212°C
+easy|Which gas makes up most of Earth's atmosphere?|Nitrogen|Oxygen|Carbon dioxide|Argon
+easy|What type of energy does a moving car have?|Kinetic energy|Potential energy|Nuclear energy|Chemical energy
+easy|What do bees collect from flowers to make honey?|Nectar|Pollen|Sap|Dew
+easy|What is the center of an atom called?|The nucleus|The electron|The shell|The orbit
+easy|Which state of matter has a fixed shape?|Solid|Liquid|Gas|Plasma
+medium|What is the chemical symbol for gold?|Au|Ag|Gd|Go
+medium|What is the chemical symbol for sodium?|Na|So|Sd|Sn
+medium|What particle in an atom has a negative charge?|Electron|Proton|Neutron|Photon
+medium|What is the hardest natural substance?|Diamond|Quartz|Titanium|Granite
+medium|What is the speed of light, approximately?|300,000 km per second|30,000 km per second|3,000 km per second|3 million km per second
+medium|What is the pH of pure water?|7|0|10|14
+medium|What does DNA stand for?|Deoxyribonucleic acid|Dinitrogen acid|Dual nucleic arrangement|Deoxyribose nitrate acid
+medium|Which scientist proposed the theory of general relativity?|Albert Einstein|Isaac Newton|Niels Bohr|Galileo Galilei
+medium|Who is famous for the laws of motion and universal gravitation?|Isaac Newton|Albert Einstein|Charles Darwin|Michael Faraday
+medium|Who developed the theory of evolution by natural selection?|Charles Darwin|Gregor Mendel|Louis Pasteur|Alfred Nobel
+medium|What is the most abundant element in the universe?|Hydrogen|Helium|Oxygen|Carbon
+medium|What kind of rock is formed from cooled lava or magma?|Igneous|Sedimentary|Metamorphic|Limestone
+medium|What is the study of earthquakes called?|Seismology|Volcanology|Meteorology|Geology
+medium|What is the main gas in the Sun?|Hydrogen|Oxygen|Helium|Nitrogen
+medium|Which vitamin does your skin make when exposed to sunlight?|Vitamin D|Vitamin C|Vitamin A|Vitamin K
+medium|What unit is electrical resistance measured in?|Ohms|Volts|Amperes|Watts
+medium|What is absolute zero in Celsius?|-273.15°C|-100°C|-459.67°C|0°C
+medium|What is the process of a liquid turning into a gas called?|Evaporation|Condensation|Sublimation|Freezing
+medium|What is the process of a solid turning directly into a gas called?|Sublimation|Evaporation|Melting|Deposition
+medium|Which scientist discovered penicillin?|Alexander Fleming|Louis Pasteur|Marie Curie|Edward Jenner
+medium|Who was the first person to win Nobel Prizes in two different sciences?|Marie Curie|Albert Einstein|Linus Pauling|Niels Bohr
+hard|What is the most abundant metal in Earth's crust?|Aluminium|Iron|Copper|Calcium
+hard|What is the SI unit of force?|Newton|Joule|Pascal|Watt
+hard|Who created the first widely recognized periodic table of the elements?|Dmitri Mendeleev|John Dalton|Antoine Lavoisier|Robert Boyle
+hard|What is the name for animals that are active at dawn and dusk?|Crepuscular|Nocturnal|Diurnal|Matutinal
+hard|What is the only metal that is liquid at room temperature?|Mercury|Gallium|Caesium|Bromine
+hard|What does a Geiger counter measure?|Radiation|Air pressure|Earthquakes|Humidity
+hard|Which element has the highest melting point of any metal?|Tungsten|Titanium|Iron|Platinum
+hard|What is the name of the boundary around a black hole beyond which nothing escapes?|Event horizon|Singularity|Accretion disk|Photon sphere
+hard|What is the chemical formula for table salt?|NaCl|KCl|NaOH|CaCl2
+
+# Space
+easy|What planet is known as the Red Planet?|Mars|Venus|Jupiter|Mercury
+easy|What is the largest planet in our solar system?|Jupiter|Saturn|Neptune|Earth
+easy|What planet is closest to the Sun?|Mercury|Venus|Mars|Earth
+easy|What star is at the center of our solar system?|The Sun|Polaris|Sirius|Alpha Centauri
+easy|What is the name of our galaxy?|The Milky Way|Andromeda|The Whirlpool Galaxy|Triangulum
+easy|Which planet is famous for its large rings?|Saturn|Mars|Mercury|Venus
+easy|What is Earth's only natural satellite?|The Moon|Phobos|Titan|Europa
+easy|Who was the first person to walk on the Moon?|Neil Armstrong|Buzz Aldrin|Yuri Gagarin|John Glenn
+medium|Who was the first human in space?|Yuri Gagarin|Neil Armstrong|Alan Shepard|John Glenn
+medium|In what year did humans first land on the Moon?|1969|1965|1972|1959
+medium|What is the hottest planet in our solar system?|Venus|Mercury|Mars|Jupiter
+medium|Which planet spins on its side?|Uranus|Neptune|Saturn|Venus
+medium|Which planet has the Great Red Spot?|Jupiter|Saturn|Mars|Neptune
+medium|What was reclassified as a dwarf planet in 2006?|Pluto|Ceres|Eris|Mercury
+medium|How long does sunlight take to reach Earth?|About 8 minutes|About 8 seconds|About 1 hour|About 1 day
+medium|What is the largest moon in the solar system?|Ganymede|Titan|Callisto|The Moon
+medium|What is the name of Saturn's largest moon?|Titan|Europa|Io|Triton
+medium|What was the name of the first artificial satellite, launched in 1957?|Sputnik 1|Explorer 1|Vostok 1|Apollo 1
+medium|Which dog became the first animal to orbit Earth?|Laika|Belka|Strelka|Pushinka
+medium|What is the tallest known volcano in the solar system?|Olympus Mons|Mauna Kea|Mount Everest|Maxwell Montes
+medium|Which planet has the shortest year?|Mercury|Venus|Mars|Earth
+medium|What is a light-year a measure of?|Distance|Time|Speed|Brightness
+hard|What is the closest star system to the Sun?|Alpha Centauri|Sirius|Betelgeuse|Vega
+hard|What are the two moons of Mars called?|Phobos and Deimos|Io and Europa|Titan and Rhea|Castor and Pollux
+hard|Which spacecraft is the farthest human-made object from Earth?|Voyager 1|Voyager 2|Pioneer 10|New Horizons
+hard|What is the name of the boundary where the Sun's solar wind meets interstellar space?|Heliopause|Magnetopause|Oort cloud|Kuiper belt
+hard|Which planet has the fastest winds in the solar system?|Neptune|Jupiter|Saturn|Uranus
+hard|Which galaxy is the closest large spiral galaxy to the Milky Way?|Andromeda|Triangulum|Whirlpool|Sombrero
+hard|What was the name of the first space station, launched in 1971?|Salyut 1|Mir|Skylab|Tiangong-1
+hard|Who was the first woman in space?|Valentina Tereshkova|Sally Ride|Svetlana Savitskaya|Mae Jemison
+
+# Animals
+easy|What is the largest animal ever known to have lived?|Blue whale|African elephant|Megalodon|Brachiosaurus
+easy|What is the fastest land animal?|Cheetah|Lion|Pronghorn|Greyhound
+easy|What is a baby kangaroo called?|Joey|Kit|Cub|Calf
+easy|What is a baby cat called?|Kitten|Pup|Cub|Kid
+easy|What is a baby goat called?|Kid|Lamb|Calf|Foal
+easy|How many legs does a spider have?|8|6|10|12
+easy|How many legs does an insect have?|6|4|8|10
+easy|What do caterpillars turn into?|Butterflies or moths|Beetles|Bees|Dragonflies
+easy|Which animal is known as the King of the Jungle?|Lion|Tiger|Elephant|Gorilla
+easy|What is the tallest animal in the world?|Giraffe|Elephant|Ostrich|Moose
+easy|Which bird is a universal symbol of peace?|Dove|Eagle|Swan|Owl
+easy|What animal is known for changing its skin color to blend in?|Chameleon|Iguana|Gecko|Salamander
+medium|How many hearts does an octopus have?|3|1|2|4
+medium|What is a group of crows called?|A murder|A flock|A gaggle|A parliament
+medium|What is a group of lions called?|A pride|A pack|A herd|A troop
+medium|What is a group of owls called?|A parliament|A murder|A school|A colony
+medium|What is a group of flamingos called?|A flamboyance|A blush|A gaggle|A parade
+medium|Which mammal is capable of true flight, not just gliding?|Bat|Flying squirrel|Sugar glider|Colugo
+medium|What is the largest species of bird alive today?|Ostrich|Emu|Albatross|Condor
+medium|Which bird can fly backwards?|Hummingbird|Swallow|Kingfisher|Sparrow
+medium|What is the slowest-moving mammal on land?|Sloth|Koala|Tortoise|Panda
+medium|What do pandas mostly eat?|Bamboo|Eucalyptus|Berries|Fish
+medium|What do koalas mostly eat?|Eucalyptus leaves|Bamboo|Grass|Insects
+medium|Which animal's poop is cube-shaped?|Wombat|Koala|Kangaroo|Platypus
+medium|Which mammal lays eggs?|Platypus|Kangaroo|Koala|Hedgehog
+medium|In seahorses, which parent gives birth?|The father|The mother|Both|Neither, the eggs hatch alone
+medium|How many neck bones does a giraffe have?|7|14|21|30
+medium|What is the largest species of shark?|Whale shark|Great white shark|Hammerhead shark|Tiger shark
+medium|What is the largest living reptile?|Saltwater crocodile|Komodo dragon|Green anaconda|Leatherback turtle
+medium|Which animal has the longest pregnancy of any mammal?|Elephant|Blue whale|Giraffe|Rhinoceros
+medium|What is a male duck called?|Drake|Gander|Cob|Rooster
+medium|What is a female deer called?|Doe|Hind|Vixen|Sow
+medium|What kind of animal is a Komodo dragon?|Lizard|Snake|Crocodile|Dinosaur
+medium|Which insect makes the honey people usually eat?|Honeybee|Wasp|Hornet|Termite
+hard|Which of these is a name for a group of jellyfish?|A smack|A school|A pod|A gaggle
+hard|What is the name for a baby echidna or platypus?|Puggle|Joey|Kit|Pup
+hard|What color is a polar bear's skin?|Black|White|Pink|Grey
+hard|What is the fastest bird in a dive?|Peregrine falcon|Golden eagle|Swift|Albatross
+hard|How many chambers does a cow's stomach have?|4|2|3|6
+hard|Which animal has the largest eyes of any animal?|Colossal squid|Blue whale|Ostrich|Owl
+hard|What is a group of rhinos called?|A crash|A herd|A bash|A thunder
+
+# Ocean and kelp
+easy|What is the largest ocean on Earth?|Pacific Ocean|Atlantic Ocean|Indian Ocean|Arctic Ocean
+easy|What do sea otters wrap themselves in so they don't drift while sleeping?|Kelp|Fishing nets|Coral|Sand
+easy|Is coral an animal, a plant or a rock?|An animal|A plant|A rock|A fungus
+easy|What is the world's largest coral reef system?|The Great Barrier Reef|The Belize Barrier Reef|The Red Sea Reef|The Florida Reef
+medium|What is kelp?|A type of brown algae|A type of seagrass|A sea sponge|A kind of coral
+medium|What is the deepest known point in the ocean?|Challenger Deep|Puerto Rico Trench|Java Trench|Tonga Trench
+medium|Which trench contains the deepest point in the ocean?|Mariana Trench|Tonga Trench|Kermadec Trench|Philippine Trench
+medium|What do sea otters eat that helps protect kelp forests?|Sea urchins|Kelp itself|Plankton|Jellyfish
+medium|What is the smallest ocean?|Arctic Ocean|Indian Ocean|Southern Ocean|Atlantic Ocean
+medium|Roughly what share of Earth's surface is covered by ocean?|About 71%|About 50%|About 85%|About 60%
+medium|Which ocean lies between Africa and Australia?|Indian Ocean|Pacific Ocean|Atlantic Ocean|Southern Ocean
+medium|What gives many deep-sea animals the ability to glow?|Bioluminescence|Phosphorescence from rocks|Reflected moonlight|Radioactivity
+medium|Which fish is famous for living among the stinging tentacles of sea anemones?|Clownfish|Pufferfish|Angelfish|Lionfish
+medium|What is the largest fish in the ocean?|Whale shark|Basking shark|Great white shark|Ocean sunfish
+hard|Roughly how much can giant kelp grow in a single day?|About 60 cm (2 ft)|About 6 cm|About 6 m|About 1 mm
+hard|What are the gas-filled floats that keep kelp upright called?|Pneumatocysts|Holdfasts|Stipes|Blades
+hard|What is the root-like part that anchors kelp to the sea floor called?|Holdfast|Stipe|Blade|Rhizome
+hard|Which animal has the densest fur in the world?|Sea otter|Polar bear|Arctic fox|Chinchilla
+hard|What is the name of the warm Atlantic current that flows past Florida toward Europe?|Gulf Stream|Kuroshio Current|Humboldt Current|Agulhas Current
+hard|What is the name for the deep part of the ocean below about 6,000 meters?|Hadal zone|Abyssal zone|Twilight zone|Sunlight zone
+
+# History
+easy|Who was the first President of the United States?|George Washington|Abraham Lincoln|Thomas Jefferson|John Adams
+easy|In which country were the ancient pyramids of Giza built?|Egypt|Mexico|Peru|Greece
+easy|Which ship famously sank in 1912 after hitting an iceberg?|Titanic|Lusitania|Britannic|Mayflower
+easy|Which ancient civilization built the Colosseum?|The Romans|The Greeks|The Egyptians|The Persians
+easy|What wall fell in 1989, reuniting a divided city?|The Berlin Wall|The Great Wall|Hadrian's Wall|The Western Wall
+medium|In what year did World War II end?|1945|1939|1944|1950
+medium|In what year did World War I begin?|1914|1918|1905|1939
+medium|Who wrote the Declaration of Independence's first draft?|Thomas Jefferson|Benjamin Franklin|John Adams|George Washington
+medium|In which year did Christopher Columbus first reach the Americas?|1492|1498|1501|1453
+medium|Who was the first female Prime Minister of the United Kingdom?|Margaret Thatcher|Theresa May|Queen Victoria|Elizabeth I
+medium|Which empire was ruled by Genghis Khan?|The Mongol Empire|The Ottoman Empire|The Persian Empire|The Roman Empire
+medium|Which ancient city was buried by Mount Vesuvius in 79 AD?|Pompeii|Athens|Carthage|Troy
+medium|Who was the famous queen of ancient Egypt who allied with Julius Caesar and Mark Antony?|Cleopatra|Nefertiti|Hatshepsut|Boudica
+medium|Which civilization built Machu Picchu?|The Inca|The Aztecs|The Maya|The Olmecs
+medium|Who invented the printing press in Europe around 1440?|Johannes Gutenberg|Leonardo da Vinci|Galileo Galilei|William Caxton
+medium|Who painted the Mona Lisa?|Leonardo da Vinci|Michelangelo|Raphael|Rembrandt
+medium|Which US president delivered the Gettysburg Address?|Abraham Lincoln|George Washington|Ulysses S. Grant|Theodore Roosevelt
+medium|Which country gave the Statue of Liberty to the United States?|France|Britain|Spain|Italy
+medium|What was the name of the ship the Pilgrims sailed to America in 1620?|Mayflower|Santa Maria|Endeavour|Beagle
+medium|Who was the British Prime Minister for most of World War II?|Winston Churchill|Neville Chamberlain|Clement Attlee|David Lloyd George
+medium|Which Roman emperor ordered a wall built across northern Britain in AD 122?|Hadrian|Augustus|Nero|Trajan
+medium|Who made the first powered airplane flights, in 1903?|The Wright brothers|The Montgolfier brothers|Charles Lindbergh|Louis Blériot
+hard|How long did the Hundred Years' War actually last?|116 years|100 years|99 years|85 years
+hard|Which war lasted less than an hour in 1896?|Anglo-Zanzibar War|Football War|Pig War|War of Jenkins' Ear
+hard|Who was the first Emperor of Rome?|Augustus|Julius Caesar|Nero|Constantine
+hard|In what year was the Magna Carta sealed?|1215|1066|1314|1492
+hard|Which battle in 1066 led to the Norman conquest of England?|Battle of Hastings|Battle of Agincourt|Battle of Bosworth|Battle of Waterloo
+hard|Napoleon was finally defeated at which battle in 1815?|Waterloo|Trafalgar|Austerlitz|Leipzig
+hard|Which dynasty built most of the Great Wall of China that stands today?|Ming|Qin|Han|Tang
+hard|What was the name of the trade route linking China with the Mediterranean?|The Silk Road|The Spice Way|The Amber Road|The Incense Route
+hard|Who was the first woman to fly solo across the Atlantic?|Amelia Earhart|Bessie Coleman|Amy Johnson|Harriet Quimby
+hard|In which city was President John F. Kennedy assassinated in 1963?|Dallas|Houston|Washington, D.C.|Chicago
+
+# Geography
+easy|What is the longest river in Africa?|The Nile|The Congo|The Niger|The Zambezi
+easy|What is the largest desert in Africa?|The Sahara|The Kalahari|The Namib|The Gobi
+easy|What is the tallest mountain above sea level?|Mount Everest|K2|Kangchenjunga|Mount Kilimanjaro
+easy|Which continent is the coldest?|Antarctica|Asia|Europe|North America
+easy|How many continents are there, by the most common count?|7|5|6|8
+easy|Which country is shaped like a boot?|Italy|Greece|Portugal|Chile
+easy|Which country has the most people?|India|China|United States|Indonesia
+medium|What is the largest country in the world by area?|Russia|Canada|China|United States
+medium|What is the smallest country in the world?|Vatican City|Monaco|San Marino|Liechtenstein
+medium|Which river flows through London?|The Thames|The Seine|The Danube|The Rhine
+medium|Which river flows through Paris?|The Seine|The Loire|The Rhône|The Thames
+medium|What is the largest hot desert in the world?|The Sahara|The Arabian Desert|The Gobi|The Kalahari
+medium|What is the largest island in the world?|Greenland|Australia|New Guinea|Borneo
+medium|Which mountain range separates Europe from Asia?|The Urals|The Alps|The Carpathians|The Pyrenees
+medium|Which country has the most natural lakes?|Canada|Russia|Finland|Sweden
+medium|Which African country was formerly known as Abyssinia?|Ethiopia|Eritrea|Somalia|Sudan
+medium|Which waterfall lies on the border of Zambia and Zimbabwe?|Victoria Falls|Niagara Falls|Angel Falls|Iguazu Falls
+medium|In which country is the Taj Mahal?|India|Pakistan|Bangladesh|Iran
+medium|Which country is home to Machu Picchu?|Peru|Bolivia|Ecuador|Chile
+medium|What is the deepest lake in the world?|Lake Baikal|Lake Tanganyika|Lake Superior|Caspian Sea
+medium|Which US state is made up entirely of islands?|Hawaii|Alaska|Rhode Island|Florida
+medium|Which country has the longest coastline?|Canada|Russia|Australia|Indonesia
+medium|What is the largest lake in Africa?|Lake Victoria|Lake Tanganyika|Lake Malawi|Lake Chad
+medium|Which London district gives its name to the Prime Meridian?|Greenwich|Westminster|Camden|Chelsea
+hard|What is the driest non-polar desert in the world?|Atacama Desert|Sahara Desert|Gobi Desert|Namib Desert
+hard|What is the only country that borders both the Atlantic and Indian Oceans?|South Africa|Mozambique|Namibia|Australia
+hard|What is the tallest waterfall in the world?|Angel Falls|Victoria Falls|Niagara Falls|Iguazu Falls
+hard|What strait separates Asia from North America?|Bering Strait|Strait of Gibraltar|Strait of Malacca|Bass Strait
+hard|What is the largest country in South America by area?|Brazil|Argentina|Peru|Colombia
+hard|Which two countries share the longest international border?|Canada and the United States|Russia and Kazakhstan|Argentina and Chile|China and Mongolia
+hard|Lake Titicaca lies on the border of which two countries?|Peru and Bolivia|Chile and Argentina|Ecuador and Peru|Bolivia and Brazil
+hard|What is the longest mountain range above water?|The Andes|The Rockies|The Himalayas|The Urals
+hard|Which country has the most time zones, counting overseas territories?|France|Russia|United States|United Kingdom
+
+# Human body
+easy|How many bones are in the adult human body?|206|186|226|306
+easy|What organ pumps blood around the body?|The heart|The lungs|The liver|The kidneys
+easy|What is the largest organ of the human body?|The skin|The liver|The brain|The lungs
+easy|How many teeth does a typical adult have, including wisdom teeth?|32|28|30|36
+easy|Which organ do you use to breathe?|Lungs|Liver|Stomach|Kidneys
+medium|What is the longest bone in the human body?|Femur|Tibia|Humerus|Spine
+medium|Where in the body is the smallest bone?|The ear|The nose|The toe|The finger
+medium|What type of blood cell fights infection?|White blood cells|Red blood cells|Platelets|Skin cells
+medium|Which organ filters blood to make urine?|Kidneys|Liver|Bladder|Spleen
+medium|What is the colored part of the eye called?|Iris|Pupil|Retina|Cornea
+medium|About how long does a red blood cell live?|About 120 days|About 12 days|About 1 year|About 3 days
+medium|What protein in red blood cells carries oxygen?|Hemoglobin|Insulin|Keratin|Collagen
+medium|What is the "funny bone" actually?|A nerve|A tendon|A muscle|A small bone
+medium|Which part of the brain is the largest?|Cerebrum|Cerebellum|Brainstem|Hypothalamus
+hard|What is the only bone in the human body not connected to another bone?|Hyoid|Patella|Stapes|Coccyx
+hard|What is the medical name for the kneecap?|Patella|Tibia|Fibula|Scapula
+hard|Which gland produces insulin?|Pancreas|Thyroid|Pituitary|Adrenal
+hard|What is the dome-shaped muscle under your lungs that does most of the work of breathing?|Diaphragm|Pectoral|Biceps|Trapezius
+hard|What are the tiny air sacs in the lungs called?|Alveoli|Bronchi|Villi|Capillaries
+hard|Which blood type is known as the universal donor for red blood cells?|O negative|AB positive|A positive|B negative
+
+# Food and drink
+easy|What fruit is used to make guacamole?|Avocado|Lime|Mango|Kiwi
+easy|What is the main ingredient in hummus?|Chickpeas|Lentils|Peas|Fava beans
+easy|What is sushi traditionally wrapped in?|Seaweed|Rice paper|Lettuce|Banana leaf
+easy|Which country is famous for inventing pizza?|Italy|Greece|France|Spain
+easy|What is the main ingredient of traditional pesto?|Basil|Spinach|Parsley|Mint
+easy|What are dried grapes called?|Raisins|Prunes|Dates|Figs
+medium|Which country is the origin of the croissant's ancestor, the kipferl?|Austria|France|Italy|Belgium
+medium|What spice is the most expensive by weight?|Saffron|Vanilla|Cardamom|Cinnamon
+medium|What is tofu made from?|Soybeans|Rice|Chickpeas|Wheat
+medium|Which nut is used to make marzipan?|Almond|Hazelnut|Cashew|Walnut
+medium|What type of food is a "Granny Smith"?|Apple|Pear|Potato|Plum
+medium|What type of pastry is used to make profiteroles?|Choux pastry|Puff pastry|Shortcrust pastry|Filo pastry
+medium|Which country did the Caesar salad come from?|Mexico|Italy|United States|Spain
+medium|Where was Hawaiian pizza invented?|Canada|Hawaii|Italy|Australia
+medium|What is the main ingredient in a traditional Japanese miso soup's paste?|Soybeans|Rice|Seaweed|Fish
+medium|Which grain is used to make traditional Italian risotto?|Rice|Barley|Wheat|Quinoa
+medium|Which vegetable is the main ingredient of borscht?|Beetroot|Cabbage|Potato|Carrot
+medium|Which fruit has its seeds on the outside?|Strawberry|Raspberry|Blackberry|Kiwi
+hard|What is the national dish of Spain often considered to be?|Paella|Tapas|Gazpacho|Churros
+hard|Which cheese is traditionally used on a Margherita pizza?|Mozzarella|Parmesan|Cheddar|Gouda
+hard|What is the heat of chili peppers measured in?|Scoville units|Kelvin|Brix|Calories
+hard|Which country produces the most coffee in the world?|Brazil|Colombia|Vietnam|Ethiopia
+hard|Which alcoholic drink is made from the agave plant?|Tequila|Rum|Vodka|Gin
+hard|What is the Japanese name for raw sliced fish served without rice?|Sashimi|Nigiri|Maki|Tempura
+hard|Which nut is never sold in its shell because the shell contains a toxic oil?|Cashew|Almond|Pistachio|Pecan
+
+# Words and language
+easy|What is the opposite of "ancient"?|Modern|Old|Antique|Historic
+easy|How many letters are in the English alphabet?|26|24|28|25
+easy|Which word is a synonym for "happy"?|Joyful|Gloomy|Angry|Tired
+easy|What is the plural of "mouse"?|Mice|Mouses|Meese|Mousen
+medium|What is a word that reads the same backwards called?|Palindrome|Anagram|Homophone|Acronym
+medium|What is the dot over a lowercase "i" called?|Tittle|Jot|Serif|Umlaut
+medium|What language has the most native speakers?|Mandarin Chinese|English|Spanish|Hindi
+medium|What is the official language of Brazil?|Portuguese|Spanish|Brazilian|French
+medium|What does the abbreviation "e.g." stand for?|Exempli gratia (for example)|Et gratia|Ergo|Exit given
+medium|Which word means fear of spiders?|Arachnophobia|Agoraphobia|Claustrophobia|Acrophobia
+medium|Which word means fear of heights?|Acrophobia|Arachnophobia|Hydrophobia|Xenophobia
+medium|What is the name for the "&" symbol?|Ampersand|Asterisk|Tilde|Caret
+medium|What is the name for the "#" symbol, besides hashtag or pound?|Octothorpe|Ampersand|Pilcrow|Interrobang
+medium|Which language is the word "kindergarten" borrowed from?|German|Dutch|Swedish|French
+medium|What does "RSVP" come from?|French for "please reply"|Latin for "reply soon"|"Reply Swiftly Via Post"|Italian for "please come"
+hard|What is the longest word in most English dictionaries?|Pneumonoultramicroscopicsilicovolcanoconiosis|Antidisestablishmentarianism|Supercalifragilisticexpialidocious|Floccinaucinihilipilification
+hard|Which country has the most languages spoken?|Papua New Guinea|India|Nigeria|Indonesia
+hard|What is the name for the "¶" paragraph symbol?|Pilcrow|Section sign|Caret|Dagger
+hard|The word "robot" comes from which language?|Czech|Russian|German|Polish
+hard|What is a word formed from the first letters of other words, and pronounced as a word, like "NASA"?|Acronym|Anagram|Palindrome|Portmanteau
+
+# Technology
+easy|What does "www" stand for in a website address?|World Wide Web|Wide World Web|World Web Wide|Web World Wide
+easy|What company makes the iPhone?|Apple|Samsung|Google|Microsoft
+easy|Which company created the Windows operating system?|Microsoft|Apple|IBM|Google
+easy|What does "CPU" stand for?|Central Processing Unit|Computer Power Unit|Central Program Utility|Core Processing Unit
+medium|What does "HTML" stand for?|HyperText Markup Language|HighText Machine Language|Hyperlink Text Management Language|Home Tool Markup Language
+medium|What does "USB" stand for?|Universal Serial Bus|United Serial Board|Universal System Bus|Unified Signal Bridge
+medium|What was Google originally called?|BackRub|Googol|PageRank|Searchly
+medium|What did Amazon sell when it first started?|Books|Music|Electronics|Clothing
+medium|In what year was the first iPhone released?|2007|2005|2009|2010
+medium|Which programming language is named after a British comedy group?|Python|Ruby|Java|Perl
+medium|What year did Discord launch?|2015|2012|2017|2010
+medium|What does "Wi-Fi" stand for?|It doesn't stand for anything|Wireless Fidelity|Wide Frequency|Wireless Fiber
+medium|Who is credited with inventing the World Wide Web?|Tim Berners-Lee|Bill Gates|Steve Jobs|Vint Cerf
+medium|What does "AI" stand for?|Artificial intelligence|Automated internet|Advanced interface|Analog input
+medium|Which company makes the PlayStation?|Sony|Nintendo|Microsoft|Sega
+medium|Which company makes the Xbox?|Microsoft|Sony|Nintendo|Valve
+hard|What was the first commercially sold home video game console?|Magnavox Odyssey|Atari 2600|Nintendo Entertainment System|Fairchild Channel F
+hard|What is the name of Linux's penguin mascot?|Tux|Pingu|Linus|Gnu
+hard|Which Viking king is Bluetooth named after?|Harald Bluetooth|Erik the Red|Ragnar Lodbrok|Cnut the Great
+hard|What does "CAPTCHA" test for?|Whether you're a human or a computer|Your internet speed|Your password strength|Your location
+hard|How many bits are in a byte?|8|4|16|10
+hard|What was the first .com domain ever registered?|symbolics.com|google.com|ibm.com|apple.com
+
+# Video games
+easy|What is the name of Nintendo's famous plumber?|Mario|Luigi|Wario|Toad
+easy|In Minecraft, what green creature explodes near players?|Creeper|Zombie|Enderman|Skeleton
+easy|What is the name of the hero in The Legend of Zelda games?|Link|Zelda|Ganon|Epona
+easy|What color is Sonic the Hedgehog?|Blue|Red|Green|Yellow
+easy|What yellow, round character eats dots in a maze?|Pac-Man|Kirby|Pikachu|Q*bert
+medium|What is the best-selling video game of all time?|Minecraft|Tetris|Grand Theft Auto V|Wii Sports
+medium|In which country was Tetris created?|The Soviet Union|Japan|United States|Finland
+medium|What was Pac-Man originally called in Japan?|Puck Man|Paku Man|Dot Man|Pac-Chan
+medium|What company was founded in 1889 as a playing card maker?|Nintendo|Sega|Konami|Capcom
+medium|Which Pokémon is number 1 in the National Pokédex?|Bulbasaur|Pikachu|Charmander|Mew
+medium|What is the name of Mario's brother?|Luigi|Wario|Waluigi|Yoshi
+medium|In Pokémon, what type is Pikachu?|Electric|Fire|Normal|Psychic
+medium|What is the name of the princess Mario often rescues?|Princess Peach|Princess Zelda|Princess Daisy|Rosalina
+hard|In Minecraft, what material do you need to build a Nether portal?|Obsidian|Diamond|Netherrack|Bedrock
+hard|What is the name of the main villain in most Legend of Zelda games?|Ganon|Bowser|Ridley|Dr. Wily
+hard|What was the first game to feature Mario, then called Jumpman?|Donkey Kong|Super Mario Bros.|Mario Bros.|Mario Kart
+
+# Sports
+easy|How many players does a soccer team have on the field?|11|9|10|12
+easy|In which sport would you score a touchdown?|American football|Soccer|Basketball|Baseball
+easy|How many rings are on the Olympic flag?|5|4|6|7
+easy|What sport is played at Wimbledon?|Tennis|Golf|Cricket|Badminton
+easy|How many points is a basket from behind the three-point line worth?|3|2|4|1
+medium|How long is a marathon?|42.195 km (26.2 miles)|40 km|50 km|21.1 km
+medium|In which city were the first modern Olympic Games held in 1896?|Athens|Paris|London|Rome
+medium|How many holes are played in a standard round of golf?|18|9|12|20
+medium|In bowling, what is it called when you knock down all ten pins with the first ball?|A strike|A spare|A turkey|A split
+medium|What sport uses a shuttlecock?|Badminton|Squash|Table tennis|Volleyball
+medium|How high is a basketball hoop off the ground?|10 feet|9 feet|11 feet|12 feet
+medium|In which sport is the Stanley Cup awarded?|Ice hockey|Baseball|Basketball|American football
+medium|Who invented basketball?|James Naismith|Walter Camp|Abner Doubleday|William Morgan
+medium|In which country did the first FIFA World Cup take place, in 1930?|Uruguay|Brazil|Italy|England
+medium|How many players are on a baseball team's fielding side?|9|10|11|8
+medium|In tennis, what is a score of zero called?|Love|Nil|Duck|Zip
+hard|How many dimples does a typical golf ball have?|Between 300 and 500|About 100|About 1,000|Exactly 50
+hard|Which sport was invented in 1895 as a gentler game for older players?|Volleyball|Badminton|Pickleball|Netball
+hard|What is the maximum score in a single game of ten-pin bowling?|300|200|250|500
+hard|Which swimmer has won the most Olympic gold medals ever?|Michael Phelps|Mark Spitz|Ryan Lochte|Ian Thorpe
+hard|In which sport do players compete for the Ryder Cup?|Golf|Tennis|Sailing|Polo
+hard|What is the term for three goals scored by one player in a game?|Hat trick|Triple crown|Hole in one|Grand slam
+
+# Film, TV and music
+easy|What is the name of the snowman in Disney's Frozen?|Olaf|Sven|Kristoff|Hans
+easy|What kind of animal is Simba in The Lion King?|Lion|Tiger|Cheetah|Leopard
+easy|Which band sang "Hey Jude"?|The Beatles|The Rolling Stones|Queen|The Beach Boys
+easy|What is the name of the toy cowboy in Toy Story?|Woody|Buzz|Jessie|Bo Peep
+easy|Who lives in a pineapple under the sea?|SpongeBob SquarePants|Patrick Star|Squidward|Nemo
+easy|What kind of fish is Nemo?|Clownfish|Blue tang|Goldfish|Angelfish
+medium|Which was Disney's first full-length animated feature film?|Snow White and the Seven Dwarfs|Cinderella|Pinocchio|Fantasia
+medium|What was the first cartoon released starring Mickey Mouse with sound?|Steamboat Willie|Plane Crazy|Fantasia|The Band Concert
+medium|What is the longest-running scripted primetime TV series in the US?|The Simpsons|Law & Order|Gunsmoke|Family Guy
+medium|Which instrument has 88 keys?|Piano|Organ|Harpsichord|Accordion
+medium|How many strings does a standard guitar have?|6|4|5|8
+medium|Which composer kept writing music after going almost completely deaf?|Beethoven|Mozart|Bach|Chopin
+medium|What is the name of Harry Potter's owl?|Hedwig|Errol|Pigwidgeon|Fawkes
+medium|What is the name of the wizarding school in Harry Potter?|Hogwarts|Durmstrang|Beauxbatons|Ilvermorny
+medium|In The Wizard of Oz, what color are Dorothy's slippers in the 1939 film?|Ruby red|Silver|Gold|Emerald green
+medium|What is the highest-grossing media franchise of all time?|Pokémon|Star Wars|Marvel Cinematic Universe|Harry Potter
+medium|What is the name of the Lord of the Rings character who says "my precious"?|Gollum|Frodo|Bilbo|Sauron
+hard|Which classical composer wrote "The Four Seasons"?|Antonio Vivaldi|Johann Sebastian Bach|Joseph Haydn|George Frideric Handel
+hard|What is the official name of the Oscar statuette?|Academy Award of Merit|Golden Knight|Hollywood Star|Silver Screen Award
+hard|Which band has the most number-one hits on the US Billboard Hot 100?|The Beatles|The Rolling Stones|Queen|ABBA
+hard|In what year was "Jingle Bells" first played in space?|1965|1969|1957|1981
+hard|What does a metronome do?|Keeps a steady beat|Tunes a guitar|Amplifies sound|Records music
+hard|Which musical holds the record as the longest-running show in Broadway history?|The Phantom of the Opera|Chicago|The Lion King|Cats
+
+# Math and numbers
+easy|What is 7 × 8?|56|54|64|48
+easy|How many sides does a hexagon have?|6|5|7|8
+easy|What is the square root of 81?|9|8|7|81
+easy|How many degrees are in a right angle?|90|45|180|100
+easy|How many minutes are in two hours?|120|100|60|200
+easy|What is 15% of 100?|15|1.5|150|0.15
+medium|What is the value of pi to two decimal places?|3.14|3.41|3.12|3.16
+medium|How many degrees do the angles of a triangle add up to?|180|360|90|270
+medium|What is the only even prime number?|2|0|4|1
+medium|How many sides does a dodecagon have?|12|10|11|20
+medium|What is 12 squared?|144|124|122|169
+medium|How many zeros are in one million?|6|5|7|9
+medium|What is a baker's dozen?|13|12|14|11
+medium|How many edges does a cube have?|12|8|6|10
+medium|What is the Roman numeral for 50?|L|C|D|X
+medium|How many seconds are in an hour?|3,600|360|6,000|600
+hard|What is the name for a polygon with 9 sides?|Nonagon|Octagon|Decagon|Heptagon
+hard|What is 2 to the power of 10?|1,024|1,000|2,048|512
+hard|What is the sum of all the numbers from 1 to 100?|5,050|5,000|10,000|4,950
+hard|In a room of how many people is there a better-than-even chance two share a birthday?|23|50|183|366
+hard|What is the name of the symbol ∞?|Lemniscate|Ellipse|Infinity knot|Sigma
+hard|What is a googol?|1 followed by 100 zeros|1 followed by 1,000 zeros|A billion billions|The largest prime number
+
+# Mythology
+easy|Who is the king of the gods in Greek mythology?|Zeus|Poseidon|Hades|Apollo
+easy|Who is the Greek god of the sea?|Poseidon|Zeus|Ares|Hermes
+easy|Which Norse god wields a hammer called Mjölnir?|Thor|Odin|Loki|Freyr
+medium|Who is the Greek goddess of wisdom?|Athena|Aphrodite|Hera|Artemis
+medium|What creature has the body of a lion and the head of a human in Egyptian myth?|Sphinx|Griffin|Chimera|Manticore
+medium|Who is the Roman equivalent of the Greek god Zeus?|Jupiter|Mars|Neptune|Saturn
+medium|Which hero performed twelve labors in Greek mythology?|Heracles|Achilles|Perseus|Theseus
+medium|What did Medusa's gaze do to people?|Turned them to stone|Put them to sleep|Made them forget|Turned them into animals
+medium|Who is the trickster god in Norse mythology?|Loki|Odin|Baldur|Tyr
+medium|Which Greek god is the messenger of the gods?|Hermes|Apollo|Dionysus|Hephaestus
+hard|What is the name of the Norse world tree?|Yggdrasil|Valhalla|Bifröst|Asgard
+hard|Who is the Egyptian god of the dead, often shown with a jackal's head?|Anubis|Ra|Horus|Set
+hard|In Greek myth, who flew too close to the Sun with wings of wax?|Icarus|Daedalus|Perseus|Jason
+hard|What is the name of the three-headed dog that guards the underworld?|Cerberus|Orthrus|Fenrir|Garmr
+hard|Which Greek Titan was punished for giving fire to humans?|Prometheus|Atlas|Kronos|Hyperion
+
+# Books and art
+easy|Who wrote "Romeo and Juliet"?|William Shakespeare|Charles Dickens|Jane Austen|Geoffrey Chaucer
+easy|Who wrote the Harry Potter books?|J.K. Rowling|Roald Dahl|C.S. Lewis|J.R.R. Tolkien
+medium|Who wrote "Pride and Prejudice"?|Jane Austen|Charlotte Brontë|Emily Brontë|Mary Shelley
+medium|Who painted "The Starry Night"?|Vincent van Gogh|Claude Monet|Pablo Picasso|Salvador Dalí
+medium|Who painted the ceiling of the Sistine Chapel?|Michelangelo|Leonardo da Vinci|Raphael|Donatello
+medium|Who wrote "1984"?|George Orwell|Aldous Huxley|Ray Bradbury|H.G. Wells
+medium|Who wrote "The Hobbit"?|J.R.R. Tolkien|C.S. Lewis|Terry Pratchett|Philip Pullman
+medium|In which museum does the Mona Lisa hang?|The Louvre|The Uffizi|The Prado|The British Museum
+medium|Who wrote "Frankenstein"?|Mary Shelley|Bram Stoker|Edgar Allan Poe|H.P. Lovecraft
+medium|Who wrote "Charlie and the Chocolate Factory"?|Roald Dahl|Dr. Seuss|Lewis Carroll|E.B. White
+medium|Which artist is famous for melting clocks in "The Persistence of Memory"?|Salvador Dalí|René Magritte|Pablo Picasso|Joan Miró
+hard|Who wrote "One Hundred Years of Solitude"?|Gabriel García Márquez|Jorge Luis Borges|Isabel Allende|Pablo Neruda
+hard|Who painted "Girl with a Pearl Earring"?|Johannes Vermeer|Rembrandt|Jan van Eyck|Frans Hals
+hard|What is the name of the whale in "Moby-Dick"?|Moby Dick|Willy|Leviathan|Ahab
+hard|Who wrote "The Odyssey"?|Homer|Virgil|Sophocles|Ovid
+hard|Which art movement is Claude Monet most associated with?|Impressionism|Cubism|Surrealism|Baroque
+
+# Casino and games
+easy|How many cards are in a standard deck, without jokers?|52|54|48|50
+easy|In blackjack, what total are you trying to get closest to without going over?|21|20|24|31
+easy|How many sides does a standard die have?|6|4|8|12
+medium|What do the numbers on a roulette wheel add up to?|666|360|500|720
+medium|What do opposite faces of a standard die always add up to?|7|6|8|12
+medium|How many suits are in a standard deck of cards?|4|3|5|6
+medium|What is the color of the zero pocket on a roulette wheel?|Green|Red|Black|White
+medium|In blackjack, what is a hand of an ace and a ten-value card called?|Blackjack|Full house|Royal flush|Bust
+medium|Which poker hand is the highest?|Royal flush|Four of a kind|Full house|Straight flush
+medium|How many numbered pockets does a European roulette wheel have, including zero?|37|36|38|40
+hard|Who invented the Liberty Bell, the first true slot machine?|Charles Fey|Charles Darwin|Charles Babbage|Henry Ford
+hard|In which city is the famous Monte Carlo Casino?|Monaco|Las Vegas|Macau|Paris
+hard|Which mathematician wrote "Beat the Dealer", showing card counting works?|Edward Thorp|John Nash|Alan Turing|Claude Shannon
+hard|In a standard deck, which king is the only one without a mustache?|King of hearts|King of spades|King of clubs|King of diamonds

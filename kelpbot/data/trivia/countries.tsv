@@ -1,0 +1,195 @@
+# code	country	capital	continent  ("-" = no question of that kind, because the answer is disputed or split)
+AF	Afghanistan	Kabul	Asia
+AL	Albania	Tirana	Europe
+DZ	Algeria	Algiers	Africa
+AD	Andorra	Andorra la Vella	Europe
+AO	Angola	Luanda	Africa
+AG	Antigua and Barbuda	Saint John's	North America
+AR	Argentina	Buenos Aires	South America
+AM	Armenia	Yerevan	-
+AU	Australia	Canberra	Oceania
+AT	Austria	Vienna	Europe
+AZ	Azerbaijan	Baku	-
+BS	Bahamas	Nassau	North America
+BH	Bahrain	Manama	Asia
+BD	Bangladesh	Dhaka	Asia
+BB	Barbados	Bridgetown	North America
+BY	Belarus	Minsk	Europe
+BE	Belgium	Brussels	Europe
+BZ	Belize	Belmopan	North America
+BJ	Benin	Porto-Novo	Africa
+BT	Bhutan	Thimphu	Asia
+BO	Bolivia	-	South America
+BA	Bosnia and Herzegovina	Sarajevo	Europe
+BW	Botswana	Gaborone	Africa
+BR	Brazil	Brasília	South America
+BN	Brunei	Bandar Seri Begawan	Asia
+BG	Bulgaria	Sofia	Europe
+BF	Burkina Faso	Ouagadougou	Africa
+BI	Burundi	Gitega	Africa
+CV	Cape Verde	Praia	Africa
+KH	Cambodia	Phnom Penh	Asia
+CM	Cameroon	Yaoundé	Africa
+CA	Canada	Ottawa	North America
+CF	Central African Republic	Bangui	Africa
+TD	Chad	N'Djamena	Africa
+CL	Chile	Santiago	South America
+CN	China	Beijing	Asia
+CO	Colombia	Bogotá	South America
+KM	Comoros	Moroni	Africa
+CG	Republic of the Congo	Brazzaville	Africa
+CD	Democratic Republic of the Congo	Kinshasa	Africa
+CR	Costa Rica	San José	North America
+CI	Ivory Coast	Yamoussoukro	Africa
+HR	Croatia	Zagreb	Europe
+CU	Cuba	Havana	North America
+CY	Cyprus	Nicosia	-
+CZ	Czechia	Prague	Europe
+DK	Denmark	Copenhagen	Europe
+DJ	Djibouti	Djibouti	Africa
+DM	Dominica	Roseau	North America
+DO	Dominican Republic	Santo Domingo	North America
+EC	Ecuador	Quito	South America
+EG	Egypt	Cairo	Africa
+SV	El Salvador	San Salvador	North America
+GQ	Equatorial Guinea	Malabo	Africa
+ER	Eritrea	Asmara	Africa
+EE	Estonia	Tallinn	Europe
+SZ	Eswatini	-	Africa
+ET	Ethiopia	Addis Ababa	Africa
+FJ	Fiji	Suva	Oceania
+FI	Finland	Helsinki	Europe
+FR	France	Paris	Europe
+GA	Gabon	Libreville	Africa
+GM	Gambia	Banjul	Africa
+GE	Georgia	Tbilisi	-
+DE	Germany	Berlin	Europe
+GH	Ghana	Accra	Africa
+GR	Greece	Athens	Europe
+GD	Grenada	St. George's	North America
+GT	Guatemala	Guatemala City	North America
+GN	Guinea	Conakry	Africa
+GW	Guinea-Bissau	Bissau	Africa
+GY	Guyana	Georgetown	South America
+HT	Haiti	Port-au-Prince	North America
+HN	Honduras	Tegucigalpa	North America
+HU	Hungary	Budapest	Europe
+IS	Iceland	Reykjavík	Europe
+IN	India	New Delhi	Asia
+ID	Indonesia	-	Asia
+IR	Iran	Tehran	Asia
+IQ	Iraq	Baghdad	Asia
+IE	Ireland	Dublin	Europe
+IL	Israel	-	Asia
+IT	Italy	Rome	Europe
+JM	Jamaica	Kingston	North America
+JP	Japan	Tokyo	Asia
+JO	Jordan	Amman	Asia
+KZ	Kazakhstan	Astana	-
+KE	Kenya	Nairobi	Africa
+KI	Kiribati	South Tarawa	Oceania
+KW	Kuwait	Kuwait City	Asia
+KG	Kyrgyzstan	Bishkek	Asia
+LA	Laos	Vientiane	Asia
+LV	Latvia	Riga	Europe
+LB	Lebanon	Beirut	Asia
+LS	Lesotho	Maseru	Africa
+LR	Liberia	Monrovia	Africa
+LY	Libya	Tripoli	Africa
+LI	Liechtenstein	Vaduz	Europe
+LT	Lithuania	Vilnius	Europe
+LU	Luxembourg	Luxembourg	Europe
+MG	Madagascar	Antananarivo	Africa
+MW	Malawi	Lilongwe	Africa
+MY	Malaysia	Kuala Lumpur	Asia
+MV	Maldives	Malé	Asia
+ML	Mali	Bamako	Africa
+MT	Malta	Valletta	Europe
+MH	Marshall Islands	Majuro	Oceania
+MR	Mauritania	Nouakchott	Africa
+MU	Mauritius	Port Louis	Africa
+MX	Mexico	Mexico City	North America
+FM	Micronesia	Palikir	Oceania
+MD	Moldova	Chișinău	Europe
+MC	Monaco	Monaco	Europe
+MN	Mongolia	Ulaanbaatar	Asia
+ME	Montenegro	Podgorica	Europe
+MA	Morocco	Rabat	Africa
+MZ	Mozambique	Maputo	Africa
+MM	Myanmar	Naypyidaw	Asia
+NA	Namibia	Windhoek	Africa
+NR	Nauru	-	Oceania
+NP	Nepal	Kathmandu	Asia
+NL	Netherlands	Amsterdam	Europe
+NZ	New Zealand	Wellington	Oceania
+NI	Nicaragua	Managua	North America
+NE	Niger	Niamey	Africa
+NG	Nigeria	Abuja	Africa
+KP	North Korea	Pyongyang	Asia
+MK	North Macedonia	Skopje	Europe
+NO	Norway	Oslo	Europe
+OM	Oman	Muscat	Asia
+PK	Pakistan	Islamabad	Asia
+PW	Palau	Ngerulmud	Oceania
+PA	Panama	Panama City	North America
+PG	Papua New Guinea	Port Moresby	Oceania
+PY	Paraguay	Asunción	South America
+PE	Peru	Lima	South America
+PH	Philippines	Manila	Asia
+PL	Poland	Warsaw	Europe
+PT	Portugal	Lisbon	Europe
+QA	Qatar	Doha	Asia
+RO	Romania	Bucharest	Europe
+RU	Russia	Moscow	-
+RW	Rwanda	Kigali	Africa
+KN	Saint Kitts and Nevis	Basseterre	North America
+LC	Saint Lucia	Castries	North America
+VC	Saint Vincent and the Grenadines	Kingstown	North America
+WS	Samoa	Apia	Oceania
+SM	San Marino	San Marino	Europe
+ST	São Tomé and Príncipe	São Tomé	Africa
+SA	Saudi Arabia	Riyadh	Asia
+SN	Senegal	Dakar	Africa
+RS	Serbia	Belgrade	Europe
+SC	Seychelles	Victoria	Africa
+SL	Sierra Leone	Freetown	Africa
+SG	Singapore	Singapore	Asia
+SK	Slovakia	Bratislava	Europe
+SI	Slovenia	Ljubljana	Europe
+SB	Solomon Islands	Honiara	Oceania
+SO	Somalia	Mogadishu	Africa
+ZA	South Africa	-	Africa
+KR	South Korea	Seoul	Asia
+SS	South Sudan	Juba	Africa
+ES	Spain	Madrid	Europe
+LK	Sri Lanka	-	Asia
+SD	Sudan	Khartoum	Africa
+SR	Suriname	Paramaribo	South America
+SE	Sweden	Stockholm	Europe
+CH	Switzerland	Bern	Europe
+SY	Syria	Damascus	Asia
+TJ	Tajikistan	Dushanbe	Asia
+TZ	Tanzania	Dodoma	Africa
+TH	Thailand	Bangkok	Asia
+TL	Timor-Leste	Dili	Asia
+TG	Togo	Lomé	Africa
+TO	Tonga	Nukuʻalofa	Oceania
+TT	Trinidad and Tobago	Port of Spain	-
+TN	Tunisia	Tunis	Africa
+TR	Turkey	Ankara	-
+TM	Turkmenistan	Ashgabat	Asia
+TV	Tuvalu	Funafuti	Oceania
+UG	Uganda	Kampala	Africa
+UA	Ukraine	Kyiv	Europe
+AE	United Arab Emirates	Abu Dhabi	Asia
+GB	United Kingdom	London	Europe
+US	United States	Washington, D.C.	North America
+UY	Uruguay	Montevideo	South America
+UZ	Uzbekistan	Tashkent	Asia
+VU	Vanuatu	Port Vila	Oceania
+VA	Vatican City	-	Europe
+VE	Venezuela	Caracas	South America
+VN	Vietnam	Hanoi	Asia
+YE	Yemen	Sanaa	Asia
+ZM	Zambia	Lusaka	Africa
+ZW	Zimbabwe	Harare	Africa

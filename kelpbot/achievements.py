@@ -39,12 +39,14 @@ ACHIEVEMENTS: dict[str, Achievement] = {a.key: a for a in (
     Achievement("tycoon", "Kelp Tycoon", "🏭", "Reach the top job", 5_000),
     Achievement("wolf", "Wolf of Kelp Street", "📈", "Make 10,000 profit selling stock in one trade", 2_500),
     Achievement("zookeeper", "Zookeeper", "🦁", "Own every pet at once", 5_000),
+    Achievement("know_it_all", "Know-It-All", "🧠", "Answer 50 trivia questions correctly", 2_500),
 )}
 
 # counter name -> (goal, achievement unlocked when the counter reaches it)
 COUNTER_GOALS = {
     "rob_success": (10, "master_thief"),
     "items_bought": (10, "shopaholic"),
+    "trivia_correct": (50, "know_it_all"),
 }
 
 HIGH_ROLLER_BET = 10_000

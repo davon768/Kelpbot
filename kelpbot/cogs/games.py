@@ -98,6 +98,8 @@ GAMES: tuple[Game, ...] = (
     Game("lottery", "lottery buy", "🎟️", "Lottery", "Buy tickets for the server-wide jackpot.", "the pot",
          (Field("tickets", "How many tickets?", f"1-{config.LOTTERY_MAX_TICKETS}",
                 parse_int(1, config.LOTTERY_MAX_TICKETS), default="1"),), has_bet=False),
+    Game("trivia", "trivia", "🧠", "Trivia", "Answer a question before the timer runs out. Everyone can play.",
+         "375 coins", has_bet=False),
     Game("duel", "duel", "⚔️", "Duel", "Challenge a player. Winner takes both bets. Use `/duel @player bet`.", "2x",
          playable=False),
 )
@@ -153,6 +155,9 @@ class GamePicker(discord.ui.View):
 
     async def pick(self, interaction: discord.Interaction) -> None:
         game = BY_KEY[self.select.values[0]]
+        if not game.has_bet and not game.fields:  # nothing to ask (trivia): start straight away
+            await self.cog.run(interaction, game, {})
+            return
         await interaction.response.send_modal(PlayModal(self.cog, game, self.cog.bot.cfg(interaction.guild_id)))
 
 

@@ -44,7 +44,7 @@ SETTINGS: dict[str, Setting] = {s.key: s for s in (
 
 # Games admins can switch off with /settings game.
 GAMES = ("slots", "blackjack", "coinflip", "roulette", "dice", "crash", "mines", "higher or lower",
-         "duel", "heist", "horse race", "lottery", "stocks")
+         "duel", "heist", "horse race", "lottery", "stocks", "trivia")
 DISABLED_GAMES_KEY = "disabled_games"
 
 # Stored in the same table but set through /settings channel, not /settings set.

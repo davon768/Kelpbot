@@ -27,6 +27,7 @@ EXTENSIONS = (
     "kelpbot.cogs.help",
     "kelpbot.cogs.games",
     "kelpbot.cogs.facts",
+    "kelpbot.cogs.trivia",
     "kelpbot.cogs.shop",
     "kelpbot.cogs.admin",
     "kelpbot.cogs.cleanup",

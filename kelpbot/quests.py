@@ -43,6 +43,7 @@ POOL: tuple[Quest, ...] = (
     Quest("heist_1", "Crew Up", "💰", "Join a heist", "game:heist", 1, 500),
     Quest("race_1", "Day at the Races", "🐎", "Bet on a horse race", "game:horse race", 1, 400),
     Quest("stocks_1", "Investor", "📈", "Buy some stock", "stock_buy", 1, 300),
+    Quest("trivia_3", "Smarty Pants", "🧠", "Answer 3 trivia questions correctly", "trivia", 3, 400),
 )
 QUESTS = {q.key: q for q in POOL}
 

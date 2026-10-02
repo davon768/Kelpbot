@@ -38,6 +38,7 @@ Bets must be between the server's ⚙️ minimum (10) and maximum (50,000) bet.
 | `/crash bet [auto_cashout]` | A multiplier climbs until it crashes. Hit **Cash Out** in time, or set an automatic cash-out. Goes up to 100x. |
 | `/mines bet [mines]` | 20 tiles with 1–15 hidden mines. Each gem raises your multiplier; a mine loses everything. |
 | `/highlow bet` | Guess whether the next card is higher or lower (ties lose). Each right guess grows your multiplier. |
+| `/trivia [topic]` | Posts a multiple-choice question that everyone in the channel can answer within 20 seconds (one answer each). Correct answers earn 100 / 150 / 250 coins for easy / medium / hard, and the first correct answer gets 50% extra. Each player can earn up to 2,500 a day from trivia. Topics: general knowledge, geography, flags, chemical elements and Roman numerals, or a random mix. |
 | `/duel @user bet` | Challenge another player. You both put up the bet and the winner takes both. |
 | `/heist bet` | Start a heist; others join with the same buy-in for 60s (up to 10). A crew of 2 has a 50% chance and each gets 1.9x back; bigger crews are safer (up to 80%) but split the loot more ways. |
 | `/race horse bet` | The first bet opens a 45s betting window for everyone, then the race plays out live. Five horses from 35% (2.7x) to 8% (11.8x). |
@@ -98,7 +99,7 @@ Prices move every hour and drift back toward their starting price over time. Hou
 | `/funfact` | Posts a fun fact in the channel, from a list of 529 across 16 topics (animals, space, history, kelp and more) |
 | `/notsofunfact` | Posts a fact that's sad 😢, dark 💀 or completely uninteresting 😐, from a list of 301 |
 
-Each server works through each list in its own shuffled order, so no fact repeats until every one has been shown; then it reshuffles. Facts stay in the channel (they're not auto-deleted), and there's a 10-second cooldown per person. To add facts, put new lines in [`kelpbot/data/fun_facts.txt`](kelpbot/data/fun_facts.txt) or [`kelpbot/data/not_fun_facts.txt`](kelpbot/data/not_fun_facts.txt).
+Each server works through each list in its own shuffled order, so no fact repeats until every one has been shown; then it reshuffles. Trivia works the same way, per topic. Facts stay in the channel (they're not auto-deleted), and there's a 10-second cooldown per person. To add facts, put new lines in [`kelpbot/data/fun_facts.txt`](kelpbot/data/fun_facts.txt) or [`kelpbot/data/not_fun_facts.txt`](kelpbot/data/not_fun_facts.txt).
 
 ### Admin
 | Command | What it does |
@@ -185,6 +186,17 @@ Pushing to the deployed branch redeploys automatically. Balances survive because
 Once a day, the bot copies its database to a `backups/` folder next to the database file (on Railway, that's `/data/backups`) and keeps the last 7 days.
 Those copies live on the same volume, so to keep a copy somewhere else, the bot's owner can run `/backup` to download one.
 To restore, stop the bot, replace `kelpbot.db` with a backup file, and start it again.
+
+## Trivia questions
+
+There are just over 2,000 questions. About 400 are hand-written general knowledge (science, space, animals, ocean,
+history, geography, food, words, technology, games, sports, film and music, the body, math, mythology, books and
+casino trivia) in [`kelpbot/data/trivia/general.txt`](kelpbot/data/trivia/general.txt). The rest are built from fact
+tables in the same folder: capitals, flags and continents for 194 countries, US state capitals and abbreviations,
+chemical elements, and Roman numerals. The country and state tables were checked against independent reference
+datasets, and the element table was generated from one. Questions whose answers are disputed (like Bolivia's
+capital) are left out. To add a question, put a line in `general.txt` in the format
+`difficulty|question|right answer|wrong|wrong|wrong`.
 
 ## Tweaking the economy
 
